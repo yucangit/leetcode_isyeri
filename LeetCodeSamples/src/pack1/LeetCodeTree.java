@@ -809,16 +809,16 @@ public class LeetCodeTree {
 	public static boolean isSymmetric(TreeNode root) 
 	{		
 		/*
-		    problem : Symmetric Tree 
-		              Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).			
-			link    : https://leetcode.com/problems/symmetric-tree/?envType=problem-list-v2&envId=binary-tree
-			Date    : 04.02.2026
-			Status  : Solved / Not solved
+		    Problem     : Symmetric Tree 
+		              		Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).			
+			link        : https://leetcode.com/problems/symmetric-tree/?envType=problem-list-v2&envId=binary-tree
+			Constraints : The number of nodes in the tree is in the range [1, 1000].
+			Date    	: 05.02.2026
+			Status  	: Solved
 		*/
 		
 		Deque<TreeNode> dqCurrLevel = new LinkedList<>();
-		Deque<TreeNode> dqNextLevel = new LinkedList<>();
-		//List<TreeNode> list = new LinkedList<>();
+		Deque<TreeNode> dqNextLevel = new LinkedList<>();		
 		Set<TreeNode> set =new HashSet<>();
 		
 		TreeNode curr1,curr2;		
@@ -826,38 +826,35 @@ public class LeetCodeTree {
 		
 		dqCurrLevel.addFirst(root.left);
 		dqCurrLevel.addLast(root.right);
-		
-		//list.add(root.left);
-		//list.add(root.right);
-		
+
 		while(!dqCurrLevel.isEmpty() && result==true) 
 		{
-			int size = dqCurrLevel.size();
-			//int size = list.size();
+			int size = dqCurrLevel.size();			
 						
 			if(size%2==1) { result=false; break;}
 									
 			for(int i=0; i<size/2; i++) 
-			{
-				//curr1 = list.get(i);
-				//curr2 = list.get(size-1-i);
+			{				
 				curr1 = dqCurrLevel.pollFirst();
-				curr2 = dqCurrLevel.pollLast();
-				
+				curr2 = dqCurrLevel.pollLast();			
 				
 				if(curr1==null && curr2==null)      
 				{ 
 					dqNextLevel.addFirst(null); dqNextLevel.addFirst(null);  
-					dqNextLevel.addLast(null); dqNextLevel.addLast(null); 
+					dqNextLevel.addLast(null);  dqNextLevel.addLast(null); 
+					set.add(null);             //child nodes are also null.
 				}
 				else if(curr1!=null && curr2==null) { 
-					result=false;  set.add(curr1);   break;  
+					result=false;  
+					break;  
 				}
 				else if(curr1==null && curr2!=null) { 
-					result=false;  set.add(curr2);   break;  
+					result=false;  
+					break;  
 				}
 				else if(curr1.val!=curr2.val)       { 
-					result=false;  set.add(curr1);  set.add(curr2);  break;  
+					result=false;  					
+					break;  
 				}
 				else                                
 				{ 
@@ -870,11 +867,9 @@ public class LeetCodeTree {
 				}
 			}
 			if(set.size()==1 && set.toArray()[0]==null) 
-				break;    //all child nodes are null.
+				break;    //exit from while loop. All child nodes are null.
 			
-			set.clear();
-			
-			
+			set.clear();						
 			
 			dqCurrLevel = new LinkedList<TreeNode>(dqNextLevel);
 			dqNextLevel.clear();
@@ -883,8 +878,16 @@ public class LeetCodeTree {
 		return result;
     }
 	
+	
+	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = {{1,2,2,3,4,4,3},{1,2,2,null,3,null,3},{1}};
+		TreeNode root = arrayToTree(arr[2]);
+		boolean result = isSymmetric(root);
+		*/
+		
 		/*
 		Integer [][] arr = {{5,4,8,11,null,13,4,7,3,null,null,null,1}, {1,2,3},{},{1,-2,-3,1,3,-2,null,-1}};
 		TreeNode root = arrayToTree(arr[3]);
