@@ -878,7 +878,68 @@ public class LeetCodeTree {
 		return result;
     }
 	
+	public static List<Integer> treeToList(TreeNode root)
+	{
+		
+		
+		Queue<TreeNode> q1 = new LinkedList<>();		
+		Set<TreeNode>  set = new HashSet<>();
+		List<Integer> list1 = new LinkedList<>();	
+		TreeNode curr, left, right;									
+		boolean result = true;
+		
+		if(root!=null)   q1.add(root);
+		
+		while(!q1.isEmpty() && result==true) 
+		{
+			int size = q1.size();
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr  = q1.poll();				
+				
+				if(curr==null) 
+				{ 
+					q1.add(null);  q1.add(null);  set.add(null);  list1.add(null); 
+				}
+				else
+				{
+					list1.add(curr.val);
+					left  = curr.left;
+					right = curr.right;
+					q1.add(left);  
+					q1.add(right);
+					set.add(left);
+					set.add(right);
+				}								
+			}
+			
+			if(set.size()==1 && set.toArray()[0]==null) 
+				result=false;
+			set.clear();
+		}
+				
+		return list1;		
+	}
 	
+	public static boolean isSameTree(TreeNode p, TreeNode q) 
+	{
+		boolean result = true;											
+		
+		List<Integer> list1 = treeToList(p);
+		List<Integer> list2 = treeToList(q);								
+		
+		if(list1.size()!=list2.size()) result = false;
+		else 
+		{
+			for(int i=0; i<list1.size();i++) 
+			{
+				if(list1.get(i)!=list2.get(i)) { result=false;  break; }
+			}
+		}
+		
+		return result;		
+    }
 	
 	public static void testCases() 
 	{
@@ -970,9 +1031,10 @@ public class LeetCodeTree {
 		
 
 		
-		Integer [][] arr = {{1,2,2,3,4,4,3},{1,2,2,null,3,null,3},{1}};
-		TreeNode root = arrayToTree(arr[2]);
-		boolean result = isSymmetric(root);
+		Integer [][] arr = {{1,2,3},{1,2,3},{1}};
+		TreeNode root1 = arrayToTree(arr[0]);
+		TreeNode root2 = arrayToTree(arr[1]);
+		boolean result = isSameTree(root1,root2);
 		
 		
 		
