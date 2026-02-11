@@ -129,40 +129,73 @@ public class LeetCodeTree {
 		return node.left==null && node.right==null;
 	}
 	
-	public static List<TreeNode> inOrderTraversal(TreeNode root) 
+	public static void printListContent(List<TreeNode> list, boolean yatay)
+	{				
+		int size = list.size();
+		
+		if(list==null) 
+			System.out.print("Boþ dizi!");
+		
+		for(int i=0; i<list.size(); i++) 
+		{
+			Integer val = list.get(i).val;
+			
+			if( yatay == true) 
+			{
+				System.out.print(val);
+				if(i<size-1) System.out.print(", ");
+			}
+			else 
+			{
+				System.out.print(val);
+				if(i<size-1) System.out.println(", ");
+			}
+		}									
+	}
+	
+
+	public static List<TreeNode> inOrderTraversal(TreeNode root)
 	{
-		if(root==null) return null;
-				
-		Deque<TreeNode> st = new LinkedList<>();				
-		TreeNode curr=null, left=null, right=null;
-		List <TreeNode> listInOrder = new LinkedList<>();
+		//bu fonksiyon doðru çalýþýyor gibi(11.02.2026).
 		
-		Map<TreeNode, Integer> map = new HashMap<>();
+		Deque<TreeNode> st  = new LinkedList<>();
+		Set<TreeNode> processed = new HashSet<>();     //left and right childs added to stack
+		List<TreeNode>  result = new LinkedList<>();
 		
-		st.addLast(root);
-		map.put(root,0);     //left and right child nodes not visited
+		TreeNode curr, left, right;
+		
+		if(root!=null)   st.addLast(root);
 		
 		while(!st.isEmpty()) 
 		{
-			curr = st.pollLast();
-			if(map.getOrDefault(curr, 0)==1)  {
-				listInOrder.add(curr);
-				System.out.print(curr.val + ",");
-				continue;
+			curr  = st.pollLast();
+			
+			if(isLeaf(curr))  
+			{ 
+				result.add(curr); 
+				continue; 
 			}
-			
-			left= curr.left;
-			right= curr.right;
-			
-			if(right!=null)  st.addLast(right);
-			st.addLast(curr);
-			if(left!=null)  st.addLast(left);
-			map.put(curr, 1);						
+			else if(processed.contains(curr))  
+				result.add(curr);
+			else
+			{
+				left  = curr.left;
+				right = curr.right;
+				
+				if(right!=null) 
+					st.addLast(right);
+				st.addLast(curr);
+				if(left!=null) 
+					st.addLast(left);
+					
+				processed.add(curr);
+			}											
 		}
 		
-		return listInOrder;
+		return result;
+		
 	}
-
+	
 	public static List<TreeNode> preOrderTraversal(TreeNode root)
 	{
 		Deque<TreeNode> st = new LinkedList<>();        //deque is faster than stack
@@ -958,7 +991,7 @@ public class LeetCodeTree {
 		
 		if(root!=null)   q1.add(root);
 		
-		System.out.println("treeToList fonksiyonu içerisinde");
+		//System.out.println("treeToList fonksiyonu içerisinde");
 		int j=0;
 		
 		while(!q1.isEmpty() && result==true) 
@@ -984,7 +1017,7 @@ public class LeetCodeTree {
 					set.add(right);
 				}								
 			}
-			System.out.println("treeToList fonksiyonu içerisinde j=" + j + ", q1.size="+size + ", list1.size=" + list1.size() + ", set.size=" + set.size());
+			//System.out.println("treeToList fonksiyonu içerisinde j=" + j + ", q1.size="+size + ", list1.size=" + list1.size() + ", set.size=" + set.size());
 			
 			if(set.size()==1 && set.toArray()[0]==null) 
 				result=false;
@@ -1395,55 +1428,91 @@ public class LeetCodeTree {
 	{
 		/*
 			Tarih             : 11.02.2026
-			Problem           : Lowest Common Ancestor of Deepest Leaves
-			Problem Açýklama  : Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
-			Link              : https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/?envType=problem-list-v2&envId=binary-tree
-			Çözüm Algoritmasý : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
+			Problem           : Delete Leaves With a Given Value
+			Problem Açýklama  : Given a binary tree root and an integer target, delete all the leaf nodes with value target.
+			Link              : https://leetcode.com/problems/delete-leaves-with-a-given-value/description/?envType=problem-list-v2&envId=binary-tree
+			Çözüm Algoritmasý : BFS ile aðaç üzerinde seviye bazlý ilerlenir. o anki node bir leaf node ise ve deðeri de uyumlu ise parent node'un ilgili child nodu null yapýlýr.
 			                    Deepest node'lar ortak parent bulunmaya çalýþýlýr. 
+			Durum             : Çözüldü.
 		*/
 	 		
 		Queue<TreeNode> q = new LinkedList<>();
 		Map<TreeNode, TreeNode> map  = new HashMap<>();   //node, parent Node
 		TreeNode curr, left, right, parent;
+		boolean nodeDeleted = true;
 		
-		q.add(root);
+		//q.add(root);				
 		
-		boolean deleted = true;
-		
-		while(!q.isEmpty()) 
+		while(nodeDeleted) 
 		{
-			int size = q.size();
-			for(int i=0; i<size; i++) 
+			nodeDeleted = false;
+		
+			if(root!=null)	q.add(root);
+			
+			while(!q.isEmpty()) 
 			{
-				curr = q.poll();				
-				
-				if(isLeaf(curr) && curr.val==target) 
+				int size = q.size();
+				for(int i=0; i<size; i++) 
 				{
-					parent = map.get(curr);
-					if(parent.left==curr)        
-						parent.left  = null;
-					else if(parent.right==curr)  
-						parent.right = null;
-					deleted = true;
-				}
-				else 
-				{
-					left  = curr.left;
-					right = curr.right;
+					curr = q.poll();				
 					
-					if(left!=null)  { q.add(left);   map.put(left, curr);  }
-					if(right!=null) { q.add(right);  map.put(right, curr); }
+					if(isLeaf(curr) && curr.val==target) 
+					{
+						parent = map.get(curr);
+						
+						if(parent==null) {   //root node
+							curr=null;
+							root = null;
+						}
+						else if(parent.left==curr)        
+							parent.left  = null;
+						else if(parent.right==curr)  
+							parent.right = null;
+						
+						nodeDeleted = true;
+					}
+					else 
+					{
+						left  = curr.left;
+						right = curr.right;
+						
+						if(left!=null)  { q.add(left);   map.put(left, curr);  }
+						if(right!=null) { q.add(right);  map.put(right, curr); }
+					}
 				}
 			}
 		}
 		
 		return root;
-		
-		
+				
+    }
+
+    public static int kthSmallest(TreeNode root, int k) 
+    {
+    	//int result=-1;
+    	List<TreeNode> inOrderList = inOrderTraversal(root);
+    	    	    	
+    	return inOrderList.get(k-1).val;        
     }
 	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {3,1,4,null,2},{5,3,6,2,4,null,null,1},{2},{}};
+		int []k = {1,3};
+		TreeNode root = arrayToTree(arr[0]);
+		List<TreeNode> inOrderList = inOrderTraversal(root);
+		int result = kthSmallest(root, k[1]);						
+		System.out.println(result);
+		*/
+		
+		/*
+		Integer [][] arr = { {1,2,3,2,null,2,4},{1,3,3,3,2},{1,2,null,2,null,2},{1},{2},{}};
+		int []target = {2,3,2,1};
+		TreeNode root = arrayToTree(arr[5]);
+		TreeNode result = removeLeafNodes(root,target[3]);
+		*/
+		
 		/*
 		Integer [][] arr = { {3,5,1,6,2,0,8,null,null,7,4},{1},{0,1,3,null,2} };
 		TreeNode root = arrayToTree(arr[2]);
@@ -1607,12 +1676,15 @@ public class LeetCodeTree {
 		//System.out.println(result);		
 		
 		
-		Integer [][] arr = { {1,2,3,2,null,2,4},{1,3,3,3,2},{1,2,null,2,null,2},{1},{} };
-		int []target = {2,3,2};
+		
+		Integer [][] arr = { {3,1,4,null,2},{5,3,6,2,4,null,null,1},{2},{}};
+		int []k = {1,3};
 		TreeNode root = arrayToTree(arr[0]);
-		TreeNode result = removeLeafNodes(root,target[0]);
-				
-		System.out.println(treeToList(result));
+		List<TreeNode> inOrderList = inOrderTraversal(root);
+		int result = kthSmallest(root, k[1]);						
+		System.out.println(result);
+		
+		//System.out.println(new LinkedList<Integer>().get(0));
 		
 				
 	}
