@@ -33,16 +33,69 @@ class TreeNode
 }
 
 
+class FindElements
+{
+	Set<Integer> set;
+
+	public FindElements(TreeNode root) 
+	{
+	    //yöntem : level order traversing
+		
+		Queue<TreeNode> q = new LinkedList<>();
+		set = new HashSet<>();
+		TreeNode curr, left, right;		
+		
+		root.val=0;
+		q.add(root);
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();  
+				int val = curr.val;
+				set.add(val);
+				
+				left = curr.left;
+				right = curr.right;
+						
+				if(left!=null)  { 
+					left.val =2*val+1;  q.add(left); 
+				}
+				if(right!=null) { 
+					right.val=2*val+2;  q.add(right); 
+				}
+			}
+		}	
+	 }
+	
+	public boolean find(int target) 
+	{
+		return set.contains(target);
+    }
+}	
+
+
 public class LeetCodeTree {
 	
+	//Bu fonksiyonda hata var mý?(06.02.2026)
 	public static TreeNode arrayToTree(Integer []arr) 
 	{	
+		//int sayac = 1;
+		//System.out.println("sayac : " + sayac);
+		//sayac++;
+		//if(sayac>1) return null;
+		
+		//Bu fonksiyonda hata var mý?(06.02.2026)
 		int size = arr.length;
 		if(size==0)  return null;
 		
 		Queue <TreeNode> q = new LinkedList<TreeNode>();
 		
-		TreeNode rootNode = new TreeNode(arr[0]);
+		TreeNode rootNode = null;
+		rootNode = new TreeNode(arr[0]);
+		//rootNode = null;
 		q.add(rootNode);
 		
 		TreeNode node =null;
@@ -69,6 +122,11 @@ public class LeetCodeTree {
 		
 		return rootNode;
 		
+	}
+	
+	public static boolean isLeaf(TreeNode node) 
+	{
+		return node.left==null && node.right==null;
 	}
 	
 	public static List<TreeNode> inOrderTraversal(TreeNode root) 
@@ -674,11 +732,7 @@ public class LeetCodeTree {
 		
 		return min;
 	}
-	
-	public static boolean isLeaf(TreeNode node) 
-	{
-		return node.left==null && node.right==null;
-	}
+		
 
 	public static boolean hasPathSum(TreeNode root, int targetSum) 
 	{
@@ -878,6 +932,7 @@ public class LeetCodeTree {
 		return result;
     }
 	
+	//bu fonksiyonda bir problem var gibi(06.02.2026)
 	public static List<Integer> treeToList(TreeNode root)
 	{
 		
@@ -945,7 +1000,8 @@ public class LeetCodeTree {
 	{
 		boolean result = true;														
 		
-		if(list1.size()!=list2.size()) result = false;
+		if(list1.size()!=list2.size()) 
+			result = false;
 		else 
 		{
 			for(int i=0; i<list1.size();i++) 
@@ -1046,7 +1102,9 @@ public class LeetCodeTree {
 				if(left!=null)  q.add(left);
 				if(right!=null) q.add(right);
 				
-				if(isSameList(list1, list2)) { result=true;  break; }
+				if(isSameList(list1, list2)) { 
+					result=true;  break; 
+				}
 				
 				long heapFreeSize = Runtime.getRuntime().freeMemory();
 				System.out.println("i : " + i +", heapFreeSize : " + heapFreeSize/1024/1024 + " MB");   //in MB
@@ -1085,9 +1143,348 @@ public class LeetCodeTree {
 		
 		return result;
 	}
+
+	
+	public static int deepestLeavesSum(TreeNode root) 
+	{				
+		Queue<TreeNode> q = new LinkedList<>();		
+		TreeNode curr, left, right;
+		int levelSum=0 ;		
+		
+		q.add(root);
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			levelSum=0;
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();
+				
+				levelSum+=curr.val;
+				
+				left = curr.left;
+				right = curr.right;
+				
+				if(left!=null)  q.add(left);
+				if(right!=null) q.add(right);
+			}						
+		}
+
+		return levelSum; 
+    }
+
+	public static int averageOfSubtree(TreeNode root) 
+	{	
+		/*
+			Çözüm tarihi : 10.02.2026
+			Sonuç        : Baþarýlý
+		*/
+		Deque<TreeNode> st = new LinkedList<>();
+		Map<TreeNode, Integer> mapSums = new HashMap<>();     //sum of currNode and subnodes val
+		Map<TreeNode, Integer> mapCounts = new HashMap<>();   //count of subnodes + 1
+		Set<TreeNode> processed = new HashSet<>();
+		TreeNode curr, left, right;
+		int result = 0;                                       //number of node whose value is same with all sub nodes and curr node  
+				
+		st.addLast(root);
+		
+		while(!st.isEmpty()) 
+		{
+			curr = st.peekLast();
+			int val = curr.val;
+			
+			if(isLeaf(curr)) 
+			{
+				mapSums.put(curr, val);
+				mapCounts.put(curr, 1);
+				result++;
+				st.pollLast();
+				continue;
+			}
+			
+			left  = curr.left;
+			right = curr.right;
+			
+			if(!processed.contains(curr)) 
+			{
+				if(right!=null) st.addLast(right);
+				if(left!=null) st.addLast(left);
+				processed.add(curr);
+			}
+			
+			else 
+			{
+				st.pollLast();
+				int sum = val;
+				int nodesCount = 1;
+				
+				if(left!=null)  { sum+=mapSums.get(left);   nodesCount+=mapCounts.get(left);}
+				if(right!=null) { sum+=mapSums.get(right);  nodesCount+=mapCounts.get(right);}
+				
+				mapSums.put(curr, sum);
+				mapCounts.put(curr, nodesCount);
+				
+				int avg = sum/nodesCount;
+				if(avg==val) result++;			
+			}			
+		}
+				
+		return result;
+	}
+
+	public static TreeNode reverseOddLevels(TreeNode root) 
+	{
+		Deque<TreeNode> q = new LinkedList<>();
+		List<TreeNode> list = new LinkedList<>();
+		TreeNode curr, left, right;
+		
+		q.addLast(root);
+		boolean isOddLevel = false;
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			list.clear();
+			
+			for(int i=0; i<size;i++) 
+			{
+				curr = q.poll();
+				left = curr.left;
+				right = curr.right;
+				
+				if(left!=null)  {list.add(left);    q.add(left);   }
+				if(right!=null) {list.add(right);   q.add(right);  }
+			}
+			
+			if(!isOddLevel && !list.isEmpty()) 
+			{
+				for(int i=0; i<size; i++) 
+				{
+					int temp = list.get(i).val;
+					list.get(i).val = list.get(2*size-i-1).val;
+					list.get(2*size-i-1).val = temp;
+				}
+			}
+			
+			isOddLevel=!isOddLevel;
+		}
+		
+		
+		return root;
+    }
+	
+	public static TreeNode createBinaryTree(int[][] descriptions) 
+	{
+		//descriptions[i] = [parenti, childi, isLefti] indicates that parent_i is the parent of child_i in a binary tree of unique values. Furthermore,
+		//descriptions = [[20,15,1],[20,17,0],[50,20,1],[50,80,0],[80,19,1]]
+		Map<Integer, TreeNode> map = new HashMap<>();     //value, node
+		Set<TreeNode> parents = new HashSet<>();
+		Set<TreeNode> childs = new HashSet<>();
+		
+		TreeNode root=null, parent, child;
+		
+		for(int[] desc : descriptions) 
+		{			
+			if(desc[0]==4) {
+				System.out.println("asdf");
+			}
+			if(map.containsKey(desc[0])) { parent = map.get(desc[0]); }
+			else 
+			{ 
+				parent = new TreeNode(desc[0]);  
+				map.put(desc[0], parent);
+				//parents.add(parent);				
+			}
+			parents.add(parent);
+			
+			if(map.containsKey(desc[1])) { child = map.get(desc[1]); }
+			else 
+			{ 
+				child = new TreeNode(desc[1]);    
+				map.put(desc[1], child);
+				//childs.add(child);
+			}
+			childs.add(child);
+			
+			if(desc[2]==1) parent.left = child;
+			else           parent.right = child;		
+		}
+		
+		for(TreeNode node : parents )    //parent child 
+		{			
+			if(!childs.contains(node)) 
+			{ 
+				root = node; 
+				break;
+			}
+		}
+		
+		return root;
+    }
+	
+	public static TreeNode lcaDeepestLeaves(TreeNode root) 
+	{
+		/*
+		Tarih             : 11.02.2026
+		Problem           : Lowest Common Ancestor of Deepest Leaves
+		Problem Açýklama  : Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
+		Link              : https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/?envType=problem-list-v2&envId=binary-tree
+		Çözüm Algoritmasý : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
+		                    Deepest node'lar ortak parent bulunmaya çalýþýlýr. 
+		*/
+		
+		Queue <TreeNode> q = new LinkedList<>();
+		Map<TreeNode, TreeNode> map = new HashMap<>();   //node, parent
+		List<TreeNode> deepestNodes=null;
+		TreeNode curr, left, right, parent, result = null; 
+		Set<TreeNode> parents = new HashSet<>();
+		
+		if(root!=null)   q.add(root);
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			deepestNodes = new LinkedList<>(q);
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr  = q.poll();
+				left  = curr.left;
+				right = curr.right;
+				if(left!=null)  {q.add(left);  map.put(left, curr);   }
+				if(right!=null) {q.add(right); map.put(right, curr);  }
+			}						
+		}
+		
+		int size = deepestNodes.size();
+		
+		if(size==0)   return null;
+		if(size == 1) 
+			return (TreeNode) deepestNodes.toArray()[0];
+		
+		//for(int i=0; i<size; i++)
+		boolean parentFound = false;
+		
+		while(!parentFound) 
+		{
+			parents.clear();
+			for( TreeNode curr1: deepestNodes )
+			{
+				parent = map.get(curr1);
+				parents.add(parent);		
+			}
+			if(parents.size()==1) 
+			{ 
+				result = (TreeNode) parents.toArray()[0]; 
+				break;
+			}
+			else 
+			{
+				deepestNodes.clear();
+				deepestNodes = new LinkedList<>(parents);
+			}
+		}
+		
+		
+		return result;
+	}
+
+	public static TreeNode removeLeafNodes(TreeNode root, int target) 
+	{
+		/*
+			Tarih             : 11.02.2026
+			Problem           : Lowest Common Ancestor of Deepest Leaves
+			Problem Açýklama  : Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
+			Link              : https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/?envType=problem-list-v2&envId=binary-tree
+			Çözüm Algoritmasý : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
+			                    Deepest node'lar ortak parent bulunmaya çalýþýlýr. 
+		*/
+	 		
+		Queue<TreeNode> q = new LinkedList<>();
+		Map<TreeNode, TreeNode> map  = new HashMap<>();   //node, parent Node
+		TreeNode curr, left, right, parent;
+		
+		q.add(root);
+		
+		boolean deleted = true;
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();				
+				
+				if(isLeaf(curr) && curr.val==target) 
+				{
+					parent = map.get(curr);
+					if(parent.left==curr)        
+						parent.left  = null;
+					else if(parent.right==curr)  
+						parent.right = null;
+					deleted = true;
+				}
+				else 
+				{
+					left  = curr.left;
+					right = curr.right;
+					
+					if(left!=null)  { q.add(left);   map.put(left, curr);  }
+					if(right!=null) { q.add(right);  map.put(right, curr); }
+				}
+			}
+		}
+		
+		return root;
+		
+		
+    }
 	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {3,5,1,6,2,0,8,null,null,7,4},{1},{0,1,3,null,2} };
+		TreeNode root = arrayToTree(arr[2]);
+		TreeNode result = lcaDeepestLeaves(root);		
+		System.out.println(treeToList(result));
+		*/
+		
+		/*
+		int [][] arr1 = { {2,3,5,8,13,21,34},{7,13,11},{0,1,2,0,0,0,0,1,1,1,1,2,2,2,2},{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15} };
+		int [][] arr2 = {{1,2,1},{2,3,0},{3,4,1} };
+		int [][] arr3 = {{85,74,0},{38,82,0},{39,70,0},{82,85,0},{74,13,0},{13,39,0}};
+		//TreeNode root = arrayToTree(arr[3]);
+		TreeNode result = createBinaryTree(arr3);		
+		System.out.println(treeToList(result));
+		*/
+		
+		/*
+		Integer [][] arr = { {2,3,5,8,13,21,34},{7,13,11},{0,1,2,0,0,0,0,1,1,1,1,2,2,2,2},{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15} };
+		TreeNode root = arrayToTree(arr[3]);
+		TreeNode result = reverseOddLevels(root);		
+		System.out.println(treeToList(result));
+		*/
+		
+		/*
+		Integer [][] arr = { {-1,null,-1}, {-1,-1,-1,-1,-1} };
+		Integer[][] target = {{1,2},{1,3,5}};
+		TreeNode root = arrayToTree(arr[1]);
+		
+		FindElements obj = new FindElements(root);
+		boolean result = obj.find(target[1][0]);		
+		
+		System.out.println(result);
+		*/
+		
+		/*
+		Integer [][] arr = { {1,2,3,4,5,null,6,7,null,null,null,null,8},{1,null,3},{1,2,3,4},{},{1,1},{1},{1,2,3}, {1,2} };
+		TreeNode root = arrayToTree(arr[5]);
+		int result = deepestLeavesSum(root);		
+		System.out.println(result);
+		*/
+		
 		/*
 		Integer [][] arr = {{1,2,3},{1,2,3},{},
 				{5,-685,2970,-755,-462,2770,3620,null,-714,-649,434,373,2913,3337,4201,null,null,null,-497,-400,-95,313,1620,2838,null,3228,3574,3874,4262,-589,-484,null,-225,-183,null,240,null,1357,2342,null,null,2988,3262,3434,null,3658,3885,null,null,-622,null,null,null,-381,null,null,null,150,null,1237,1538,2235,2593,null,3072,null,null,3349,3490,null,3760,null,4187,null,null,null,-325,74,null,701,1246,1439,1583,2136,2249,2553,2661,3053,3174,null,3384,3465,null,3686,3855,3971,null,null,null,null,null,527,913,null,1283,null,null,null,null,1945,2219,null,null,2370,null,null,2694,3007,null,3109,null,null,null,null,null,null,null,null,null,null,4058,519,624,712,972,null,null,1736,1954,null,null,null,2467,2692,null,null,null,null,3115,null,4100,-203,null,null,null,null,725,null,1227,1670,1745,1952,2030,2427,null,null,null,null,null,null,null,null,null,null,817,1056,null,null,null,null,1852,null,null,null,2098,null,null,null,null,null,1133,1834,1929},
@@ -1189,6 +1586,7 @@ public class LeetCodeTree {
 	    //[5,-685,2970,-755,-462,2770,3620,null,-714,-649,434,373,2913,3337,4201,null,null,null,-497,-400,-95,313,1620,2838,null,3228,3574,3874,4262,-589,-484,null,-225,-183,null,240,null,1357,2342,null,null,2988,3262,3434,null,3658,3885,null,null,-622,null,null,null,-381,null,null,null,150,null,1237,1538,2235,2593,null,3072,null,null,3349,3490,null,3760,null,4187,null,null,null,-325,74,null,701,1246,1439,1583,2136,2249,2553,2661,3053,3174,null,3384,3465,null,3686,3855,3971,null,null,null,null,null,527,913,null,1283,null,null,null,null,1945,2219,null,null,2370,null,null,2694,3007,null,3109,null,null,null,null,null,null,null,null,null,null,4058,519,624,712,972,null,null,1736,1954,null,null,null,2467,2692,null,null,null,null,3115,null,4100,-203,null,null,null,null,725,null,1227,1670,1745,1952,2030,2427,null,null,null,null,null,null,null,null,null,null,817,1056,null,null,null,null,1852,null,null,null,2098,null,null,null,null,null,1133,1834,1929]							
 		
 		/*
+		Bu fonksiyon hatalý.
 		Integer [][] arr = {{3,4,5,1,2},{4,1,2},{},
 				{1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,2},
 				{1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,2}
@@ -1196,8 +1594,8 @@ public class LeetCodeTree {
 		TreeNode root1 = arrayToTree(arr[3]);
 		TreeNode root2 = arrayToTree(arr[4]);
 		boolean result = isSubtree(root1,root2);
-		 */				
-		
+	    */	 				
+		/*
 		Integer [][] arr = {{1,2,3},{1,2,3,4},{},{1,1},{1},{1,2,3}, {1,2}, 
 				{5,-685,2970,-755,-462,2770,3620,null,-714,-649,434,373,2913,3337,4201,null,null,null,-497,-400,-95,313,1620,2838,null,3228,3574,3874,4262,-589,-484,null,-225,-183,null,240,null,1357,2342,null,null,2988,3262,3434,null,3658,3885,null,null,-622,null,null,null,-381,null,null,null,150,null,1237,1538,2235,2593,null,3072,null,null,3349,3490,null,3760,null,4187,null,null,null,-325,74,null,701,1246,1439,1583,2136,2249,2553,2661,3053,3174,null,3384,3465,null,3686,3855,3971,null,null,null,null,null,527,913,null,1283,null,null,null,null,1945,2219,null,null,2370,null,null,2694,3007,null,3109,null,null,null,null,null,null,null,null,null,null,4058,519,624,712,972,null,null,1736,1954,null,null,null,2467,2692,null,null,null,null,3115,null,4100,-203,null,null,null,null,725,null,1227,1670,1745,1952,2030,2427,null,null,null,null,null,null,null,null,null,null,817,1056,null,null,null,null,1852,null,null,null,2098,null,null,null,null,null,1133,1834,1929},
 				{5,-685,2970,-755,-462,2770,3620,null,-714,-649,434,373,2913,3337,4201,null,null,null,-497,-400,-95,313,1620,2838,null,3228,3574,3874,4262,-589,-484,null,-225,-183,null,240,null,1357,2342,null,null,2988,3262,3434,null,3658,3885,null,null,-622,null,null,null,-381,null,null,null,150,null,1237,1538,2235,2593,null,3072,null,null,3349,3490,null,3760,null,4187,null,null,null,-325,74,null,701,1246,1439,1583,2136,2249,2553,2661,3053,3174,null,3384,3465,null,3686,3855,3971,null,null,null,null,null,527,913,null,1283,null,null,null,null,1945,2219,null,null,2370,null,null,2694,3007,null,3109,null,null,null,null,null,null,null,null,null,null,4058,519,624,712,972,null,null,1736,1954,null,null,null,2467,2692,null,null,null,null,3115,null,4100,-203,null,null,null,null,725,null,1227,1670,1745,1952,2030,2427,null,null,null,null,null,null,null,null,null,null,817,1056,null,null,null,null,1852,null,null,null,2098,null,null,null,null,null,1133,1834,1929}
@@ -1205,8 +1603,16 @@ public class LeetCodeTree {
 		TreeNode root1 = arrayToTree(arr[5]);
 		TreeNode root2 = arrayToTree(arr[6]);
 		boolean result = isSubtree2(root1,root2);
+		*/
+		//System.out.println(result);		
 		
-		System.out.println(result);												
+		
+		Integer [][] arr = { {1,2,3,2,null,2,4},{1,3,3,3,2},{1,2,null,2,null,2},{1},{} };
+		int []target = {2,3,2};
+		TreeNode root = arrayToTree(arr[0]);
+		TreeNode result = removeLeafNodes(root,target[0]);
+				
+		System.out.println(treeToList(result));
 		
 				
 	}
