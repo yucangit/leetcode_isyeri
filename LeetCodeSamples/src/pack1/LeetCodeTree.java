@@ -1584,6 +1584,41 @@ public class LeetCodeTree {
     	    	    	
     }
     
+    public int findBottomLeftValue(TreeNode root) 
+    {    	
+    	/*
+		Tarih             : 12.02.2026
+		Problem           : Find Bottom Left Tree Value
+		Problem Açýklama  : Given the root of a binary tree, return the leftmost value in the last row of the tree.						    
+		Link              : https://leetcode.com/problems/find-bottom-left-tree-value/description/?envType=problem-list-v2&envId=binary-tree
+		Çözüm Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolaþma(BFS) yapýlýr.
+		Durum             : Çözüldü.
+	    */
+    	
+    	Queue<TreeNode> q = new LinkedList<>();
+    	TreeNode curr, left, right, leftmostNode=null;
+    	    	
+    	q.add(root);
+    	
+    	while(!q.isEmpty()) 
+    	{
+    		int size = q.size();
+    		leftmostNode = q.peek();
+    		
+    		for(int i=0; i<size; i++) 
+    		{
+    			curr  = q.poll();
+    			left  = curr.left;
+    			right = curr.right;
+    			
+    			if(left!=null)   q.add(left);
+    			if(right!=null)  q.add(right);
+    		}
+    	}
+    	
+    	return leftmostNode.val;
+    }
+    
 	public static void testCases() 
 	{
 		/*
