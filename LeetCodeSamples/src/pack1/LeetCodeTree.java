@@ -1495,7 +1495,7 @@ public class LeetCodeTree {
     	return inOrderList.get(k-1).val;        
     }
 	
-    public int goodNodes(TreeNode root) 
+    public static int goodNodes(TreeNode root) 
     {
     	/*
 		Tarih             : 11.02.2026
@@ -1543,7 +1543,7 @@ public class LeetCodeTree {
     	return goodNodes.size();        
     }
     
-    public List<List<Integer>> levelOrder(TreeNode root) 
+    public static List<List<Integer>> levelOrder(TreeNode root) 
     {
     	/*
 		Tarih             : 12.02.2026
@@ -1584,7 +1584,7 @@ public class LeetCodeTree {
     	    	    	
     }
     
-    public int findBottomLeftValue(TreeNode root) 
+    public static int findBottomLeftValue(TreeNode root) 
     {    	
     	/*
 		Tarih             : 12.02.2026
@@ -1619,7 +1619,7 @@ public class LeetCodeTree {
     	return leftmostNode.val;
     }
 
-    public List<Integer> rightSideView(TreeNode root) 
+    public static List<Integer> rightSideView(TreeNode root) 
     {
     	/*
 		Tarih             : 12.02.2026
@@ -1653,6 +1653,36 @@ public class LeetCodeTree {
     	}
     	return resultList;
     	
+    }
+    
+    public static List<List<Integer>> levelOrderBottom(TreeNode root) 
+    {
+    	Queue<TreeNode> q = new LinkedList<>();    	
+    	List<List<Integer>> result = new LinkedList<>();
+    	TreeNode curr, left, right;
+    	
+    	if(root!=null)   q.add(root);
+    	
+    	while(!q.isEmpty()) 
+    	{
+    		int size = q.size();
+    		List<Integer> levelItems = new LinkedList<>();
+    		
+    		for(int i=0; i<size;i++) 
+    		{
+    			curr = q.poll();
+    			levelItems.add(curr.val);
+    			
+    			left = curr.left;
+    			right = curr.right;
+    			
+    			if(left!=null)  q.add(left);
+    			if(right!=null) q.add(right);    			
+    		}
+    		result.add(0,levelItems);    		
+    	}
+    	
+    	return result;
     }
     
 	public static void testCases() 
