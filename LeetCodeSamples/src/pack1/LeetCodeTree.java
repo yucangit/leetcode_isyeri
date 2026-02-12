@@ -1495,6 +1495,95 @@ public class LeetCodeTree {
     	return inOrderList.get(k-1).val;        
     }
 	
+    public int goodNodes(TreeNode root) 
+    {
+    	/*
+		Tarih             : 11.02.2026
+		Problem           : Count Good Nodes in Binary Tree
+		Problem Açýklama  : Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+						    Return the number of good nodes in the binary tree.
+		Link              : https://leetcode.com/problems/count-good-nodes-in-binary-tree/description/?envType=problem-list-v2&envId=binary-tree
+		Çözüm Algoritmasý :  
+		Durum             : Çözüldü.
+	    */
+    	Queue<TreeNode> q = new LinkedList<>();
+    	Map<TreeNode, Integer> map = new HashMap<>();
+    	Set<TreeNode> goodNodes = new HashSet<>();
+    	TreeNode curr, left, right;
+    	
+    	q.add(root);
+    	goodNodes.add(root);
+    	map.put(root, root.val);    	
+    	
+    	while(!q.isEmpty()) 
+    	{
+    		curr  = q.poll();
+    		int maxValOnPath = map.get(curr);
+    		
+    		left  = curr.left;
+    		right = curr.right;
+    		
+    		if(left!=null) 
+    		{
+    			q.add(left);
+    			if(left.val>=maxValOnPath)  
+    				goodNodes.add(left);    	
+    			map.put(left, Math.max(maxValOnPath, left.val));
+    		}
+    		if(right!=null) 
+    		{
+    			q.add(right);
+    			if(right.val>=maxValOnPath)  
+    				goodNodes.add(right);    	
+    			map.put(right, Math.max(maxValOnPath, right.val));
+    		}
+    		
+    	}
+    	
+    	return goodNodes.size();        
+    }
+    
+    public List<List<Integer>> levelOrder(TreeNode root) 
+    {
+    	/*
+		Tarih             : 12.02.2026
+		Problem           : Binary Tree Level Order Traversal
+		Problem Açýklama  : Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).						    
+		Link              : https://leetcode.com/problems/binary-tree-level-order-traversal/?envType=problem-list-v2&envId=binary-tree
+		Çözüm Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolaþma(BFS) yapýlýr.
+		Durum             : Çözüldü.
+	    */
+    	
+    	List<List<Integer>> result = new LinkedList<>();
+    	Queue <TreeNode> q = new LinkedList<>();
+    	TreeNode curr, left, right;
+    	
+    	if(root!=null)   q.add(root);
+    	
+    	while(!q.isEmpty()) 
+    	{
+    		int size = q.size();
+    		List<Integer> levelItems = new LinkedList<>();
+    		
+    		for(int i=0; i<size; i++) 
+    		{
+    			curr  = q.poll();
+    			int val = curr.val;
+    			levelItems.add(val);
+    			
+    			left  = curr.left;
+    			right = curr.right;
+    			
+    			if(left!=null)   q.add(left);
+    			if(right!=null)  q.add(right);
+    		}
+    		result.add(levelItems);
+    	}
+    	
+    	return result;
+    	    	    	
+    }
+    
 	public static void testCases() 
 	{
 		/*
@@ -1677,12 +1766,14 @@ public class LeetCodeTree {
 		
 		
 		
-		Integer [][] arr = { {3,1,4,null,2},{5,3,6,2,4,null,null,1},{2},{}};
-		int []k = {1,3};
+		Integer [][] arr = { {3,1,4,3,null,1,5},{3,3,null,4,2},{1}};		
 		TreeNode root = arrayToTree(arr[0]);
 		List<TreeNode> inOrderList = inOrderTraversal(root);
-		int result = kthSmallest(root, k[1]);						
-		System.out.println(result);
+		//int result = kthSmallest(root, k[1]);						
+		//System.out.println(result);
+		
+		
+		
 		
 		//System.out.println(new LinkedList<Integer>().get(0));
 		
