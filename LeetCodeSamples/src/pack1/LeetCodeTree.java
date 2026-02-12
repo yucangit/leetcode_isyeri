@@ -1618,6 +1618,42 @@ public class LeetCodeTree {
     	
     	return leftmostNode.val;
     }
+
+    public List<Integer> rightSideView(TreeNode root) 
+    {
+    	/*
+		Tarih             : 12.02.2026
+		Problem           : Binary Tree Right Side View
+		Problem Açýklama  : Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.						    
+		Link              : https://leetcode.com/problems/binary-tree-right-side-view/description/?envType=problem-list-v2&envId=binary-tree
+		Çözüm Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolaþma(BFS) yapýlýr. Her seviye için kuyruðun en son elemaný alýnýr.
+		Durum             : Çözüldü.
+	    */
+    	
+    	Deque<TreeNode> q = new LinkedList<>();
+    	List<Integer> resultList = new LinkedList<>();
+    	TreeNode curr, left, right;
+    	
+    	if(root!=null) q.add(root);
+    	
+    	while(!q.isEmpty()) 
+    	{
+    		int size = q.size();
+    		resultList.add(q.peekLast().val);
+    		
+    		for(int i=0; i<size; i++) 
+    		{
+    			curr  = q.pollFirst();
+    			left  = curr.left;
+    			right = curr.right;
+    			
+    			if(left!=null)   q.addLast(left);
+    			if(right!=null)  q.addLast(right);
+    		}
+    	}
+    	return resultList;
+    	
+    }
     
 	public static void testCases() 
 	{
