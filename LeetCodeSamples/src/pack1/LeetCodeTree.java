@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -152,7 +154,6 @@ public class LeetCodeTree {
 			}
 		}									
 	}
-	
 
 	public static List<TreeNode> inOrderTraversal(TreeNode root)
 	{
@@ -766,7 +767,6 @@ public class LeetCodeTree {
 		return min;
 	}
 		
-
 	public static boolean hasPathSum(TreeNode root, int targetSum) 
 	{
 		if(root==null) return false;
@@ -1057,8 +1057,7 @@ public class LeetCodeTree {
 		
 		return result;		
     }
-	
-	
+		
 	public static boolean isSameTree(TreeNode p, TreeNode q) 
 	{
 		boolean result = true;											
@@ -1176,7 +1175,6 @@ public class LeetCodeTree {
 		
 		return result;
 	}
-
 	
 	public static int deepestLeavesSum(TreeNode root) 
 	{				
@@ -1685,8 +1683,157 @@ public class LeetCodeTree {
     	return result;
     }
     
+    public static boolean isEvenOddTree(TreeNode root) 
+    {
+    	/*
+		Tarih             : 12.02.2026
+		Problem           : Even Odd Tree
+		Problem Açýklama  : 						    
+		Link              : https://leetcode.com/problems/even-odd-tree/description/?envType=problem-list-v2&envId=binary-tree
+		Çözüm Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolaþma(BFS) yapýlýr. 
+		Durum             : Çözüldü.
+	    */
+    	
+    	Queue<TreeNode> q = new LinkedList<>();
+    	TreeNode curr, left, right;    	
+    	boolean result = true;
+    	int level =0;
+    		
+    	if(root!=null)   q.add(root);
+    	
+    	while(!q.isEmpty() && result) 
+    	{
+    		int size = q.size();    		    		
+    		long prevVal;
+    		
+    		if(level%2==0) prevVal = q.peek().val - 2;
+    		else           prevVal = q.peek().val + 2;    			    		    		
+    		
+    		for(int i=0; i<size; i++) 
+    		{
+    			curr  = q.poll();
+    			int currVal = curr.val;
+    			
+    			left  = curr.left;
+    			right = curr.right;    
+    			
+    			if(left!=null)   q.add(left);
+    			if(right!=null)  q.add(right);
+    			    			
+    			
+    			if(level%2==0)    //For every even-indexed level, all nodes at the level have odd integer values in strictly increasing order (from left to right).
+    			{
+    				if( currVal%2==0 || currVal<=prevVal ) { result=false; break;}
+    			}
+    			
+    			else if(level%2==1)    //For every odd-indexed level, all nodes at the level have even integer values in strictly decreasing order (from left to right).
+    			{
+    				if( currVal%2==1 || currVal>=prevVal ) { result=false; break;}
+    			}
+    			
+    			prevVal = currVal;
+    			
+    		}
+    		
+    		level++;
+    	}
+    	
+    	return result;
+        
+    }
+
+	public static List<Integer> largestValues(TreeNode root) 
+	{
+        Queue <TreeNode> q = new LinkedList<>();        
+        TreeNode curr, left, right;
+        List<Integer> resultList = new LinkedList<>();
+        int max;
+        
+        if(root!=null) q.add(root);
+        
+        while(!q.isEmpty()) 
+        {
+        	int size= q.size();
+        	max = q.peek().val;
+        	
+        	for(int i=0; i<size; i++) 
+        	{
+        		curr  = q.poll();
+        		left  = curr.left;
+        		right = curr.right;
+        		
+        		max = Math.max(max, curr.val);
+        		
+        		if(left!=null)   q.add(left);
+        		if(right!=null)  q.add(right);
+        	}
+        	resultList.add(max);
+        }
+        
+        return resultList;
+        
+    }
+
+	public static long kthLargestLevelSum(TreeNode root, int k) 
+	{
+		Queue<TreeNode> q = new LinkedList<>();
+		TreeNode curr, left, right;
+		List<Long> sumVals = new ArrayList<>();
+				
+		q.add(root);
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			long sum = 0;
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();
+				left = curr.left;
+				right = curr.right;
+				
+				if(left!=null)   q.add(left);
+				if(right!=null)  q.add(right);
+				
+				sum += curr.val;
+			}
+			sumVals.add(sum);			
+		}
+		
+		long[] result = sumVals.stream().mapToLong(l -> l).toArray();
+		
+		Arrays.sort(result);
+		int size = result.length;
+		
+		return (k<=result.length)?result[size-1-(k-1)]:-1;
+        
+    }	
+	    
 	public static void testCases() 
 	{
+		
+		/*
+		Integer [][] arr = { {1,10,4,3,null,7,9,12,8,6,null,null,2},{5,4,2,3,3,7},{5,9,1,3,5,7},{2,12,8,5,9,null,null,18,16}};		
+		TreeNode root = arrayToTree(arr[3]);		
+		boolean result = isEvenOddTree(root);						
+		System.out.println(result);
+		*/
+		
+		/*
+		Integer [][] arr = { {5,8,9,2,1,3,7,4,6},{1,2,null,3}};
+		int [] k = {2,1};
+		TreeNode root = arrayToTree(arr[0]);		
+		long result = kthLargestLevelSum(root,k[0]);						
+		System.out.println(result);
+		*/
+		
+		/*
+		Integer [][] arr = { {3,1,4,3,null,1,5},{3,3,null,4,2},{1}};		
+		TreeNode root = arrayToTree(arr[0]);
+		List<TreeNode> inOrderList = inOrderTraversal(root);
+		*/
+		
 		/*
 		Integer [][] arr = { {3,1,4,null,2},{5,3,6,2,4,null,null,1},{2},{}};
 		int []k = {1,3};
@@ -1816,7 +1963,6 @@ public class LeetCodeTree {
 		*/		
 	}
 	
-
 	public static void main(String [] args) 
 	{
 		/*
@@ -1863,21 +2009,14 @@ public class LeetCodeTree {
 		TreeNode root2 = arrayToTree(arr[6]);
 		boolean result = isSubtree2(root1,root2);
 		*/
-		//System.out.println(result);		
+		//System.out.println(result);								
 		
 		
-		
-		Integer [][] arr = { {3,1,4,3,null,1,5},{3,3,null,4,2},{1}};		
-		TreeNode root = arrayToTree(arr[0]);
-		List<TreeNode> inOrderList = inOrderTraversal(root);
-		//int result = kthSmallest(root, k[1]);						
-		//System.out.println(result);
-		
-		
-		
-		
-		//System.out.println(new LinkedList<Integer>().get(0));
-		
+		Integer [][] arr = { {5,8,9,2,1,3,7,4,6},{1,2,null,3}};
+		int [] k = {2,1};
+		TreeNode root = arrayToTree(arr[0]);		
+		long result = kthLargestLevelSum(root,k[0]);						
+		System.out.println(result);				
 				
 	}
 }
