@@ -62,7 +62,7 @@ class FindElements
 
 	public FindElements(TreeNode root) 
 	{
-	    //yöntem : level order traversing
+	    //yï¿½ntem : level order traversing
 		
 		Queue<TreeNode> q = new LinkedList<>();
 		set = new HashSet<>();
@@ -102,7 +102,7 @@ class FindElements
 
 public class LeetCodeTreeSolutions {
 	
-	//Bu fonksiyonda hata var mý?(06.02.2026) . (Doðru gibi. 13.02.2026)
+	//Bu fonksiyonda hata var mï¿½?(06.02.2026) . (Doï¿½ru gibi. 13.02.2026)
 	public static TreeNode arrayToTree(Integer []arr) 
 	{	
 		//int sayac = 1;
@@ -110,7 +110,7 @@ public class LeetCodeTreeSolutions {
 		//sayac++;
 		//if(sayac>1) return null;
 		
-		//Bu fonksiyonda hata var mý?(06.02.2026)
+		//Bu fonksiyonda hata var mï¿½?(06.02.2026)
 		int size = arr.length;
 		if(size==0)  return null;
 		
@@ -201,7 +201,7 @@ public class LeetCodeTreeSolutions {
 		int size = list.size();
 		
 		if(list==null) 
-			System.out.print("Boþ dizi!");
+			System.out.print("Boï¿½ dizi!");
 		
 		for(int i=0; i<list.size(); i++) 
 		{
@@ -222,7 +222,7 @@ public class LeetCodeTreeSolutions {
 
 	public static List<TreeNode> inOrderTraversal(TreeNode root)
 	{
-		//bu fonksiyon doðru çalýþýyor gibi(11.02.2026).
+		//bu fonksiyon doï¿½ru ï¿½alï¿½ï¿½ï¿½yor gibi(11.02.2026).
 		
 		Deque<TreeNode> st  = new LinkedList<>();
 		Set<TreeNode> processed = new HashSet<>();     //left and right childs added to stack
@@ -333,7 +333,7 @@ public class LeetCodeTreeSolutions {
 	{			
 		//Problem      : 865. Smallest Subtree with all the Deepest Nodes
 		//Problem link : https://leetcode.com/problems/smallest-subtree-with-all-the-deepest-nodes/?envType=daily-question&envId=2026-01-09
-		//Durum        : Çözüldü(16.01.2026).
+		//Durum        : ï¿½ï¿½zï¿½ldï¿½(16.01.2026).
 	
 		if(root.left==null && root.right==null) return root;
 		
@@ -667,8 +667,8 @@ public class LeetCodeTreeSolutions {
 	
 	public static int countNodes(TreeNode root) 
 	{ 
-		//Karmaþýklýðýn O(n)'den küçük olmasý isteniyor.
-		//Yapýlamadý(23.01.2026)
+		//Karmaï¿½ï¿½klï¿½ï¿½ï¿½n O(n)'den kï¿½ï¿½ï¿½k olmasï¿½ isteniyor.
+		//Yapï¿½lamadï¿½(23.01.2026)
 		int count = 0;
 		int level=0;
 		Queue<TreeNode> q = new LinkedList<>();
@@ -1037,11 +1037,11 @@ public class LeetCodeTreeSolutions {
 		/*
 		  06.02.2026
 		  Bu fonksiyonda bir problem var.
-		  Oluþan hata : java.lang.OutOfMemoryError: Java heap space
-		  while döngüsünün 25.iterasyonunda  
+		  Oluï¿½an hata : java.lang.OutOfMemoryError: Java heap space
+		  while dï¿½ngï¿½sï¿½nï¿½n 25.iterasyonunda  
 		  		q1.size=33.554.432, list1.size=67.108.863, set.size=2   oluyor.
 		  
-		  Kullanýlan parametre: 
+		  Kullanï¿½lan parametre: 
 		  Integer [][] arr = {
 				{1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,2},
 				{1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,2}
@@ -1056,7 +1056,7 @@ public class LeetCodeTreeSolutions {
 		
 		if(root!=null)   q1.add(root);
 		
-		//System.out.println("treeToList fonksiyonu içerisinde");
+		//System.out.println("treeToList fonksiyonu iï¿½erisinde");
 		int j=0;
 		
 		while(!q1.isEmpty() && result==true) 
@@ -1082,7 +1082,7 @@ public class LeetCodeTreeSolutions {
 					set.add(right);
 				}								
 			}
-			System.out.println("treeToList fonksiyonu içerisinde j=" + j + ", q1.size="+size + ", list1.size=" + list1.size() + ", set.size=" + set.size());
+			System.out.println("treeToList fonksiyonu iï¿½erisinde j=" + j + ", q1.size="+size + ", list1.size=" + list1.size() + ", set.size=" + set.size());
 			
 			if(set.size()==1 && set.toArray()[0]==null) 
 				result=false;
@@ -1173,14 +1173,14 @@ public class LeetCodeTreeSolutions {
 		Queue<TreeNode> q = new LinkedList<>();
 		TreeNode curr, left, right;
 		
-		System.out.println("TreeToList öncesi");
+		System.out.println("TreeToList ï¿½ncesi");
 		//List<Integer> list1 = null;
 		List<Integer> list2 = treeToList(subRoot);
 		
 		q.add(root);		
 		int j=0;
 		
-		System.out.println("while döngüsüne baþlanacak!");
+		System.out.println("while dï¿½ngï¿½sï¿½ne baï¿½lanacak!");
 				
 		while( !q.isEmpty() && result==false ) 
 		{
@@ -1274,8 +1274,8 @@ public class LeetCodeTreeSolutions {
 	public static int averageOfSubtree(TreeNode root) 
 	{	
 		/*
-			Çözüm tarihi : 10.02.2026
-			Sonuç        : Baþarýlý
+			ï¿½ï¿½zï¿½m tarihi : 10.02.2026
+			Sonuï¿½        : Baï¿½arï¿½lï¿½
 		*/
 		Deque<TreeNode> st = new LinkedList<>();
 		Map<TreeNode, Integer> mapSums = new HashMap<>();     //sum of currNode and subnodes val
@@ -1425,10 +1425,10 @@ public class LeetCodeTreeSolutions {
 		/*
 		Tarih             : 11.02.2026
 		Problem           : Lowest Common Ancestor of Deepest Leaves
-		Problem Açýklama  : Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
+		Problem Aï¿½ï¿½klama  : Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
 		Link              : https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/?envType=problem-list-v2&envId=binary-tree
-		Çözüm Algoritmasý : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
-		                    Deepest node'lar ortak parent bulunmaya çalýþýlýr. 
+		ï¿½ï¿½zï¿½m Algoritmasï¿½ : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
+		                    Deepest node'lar ortak parent bulunmaya ï¿½alï¿½ï¿½ï¿½lï¿½r. 
 		*/
 		
 		Queue <TreeNode> q = new LinkedList<>();
@@ -1492,11 +1492,11 @@ public class LeetCodeTreeSolutions {
 		/*
 			Tarih             : 11.02.2026
 			Problem           : Delete Leaves With a Given Value
-			Problem Açýklama  : Given a binary tree root and an integer target, delete all the leaf nodes with value target.
+			Problem Aï¿½ï¿½klama  : Given a binary tree root and an integer target, delete all the leaf nodes with value target.
 			Link              : https://leetcode.com/problems/delete-leaves-with-a-given-value/description/?envType=problem-list-v2&envId=binary-tree
-			Çözüm Algoritmasý : BFS ile aðaç üzerinde seviye bazlý ilerlenir. o anki node bir leaf node ise ve deðeri de uyumlu ise parent node'un ilgili child nodu null yapýlýr.
-			                    Deepest node'lar ortak parent bulunmaya çalýþýlýr. 
-			Durum             : Çözüldü.
+			ï¿½ï¿½zï¿½m Algoritmasï¿½ : BFS ile aï¿½aï¿½ ï¿½zerinde seviye bazlï¿½ ilerlenir. o anki node bir leaf node ise ve deï¿½eri de uyumlu ise parent node'un ilgili child nodu null yapï¿½lï¿½r.
+			                    Deepest node'lar ortak parent bulunmaya ï¿½alï¿½ï¿½ï¿½lï¿½r. 
+			Durum             : ï¿½ï¿½zï¿½ldï¿½.
 		*/
 	 		
 		Queue<TreeNode> q = new LinkedList<>();
@@ -1563,11 +1563,11 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 11.02.2026
 		Problem           : Count Good Nodes in Binary Tree
-		Problem Açýklama  : Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+		Problem Aï¿½ï¿½klama  : Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
 						    Return the number of good nodes in the binary tree.
 		Link              : https://leetcode.com/problems/count-good-nodes-in-binary-tree/description/?envType=problem-list-v2&envId=binary-tree
-		Çözüm Algoritmasý :  
-		Durum             : Çözüldü.
+		ï¿½ï¿½zï¿½m Algoritmasï¿½ :  
+		Durum             : ï¿½ï¿½zï¿½ldï¿½.
 	    */
     	Queue<TreeNode> q = new LinkedList<>();
     	Map<TreeNode, Integer> map = new HashMap<>();
@@ -1611,10 +1611,10 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 12.02.2026
 		Problem           : Binary Tree Level Order Traversal
-		Problem Açýklama  : Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).						    
+		Problem Aï¿½ï¿½klama  : Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).						    
 		Link              : https://leetcode.com/problems/binary-tree-level-order-traversal/?envType=problem-list-v2&envId=binary-tree
-		Çözüm Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolaþma(BFS) yapýlýr.
-		Durum             : Çözüldü.
+		ï¿½ï¿½zï¿½m Algoritmasï¿½ : Kuyruk veri yapï¿½sï¿½ kullanï¿½larak seviye bazlï¿½ dolaï¿½ma(BFS) yapï¿½lï¿½r.
+		Durum             : ï¿½ï¿½zï¿½ldï¿½.
 	    */
     	
     	List<List<Integer>> result = new LinkedList<>();
@@ -1652,10 +1652,10 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 12.02.2026
 		Problem           : Find Bottom Left Tree Value
-		Problem Açýklama  : Given the root of a binary tree, return the leftmost value in the last row of the tree.						    
+		Problem Aï¿½ï¿½klama  : Given the root of a binary tree, return the leftmost value in the last row of the tree.						    
 		Link              : https://leetcode.com/problems/find-bottom-left-tree-value/description/?envType=problem-list-v2&envId=binary-tree
-		Çözüm Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolaþma(BFS) yapýlýr.
-		Durum             : Çözüldü.
+		ï¿½ï¿½zï¿½m Algoritmasï¿½ : Kuyruk veri yapï¿½sï¿½ kullanï¿½larak seviye bazlï¿½ dolaï¿½ma(BFS) yapï¿½lï¿½r.
+		Durum             : ï¿½ï¿½zï¿½ldï¿½.
 	    */
     	
     	Queue<TreeNode> q = new LinkedList<>();
@@ -1687,10 +1687,10 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 12.02.2026
 		Problem           : Binary Tree Right Side View
-		Problem Açýklama  : Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.						    
+		Problem Aï¿½ï¿½klama  : Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.						    
 		Link              : https://leetcode.com/problems/binary-tree-right-side-view/description/?envType=problem-list-v2&envId=binary-tree
-		Çözüm Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolaþma(BFS) yapýlýr. Her seviye için kuyruðun en son elemaný alýnýr.
-		Durum             : Çözüldü.
+		ï¿½ï¿½zï¿½m Algoritmasï¿½ : Kuyruk veri yapï¿½sï¿½ kullanï¿½larak seviye bazlï¿½ dolaï¿½ma(BFS) yapï¿½lï¿½r. Her seviye iï¿½in kuyruï¿½un en son elemanï¿½ alï¿½nï¿½r.
+		Durum             : ï¿½ï¿½zï¿½ldï¿½.
 	    */
     	
     	Deque<TreeNode> q = new LinkedList<>();
@@ -1753,10 +1753,10 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 12.02.2026
 		Problem           : Even Odd Tree
-		Problem Açýklama  : 						    
+		Problem Aï¿½ï¿½klama  : 						    
 		Link              : https://leetcode.com/problems/even-odd-tree/description/?envType=problem-list-v2&envId=binary-tree
-		Çözüm Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolaþma(BFS) yapýlýr. 
-		Durum             : Çözüldü.
+		ï¿½ï¿½zï¿½m Algoritmasï¿½ : Kuyruk veri yapï¿½sï¿½ kullanï¿½larak seviye bazlï¿½ dolaï¿½ma(BFS) yapï¿½lï¿½r. 
+		Durum             : ï¿½ï¿½zï¿½ldï¿½.
 	    */
     	
     	Queue<TreeNode> q = new LinkedList<>();
@@ -1880,7 +1880,7 @@ public class LeetCodeTreeSolutions {
 		/*
 			13.02.2026
 			Bu fonksiyonun orjinalinde "TreeNode2" yerine "Node" bulunuyor.
-			Ancak bu problem bir Tree sorusu olduðu için bu þekilde güncellendi.
+			Ancak bu problem bir Tree sorusu olduï¿½u iï¿½in bu ï¿½ekilde gï¿½ncellendi.
 		*/
 		Queue<TreeNode2> q = new LinkedList<>();
 		TreeNode2 curr, left, right;
@@ -1958,9 +1958,9 @@ public class LeetCodeTreeSolutions {
 	
 	public static int widthOfBinaryTree(TreeNode root) 
 	{
-		//Çalýþmýyor
+		//ï¿½alï¿½ï¿½mï¿½yor
 		//13.02.2026
-		//kuyruk'un boyutu sürekli artýyor.
+		//kuyruk'un boyutu sï¿½rekli artï¿½yor.
 		
 		Queue<TreeNode> q = new LinkedList<>();
 		Map<TreeNode,TreeNode>  mapParent = new HashMap<>();    //node, full binary tree index
@@ -2178,14 +2178,14 @@ public class LeetCodeTreeSolutions {
 		*/
 		
 		/*
-		Integer [][] arr = {{10,5,15,3,7,null,18}};    //seviye seviye, önce 1.seviyedeki node'lar sonra 2.seviyedekiler ...		
+		Integer [][] arr = {{10,5,15,3,7,null,18}};    //seviye seviye, ï¿½nce 1.seviyedeki node'lar sonra 2.seviyedekiler ...		
 		TreeNode root = arrayToTree(arr[0]);		
 		int result= rangeSumBST(root,7,15);
 		*/
 		
 		/*
 		//subtreeWithAllDeepest()
-		Integer [][] arr = {{3,5,1,6,2,0,8,null,null,7,4,null,null,null,null},{1},{0,1,3,null,2},{3,5,1,6,2,0,8,null,null,7,4,null,9,10,null},{1}};    //seviye seviye, önce 1.seviyedeki node'lar sonra 2.seviyediler ...		
+		Integer [][] arr = {{3,5,1,6,2,0,8,null,null,7,4,null,null,null,null},{1},{0,1,3,null,2},{3,5,1,6,2,0,8,null,null,7,4,null,9,10,null},{1}};    //seviye seviye, ï¿½nce 1.seviyedeki node'lar sonra 2.seviyediler ...		
 		TreeNode root = arrayToTree(arr[2]);		
 		TreeNode subTree= subtreeWithAllDeepest(root);
 		*/		
@@ -2201,7 +2201,7 @@ public class LeetCodeTreeSolutions {
 		Integer [][] arr = {{3,1,3,null,null,0,1},              
 							{1} ,
 							{3,3,2,0,0,3,2,null,null,null,null,1,3,1,1,null,null,2,1,null,null,null,null,1,1,null,null,null,null,null,null}
-						   };    //seviye seviye, önce 1.seviyedeki node'lar sonra 2.seviyedekiler ...
+						   };    //seviye seviye, ï¿½nce 1.seviyedeki node'lar sonra 2.seviyedekiler ...
 		
 		TreeNode root = arrayToTree(arr[2]);
 		
@@ -2219,7 +2219,7 @@ public class LeetCodeTreeSolutions {
 	    //[5,-685,2970,-755,-462,2770,3620,null,-714,-649,434,373,2913,3337,4201,null,null,null,-497,-400,-95,313,1620,2838,null,3228,3574,3874,4262,-589,-484,null,-225,-183,null,240,null,1357,2342,null,null,2988,3262,3434,null,3658,3885,null,null,-622,null,null,null,-381,null,null,null,150,null,1237,1538,2235,2593,null,3072,null,null,3349,3490,null,3760,null,4187,null,null,null,-325,74,null,701,1246,1439,1583,2136,2249,2553,2661,3053,3174,null,3384,3465,null,3686,3855,3971,null,null,null,null,null,527,913,null,1283,null,null,null,null,1945,2219,null,null,2370,null,null,2694,3007,null,3109,null,null,null,null,null,null,null,null,null,null,4058,519,624,712,972,null,null,1736,1954,null,null,null,2467,2692,null,null,null,null,3115,null,4100,-203,null,null,null,null,725,null,1227,1670,1745,1952,2030,2427,null,null,null,null,null,null,null,null,null,null,817,1056,null,null,null,null,1852,null,null,null,2098,null,null,null,null,null,1133,1834,1929]							
 		
 		/*
-		Bu fonksiyon hatalý.
+		Bu fonksiyon hatalï¿½.
 		Integer [][] arr = {{3,4,5,1,2},{4,1,2},{},
 				{1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,2},
 				{1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,2}
@@ -2253,7 +2253,8 @@ public class LeetCodeTreeSolutions {
 		
 		
 		//System.out.println((char)('a'+5)+"");
-
+		//evden deneme
+		int a;
 
 	}
 }
