@@ -1963,7 +1963,10 @@ public class LeetCodeTreeSolutions {
 		//kuyruk'un boyutu sürekli artýyor.
 		
 		Queue<TreeNode> q = new LinkedList<>();
+		Map<TreeNode,TreeNode>  mapParent = new HashMap<>();    //node, full binary tree index
+		Map<TreeNode, String>  mapNodeIndex = new HashMap<>();   //node, full binary tree index
 		TreeNode curr, left, right;
+		TreeNode dummyRoot = new TreeNode(-1);
 		int maxWidth=0;
 		boolean isNextLevelExists = true;   //means next level empty
 		int level = 0;
@@ -1971,12 +1974,16 @@ public class LeetCodeTreeSolutions {
 		if(root!=null) q.add(root);
 		else isNextLevelExists = false;
 		
+		mapParent.put(root, dummyRoot);
+		mapNodeIndex.put(root,"1");
+		
 		while( isNextLevelExists ) 
 		{
 			int size = q.size();
 			int width =0;
 			int startIdx=size;
-			int endIdx = 0;
+			int endIdx = 0;			
+			
 			isNextLevelExists = false;
 
 			if(level>=8) 
@@ -1989,24 +1996,28 @@ public class LeetCodeTreeSolutions {
 			
 			for(int i=0; i<size; i++) 
 			{
-				curr = q.poll();
+				curr  = q.poll();																				
+				left  = curr.left;
+				right = curr.right;
 				
-				if(curr!=null) 
-				{									
-					left  = curr.left;
-					right = curr.right;
-					
-					if(left!=null || right!=null) 
-						isNextLevelExists = true;
-					
-					if(left!=null)  q.add(left);
-					if(right!=null)  q.add(right);
-					
-					if(startIdx>i) 
-						startIdx = i;
-					if(endIdx<i)   
-						endIdx = i;							
+				TreeNode parent = mapParent.get(curr);
+				String parentIdx = mapNodeIndex.get(parent);
+				
+				if(left!=null || right!=null) 
+					isNextLevelExists = true;
+				
+				if(left!=null)   { q.add(left);    mapParent.put(left, curr);  mapNodeIndex.put(left, parentIdx+"0");  }
+				if(right!=null)  { q.add(right);   mapParent.put(left, curr);  mapNodeIndex.put(left, parentIdx+"1");  }
+				
+				if(startIdx>i) 
+				{
+					startIdx = i;
 				}
+				if(endIdx<i) 
+				{   
+					endIdx = i;
+				}
+				
 				
 			}
 			
