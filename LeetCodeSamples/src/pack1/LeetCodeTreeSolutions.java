@@ -35,19 +35,19 @@ class TreeNode
 }
 
 //Definition for a Node.
-class Node {
+class TreeNode2 {
 	public int val;
-	public Node left;
-	public Node right;
-	public Node next;
+	public TreeNode2 left;
+	public TreeNode2 right;
+	public TreeNode2 next;
 	
-	public Node() {}
+	public TreeNode2() {}
 	 
-	public Node(int _val) {
+	public TreeNode2(int _val) {
 		val = _val;
 	}
 	
-	public Node(int _val, Node _left, Node _right, Node _next) {
+	public TreeNode2(int _val, TreeNode2 _left, TreeNode2 _right, TreeNode2 _next) {
 	    val = _val;
 	    left = _left;
 	    right = _right;
@@ -100,7 +100,7 @@ class FindElements
 }	
 
 
-public class LeetCodeTree {
+public class LeetCodeTreeSolutions {
 	
 	//Bu fonksiyonda hata var mý?(06.02.2026)
 	public static TreeNode arrayToTree(Integer []arr) 
@@ -1831,10 +1831,15 @@ public class LeetCodeTree {
         
     }	
 
-	public static Node connect(Node root) 
+	public static TreeNode2 connect(TreeNode2 root) 
 	{
-		Queue<Node> q = new LinkedList<>();
-		Node curr, left, right;
+		/*
+			13.02.2026
+			Bu fonksiyonun orjinalinde "TreeNode2" yerine "Node" bulunuyor.
+			Ancak bu problem bir Tree sorusu olduðu için bu þekilde güncellendi.
+		*/
+		Queue<TreeNode2> q = new LinkedList<>();
+		TreeNode2 curr, left, right;
 		
 		if(root!=null)   q.add(root);
 		
@@ -1857,6 +1862,55 @@ public class LeetCodeTree {
 		
 		return root;
 	}	
+	
+	public static String smallestFromLeaf(TreeNode root) 
+	{
+		Queue<TreeNode> q = new LinkedList<>();
+		Map<TreeNode, String> mapPath   = new HashMap<>();      //node, root to node path
+		Map<TreeNode, TreeNode> mapParent = new HashMap<>();    //node, parent node
+		TreeNode curr, left, right, parent;
+		TreeNode dummyParent=new TreeNode(-1);   //for eliminating extra checks
+		
+		String minPath = null;		
+		
+		if(root!=null) {
+			q.add(root);
+			mapParent.put(root, dummyParent);
+		}		
+		
+		mapPath.put(dummyParent, "");
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr  = q.poll();
+				int val = curr.val;
+				String str = (char) ('a'+val) + "";
+				
+				parent = mapParent.get(curr);
+				String path = str + mapPath.get(parent);
+				mapPath.put(curr, path);
+								
+				if( isLeaf(curr) ) {
+					
+					if(minPath==null) 
+						minPath = path;
+					else if( path.compareTo(minPath) < 0 ) 				
+						minPath = path;
+				}
+				
+				left  = curr.left;
+				right = curr.right;
+				if(left!=null)  { q.add(left);   mapParent.put(left, curr);  }
+				if(right!=null) { q.add(right);  mapParent.put(right, curr); }
+			}			
+		}
+		
+		return minPath;							
+	}
 	
 	public static void testCases() 
 	{
@@ -2059,12 +2113,15 @@ public class LeetCodeTree {
 		*/
 		//System.out.println(result);								
 		
+
+		Integer [][] arr = { {0,1,2,3,4,3,4},{25,1,3,1,3,0,2},{2,2,1,null,1,0,null,0},{5,25}};		
+		TreeNode root = arrayToTree(arr[3]);		
+		String result = smallestFromLeaf(root);						
+		System.out.println("sonuc : " + result);		
 		
-		Integer [][] arr = { {5,8,9,2,1,3,7,4,6},{1,2,null,3}};
-		int [] k = {2,1};
-		TreeNode root = arrayToTree(arr[0]);		
-		long result = kthLargestLevelSum(root,k[0]);						
-		System.out.println(result);				
-				
+		
+		//System.out.println((char)('a'+5)+"");
+
+
 	}
 }

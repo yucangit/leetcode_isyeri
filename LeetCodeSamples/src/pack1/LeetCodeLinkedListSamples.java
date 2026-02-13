@@ -80,15 +80,15 @@ class Node {
         val = _val;
         next = _next;
     }
-};
+}
 
-class TreeNode2 {
+class TreeNodeList {
     int val;
-    TreeNode2 left;
-    TreeNode2 right;
-    TreeNode2() {}
-    TreeNode2(int val) { this.val = val; }
-    TreeNode2(int val, TreeNode2 left, TreeNode2 right) {
+    TreeNodeList left;
+    TreeNodeList right;
+    TreeNodeList() {}
+    TreeNodeList(int val) { this.val = val; }
+    TreeNodeList(int val, TreeNodeList left, TreeNodeList right) {
         this.val = val;
         this.left = left;
         this.right = right;
@@ -97,9 +97,9 @@ class TreeNode2 {
 
 class MyNode
 {
-	TreeNode2 n;
+	TreeNodeList n;
     boolean isChildsProcessed;
-    public MyNode(TreeNode2 n, boolean isChildsProcessed)
+    public MyNode(TreeNodeList n, boolean isChildsProcessed)
     {
         this.n = n;
         this.isChildsProcessed = isChildsProcessed;
@@ -1582,19 +1582,19 @@ public class LeetCodeLinkedListSamples {
         
     }
 
-    public static void printBinaryTree(TreeNode2 root) 
+    public static void printBinaryTree(TreeNodeList root) 
     {
     	List <String> result = new LinkedList();
-    	Stack<TreeNode2> st = new Stack<TreeNode2>();
+    	Stack<TreeNodeList> st = new Stack<TreeNodeList>();
     	
     	//yapilacak
     	
     }
     
-    public static void flatten(TreeNode2 root) 
+    public static void flatten(TreeNodeList root) 
     {
-        Stack<TreeNode2> st = new Stack<TreeNode2>();
-        TreeNode2 curr = root;     
+        Stack<TreeNodeList> st = new Stack<TreeNodeList>();
+        TreeNodeList curr = root;     
 
         do
         {            
@@ -1678,12 +1678,12 @@ public class LeetCodeLinkedListSamples {
     	
     }
            
-    public static TreeNode2 treeToDoublyList(TreeNode2 root) 
+    public static TreeNodeList treeToDoublyList(TreeNodeList root) 
     {
         if(root==null || (root.left==null && root.right ==null) ) 
             return root;
 
-        java.util.Vector<TreeNode2> result = new java.util.Vector<TreeNode2>();
+        java.util.Vector<TreeNodeList> result = new java.util.Vector<TreeNodeList>();
         Stack<MyNode> st = new Stack<MyNode>();
 
         if(root.right!=null) 
@@ -1717,8 +1717,8 @@ public class LeetCodeLinkedListSamples {
 
         for(int i=0;i<result.size()-1;i++)
         {
-        	TreeNode2 curr= result.get(i);
-        	TreeNode2 next= result.get(i+1);
+        	TreeNodeList curr= result.get(i);
+        	TreeNodeList next= result.get(i+1);
 
             result.get(i).right = result.get(i+1);
             result.get(i+1).left = result.get(i);
@@ -2277,13 +2277,13 @@ public class LeetCodeLinkedListSamples {
     	*/
     	
     	/*
-    	TreeNode2 root = new TreeNode2(4);
-    	root.left = new TreeNode2(2);
-    	root.left.left = new TreeNode2(1);
-    	root.left.right = new TreeNode2(3);
-    	root.right = new TreeNode2(5);
+    	TreeNodeList root = new TreeNodeList(4);
+    	root.left = new TreeNodeList(2);
+    	root.left.left = new TreeNodeList(1);
+    	root.left.right = new TreeNodeList(3);
+    	root.right = new TreeNodeList(5);
     	
-    	TreeNode2 result = treeToDoublyList(root);
+    	TreeNodeList result = treeToDoublyList(root);
     	System.out.println(result);
     	*/
     	
@@ -2331,18 +2331,18 @@ public class LeetCodeLinkedListSamples {
     	*/
     	
     	/*
-    	TreeNode2 root = new TreeNode2(1);
-    	root.left = new TreeNode2(2);
-    	root.left.left = new TreeNode2(3);
-    	root.left.right = new TreeNode2(4);
-    	root.right = new TreeNode2(5);
-    	root.right.right = new TreeNode2(6);
+    	TreeNodeList root = new TreeNodeList(1);
+    	root.left = new TreeNodeList(2);
+    	root.left.left = new TreeNodeList(3);
+    	root.left.right = new TreeNodeList(4);
+    	root.right = new TreeNodeList(5);
+    	root.right.right = new TreeNodeList(6);
     	*/
     	
     	/*
-    	TreeNode2 root = new TreeNode2(1);
-    	root.left =  new TreeNode2(2);
-    	root.left.left = new TreeNode2(3);    	
+    	TreeNodeList root = new TreeNodeList(1);
+    	root.left =  new TreeNodeList(2);
+    	root.left.left = new TreeNodeList(3);    	
     	flatten(root);    	
     	System.out.print(String.format("%-25s","asdsdf")+":");    	    
     	 */
