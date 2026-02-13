@@ -102,7 +102,7 @@ class FindElements
 
 public class LeetCodeTreeSolutions {
 	
-	//Bu fonksiyonda hata var mý?(06.02.2026)
+	//Bu fonksiyonda hata var mý?(06.02.2026) . (Doðru gibi. 13.02.2026)
 	public static TreeNode arrayToTree(Integer []arr) 
 	{	
 		//int sayac = 1;
@@ -143,8 +143,52 @@ public class LeetCodeTreeSolutions {
 			}
 		} 
 		
-		return rootNode;
+		return rootNode;		
+	}
+	
+	public static boolean isCycleExists(TreeNode root) 
+	{
+		Queue<TreeNode> q = new LinkedList<>();		
+		Set<TreeNode> set = new HashSet<>();
+		TreeNode curr, left, right;
+		boolean isDublicateFound = false;
 		
+		if(root!=null)  q.add(root);
+		
+		while(!q.isEmpty() && !isDublicateFound) 
+		{
+			int size = q.size();
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();
+				
+				if(set.contains(curr)) {isDublicateFound=true; break;}
+				
+				
+				left= curr.left;
+				right= curr.right;
+				
+				if(left!=null)   q.add(left);
+				if(right!=null)  q.add(right);
+			}
+		}
+		
+		return isDublicateFound;
+	}
+	
+	public static List<Integer> getAllQueueValues(Queue<TreeNode> q) 
+	{
+		List<Integer> result = new LinkedList<>();
+		//int size = q.size();
+		
+		for(TreeNode node : q) 
+		{
+			Integer val = (node!=null)?node.val:null;
+			result.add(val);
+		}
+		
+		return result;
 	}
 	
 	public static boolean isLeaf(TreeNode node) 
@@ -1038,7 +1082,7 @@ public class LeetCodeTreeSolutions {
 					set.add(right);
 				}								
 			}
-			//System.out.println("treeToList fonksiyonu içerisinde j=" + j + ", q1.size="+size + ", list1.size=" + list1.size() + ", set.size=" + set.size());
+			System.out.println("treeToList fonksiyonu içerisinde j=" + j + ", q1.size="+size + ", list1.size=" + list1.size() + ", set.size=" + set.size());
 			
 			if(set.size()==1 && set.toArray()[0]==null) 
 				result=false;
@@ -1912,8 +1956,79 @@ public class LeetCodeTreeSolutions {
 		return minPath;							
 	}
 	
+	public static int widthOfBinaryTree(TreeNode root) 
+	{
+		//Çalýþmýyor
+		//13.02.2026
+		//kuyruk'un boyutu sürekli artýyor.
+		
+		Queue<TreeNode> q = new LinkedList<>();
+		TreeNode curr, left, right;
+		int maxWidth=0;
+		boolean isNextLevelExists = true;   //means next level empty
+		int level = 0;
+		
+		if(root!=null) q.add(root);
+		else isNextLevelExists = false;
+		
+		while( isNextLevelExists ) 
+		{
+			int size = q.size();
+			int width =0;
+			int startIdx=size;
+			int endIdx = 0;
+			isNextLevelExists = false;
+
+			if(level>=8) 
+			{
+				//System.out.println("level>8");
+			}
+			
+			List<Integer> qVals = getAllQueueValues(q);
+			//System.out.println("asdf");
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();
+				
+				if(curr!=null) 
+				{									
+					left  = curr.left;
+					right = curr.right;
+					
+					if(left!=null || right!=null) 
+						isNextLevelExists = true;
+					
+					if(left!=null)  q.add(left);
+					if(right!=null)  q.add(right);
+					
+					if(startIdx>i) 
+						startIdx = i;
+					if(endIdx<i)   
+						endIdx = i;							
+				}
+				
+			}
+			
+			width = endIdx-startIdx + 1;
+			maxWidth = Math.max(maxWidth, width);		
+			
+			System.out.println("level : " + level++ + ", isNextLevelExists : "+ isNextLevelExists +", q.size:" + size);
+			
+		}
+        
+		return maxWidth;
+    }
+	
+	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {0,1,2,3,4,3,4},{25,1,3,1,3,0,2},{2,2,1,null,1,0,null,0},{5,25}};		
+		TreeNode root = arrayToTree(arr[3]);		
+		String result = smallestFromLeaf(root);						
+		System.out.println("sonuc : " + result);	
+		*/
 		
 		/*
 		Integer [][] arr = { {1,10,4,3,null,7,9,12,8,6,null,null,2},{5,4,2,3,3,7},{5,9,1,3,5,7},{2,12,8,5,9,null,null,18,16}};		
@@ -2112,12 +2227,18 @@ public class LeetCodeTreeSolutions {
 		boolean result = isSubtree2(root1,root2);
 		*/
 		//System.out.println(result);								
+				
 		
-
-		Integer [][] arr = { {0,1,2,3,4,3,4},{25,1,3,1,3,0,2},{2,2,1,null,1,0,null,0},{5,25}};		
-		TreeNode root = arrayToTree(arr[3]);		
-		String result = smallestFromLeaf(root);						
-		System.out.println("sonuc : " + result);		
+		Integer [][] arr = { {1,3,2,5,3,null,9},{1,3,2,5,null,null,9,6,null,7},{1,3,2,5},
+							 //{0,  0,0,  null,0,0,null,    null,0,0,null,  null,0,0,null,      null,0,0,null,  null,0,0,null,  null,0,0,null,  null,0,0,null  },
+							 {0,0,0,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null}};		
+		TreeNode root = arrayToTree(arr[3]);
+		//System.out.println(isCycleExists(root));
+		int result = widthOfBinaryTree(root);						
+		System.out.println("sonuc : " + result);
+		//List<Integer> list = treeToList(root);
+		
+		//System.out.println(list.size());
 		
 		
 		//System.out.println((char)('a'+5)+"");
