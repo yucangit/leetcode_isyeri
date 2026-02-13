@@ -34,6 +34,27 @@ class TreeNode
 	
 }
 
+//Definition for a Node.
+class Node {
+	public int val;
+	public Node left;
+	public Node right;
+	public Node next;
+	
+	public Node() {}
+	 
+	public Node(int _val) {
+		val = _val;
+	}
+	
+	public Node(int _val, Node _left, Node _right, Node _next) {
+	    val = _val;
+	    left = _left;
+	    right = _right;
+	    next = _next;
+	}
+}
+
 
 class FindElements
 {
@@ -1809,7 +1830,34 @@ public class LeetCodeTree {
 		return (k<=result.length)?result[size-1-(k-1)]:-1;
         
     }	
-	    
+
+	public static Node connect(Node root) 
+	{
+		Queue<Node> q = new LinkedList<>();
+		Node curr, left, right;
+		
+		if(root!=null)   q.add(root);
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();
+				if(i+1<size) curr.next = q.peek();
+				
+				left = curr.left;
+				right = curr.right;
+				
+				if(left!=null)  q.add(left);
+				if(right!=null) q.add(right);
+			}
+		}
+		
+		return root;
+	}	
+	
 	public static void testCases() 
 	{
 		
