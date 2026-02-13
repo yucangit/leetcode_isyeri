@@ -2255,6 +2255,7 @@ public class LeetCodeTreeSolutions {
 		//System.out.println((char)('a'+5)+"");
 		//evden deneme
 		int a;
+		//evden deneme2
 
 	}
 }
