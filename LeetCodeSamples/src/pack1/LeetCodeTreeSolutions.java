@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.LinkedList;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
@@ -219,7 +220,7 @@ public class LeetCodeTreeSolutions {
 			}
 		}									
 	}
-
+		
 	public static List<TreeNode> inOrderTraversal(TreeNode root)
 	{
 		//bu fonksiyon doï¿½ru ï¿½alï¿½ï¿½ï¿½yor gibi(11.02.2026).
@@ -1958,82 +1959,85 @@ public class LeetCodeTreeSolutions {
 	
 	public static int widthOfBinaryTree(TreeNode root) 
 	{
-		//ï¿½alï¿½ï¿½mï¿½yor
+		//çalýþmýyor
 		//13.02.2026
-		//kuyruk'un boyutu sï¿½rekli artï¿½yor.
+		//kuyruk'un boyutu sürekli artýyor.
 		
-		Queue<TreeNode> q = new LinkedList<>();
-		Map<TreeNode,TreeNode>  mapParent = new HashMap<>();    //node, full binary tree index
-		Map<TreeNode, String>  mapNodeIndex = new HashMap<>();   //node, full binary tree index
-		TreeNode curr, left, right;
-		TreeNode dummyRoot = new TreeNode(-1);
-		int maxWidth=0;
-		boolean isNextLevelExists = true;   //means next level empty
+		Queue<TreeNode> q = new LinkedList<>();		
+		Map<TreeNode, String>  mapNodePath = new HashMap<>();   //node, path from root to node
+		TreeNode curr, left, right;		
+		int maxWidth=0;		
 		int level = 0;
 		
 		if(root!=null) q.add(root);
-		else isNextLevelExists = false;
+				
+		mapNodePath.put(root,"1");
 		
-		mapParent.put(root, dummyRoot);
-		mapNodeIndex.put(root,"1");
-		
-		while( isNextLevelExists ) 
+		while( !q.isEmpty() ) 
 		{
 			int size = q.size();
 			int width =0;
-			int startIdx=size;
-			int endIdx = 0;			
-			
-			isNextLevelExists = false;
-
-			if(level>=8) 
-			{
-				//System.out.println("level>8");
-			}
-			
-			List<Integer> qVals = getAllQueueValues(q);
-			//System.out.println("asdf");
+			//long startIdx=Integer.MAX_VALUE;
+			//long endIdx = 0;
+			BigInteger startIdx = null;
+			BigInteger endIdx = BigInteger.ZERO;			
 			
 			for(int i=0; i<size; i++) 
 			{
 				curr  = q.poll();																				
 				left  = curr.left;
 				right = curr.right;
+								
+				String currPathBinary = mapNodePath.get(curr);
+				BigInteger currNodeIdx = new BigInteger(currPathBinary, 2);	
 				
-				TreeNode parent = mapParent.get(curr);
-				String parentIdx = mapNodeIndex.get(parent);
-				
-				if(left!=null || right!=null) 
-					isNextLevelExists = true;
-				
-				if(left!=null)   { q.add(left);    mapParent.put(left, curr);  mapNodeIndex.put(left, parentIdx+"0");  }
-				if(right!=null)  { q.add(right);   mapParent.put(left, curr);  mapNodeIndex.put(left, parentIdx+"1");  }
-				
-				if(startIdx>i) 
-				{
-					startIdx = i;
+				if(left!=null)   
+				{ 
+					q.add(left);    
+					mapNodePath.put(left, currPathBinary+"0");   
 				}
-				if(endIdx<i) 
+				if(right!=null)  
+				{ 
+					q.add(right);     
+					mapNodePath.put(right, currPathBinary+"1");  
+				}
+								
+				if(startIdx==null)
+					startIdx = currNodeIdx;			
+				
+				//if(endIdx<currNodeIdx)
+				if(endIdx.compareTo(currNodeIdx)<0 )
 				{   
-					endIdx = i;
-				}
-				
-				
+					endIdx = currNodeIdx;
+				}								
 			}
 			
-			width = endIdx-startIdx + 1;
+			//width = (int) (endIdx-startIdx + 1);
+			width = endIdx.subtract(startIdx).add(BigInteger.ONE).intValue();
 			maxWidth = Math.max(maxWidth, width);		
 			
-			System.out.println("level : " + level++ + ", isNextLevelExists : "+ isNextLevelExists +", q.size:" + size);
-			
+			System.out.println("level : " + level++ + ", q.size:" + size + ", width:" + width + ", startIdx:" + startIdx + ", endIdx:" + endIdx );			
 		}
         
 		return maxWidth;
     }
 	
 	
+	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {1,3,2,5,3,null,9},
+							 {1,3,2,5,null,null,9,6,null,7},
+							 {1,3,2,5},
+							 //{0,  0,0,  null,0,0,null,    null,0,0,null,  null,0,0,null,      null,0,0,null,  null,0,0,null,  null,0,0,null,  null,0,0,null  },
+				             {-64,12,18,-4,-53,null,76,null,-51,null,null,-93,3,null,-31,47,null,3,53,-81,33,4,null,-51,-44,-60,11,null,null,null,null,78,null,-35,-64,26,-81,-31,27,60,74,null,null,8,-38,47,12,-24,null,-59,-49,-11,-51,67,null,null,null,null,null,null,null,-67,null,-37,-19,10,-55,72,null,null,null,-70,17,-4,null,null,null,null,null,null,null,3,80,44,-88,-91,null,48,-90,-30,null,null,90,-34,37,null,null,73,-38,-31,-85,-31,-96,null,null,-18,67,34,72,null,-17,-77,null,56,-65,-88,-53,null,null,null,-33,86,null,81,-42,null,null,98,-40,70,-26,24,null,null,null,null,92,72,-27,null,null,null,null,null,null,-67,null,null,null,null,null,null,null,-54,-66,-36,null,-72,null,null,43,null,null,null,-92,-1,-98,null,null,null,null,null,null,null,39,-84,null,null,null,null,null,null,null,null,null,null,null,null,null,-93,null,null,null,98},
+							 {0,0,0,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null}};		
+		TreeNode root = arrayToTree(arr[4]);
+		int result = widthOfBinaryTree(root);						
+		System.out.println("sonuc : " + result);
+		*/
+		
 		/*
 		Integer [][] arr = { {0,1,2,3,4,3,4},{25,1,3,1,3,0,2},{2,2,1,null,1,0,null,0},{5,25}};		
 		TreeNode root = arrayToTree(arr[3]);		
@@ -2240,22 +2244,16 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		Integer [][] arr = { {1,3,2,5,3,null,9},{1,3,2,5,null,null,9,6,null,7},{1,3,2,5},
+		Integer [][] arr = { {1,3,2,5,3,null,9},
+							 {1,3,2,5,null,null,9,6,null,7},
+							 {1,3,2,5},
 							 //{0,  0,0,  null,0,0,null,    null,0,0,null,  null,0,0,null,      null,0,0,null,  null,0,0,null,  null,0,0,null,  null,0,0,null  },
+				             {-64,12,18,-4,-53,null,76,null,-51,null,null,-93,3,null,-31,47,null,3,53,-81,33,4,null,-51,-44,-60,11,null,null,null,null,78,null,-35,-64,26,-81,-31,27,60,74,null,null,8,-38,47,12,-24,null,-59,-49,-11,-51,67,null,null,null,null,null,null,null,-67,null,-37,-19,10,-55,72,null,null,null,-70,17,-4,null,null,null,null,null,null,null,3,80,44,-88,-91,null,48,-90,-30,null,null,90,-34,37,null,null,73,-38,-31,-85,-31,-96,null,null,-18,67,34,72,null,-17,-77,null,56,-65,-88,-53,null,null,null,-33,86,null,81,-42,null,null,98,-40,70,-26,24,null,null,null,null,92,72,-27,null,null,null,null,null,null,-67,null,null,null,null,null,null,null,-54,-66,-36,null,-72,null,null,43,null,null,null,-92,-1,-98,null,null,null,null,null,null,null,39,-84,null,null,null,null,null,null,null,null,null,null,null,null,null,-93,null,null,null,98},
 							 {0,0,0,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null}};		
-		TreeNode root = arrayToTree(arr[3]);
-		//System.out.println(isCycleExists(root));
+		TreeNode root = arrayToTree(arr[4]);
 		int result = widthOfBinaryTree(root);						
 		System.out.println("sonuc : " + result);
-		//List<Integer> list = treeToList(root);
-		
-		//System.out.println(list.size());
-		
-		
-		//System.out.println((char)('a'+5)+"");
-		//evden deneme
-		int a;
-		//evden deneme3
+
 
 	}
 }
