@@ -2037,10 +2037,97 @@ public class LeetCodeTreeSolutions {
 		return maxWidth;
     }
 	
+	public static int sumNumbers(TreeNode root) 
+	{
+		//date : 14.02.2026
+		Queue<TreeNode> q = new LinkedList<>();
+		Map<TreeNode, Integer> mapPath = new HashMap<>();
+		TreeNode curr, left, right;
+		int result=0;
+		
+		if(root!=null)  {
+			q.add(root);		
+			mapPath.put(root, root.val);
+		}
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();
+				
+				int sumVal = mapPath.get(curr); 
+				
+				if(isLeaf(curr))  { result += sumVal;  System.out.println(sumVal);} 
+				else 
+				{															
+					left  = curr.left;
+					right = curr.right;
+					
+					if(left!=null)  { q.add(left);   mapPath.put(left,  sumVal*10+left.val); }
+					if(right!=null) { q.add(right);  mapPath.put(right, sumVal*10+right.val); }
+				}
+			}
+		}
+		return result;
+    }
 	
+	public static List<List<Integer>>  pathSum(TreeNode root) 
+	{
+		//date : 14.02.2026
+		Queue<TreeNode> q = new LinkedList<>();
+		Map<TreeNode, List<Integer>> mapPath = new HashMap<>();		
+		TreeNode curr, left, right;
+		
+		List<List<Integer>>  ans= new LinkedList<>();
+		List<Integer> pathItems = new ArrayList<>();
+		
+		if(root!=null)  {
+			q.add(root);	
+			pathItems.add(root.val);
+			mapPath.put(root, pathItems);
+		}
+		
+		//yapýlýyor.
+		/*
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			pathItems = new ArrayList<>();
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.poll();
+				
+				pathItems = mapPath.get(curr); 
+				
+				if(isLeaf(curr))  { result += sumVal;  System.out.println(sumVal);} 
+				else 
+				{															
+					left  = curr.left;
+					right = curr.right;
+					
+					if(left!=null)  { q.add(left);   mapPath.put(left,  sumVal*10+left.val); }
+					if(right!=null) { q.add(right);  mapPath.put(right, sumVal*10+right.val); }
+				}
+			}
+		}
+		*/
+		return ans;
+    }
 	
 	public static void testCases() 
 	{
+		
+		/*
+		Integer [][] arr = { {1,2,3}, {4,9,0,5,1}, {5} };		
+		TreeNode root = arrayToTree(arr[2]);
+		int result = sumNumbers(root);						
+		System.out.println("sonuc : " + result);
+		*/
+		
 		/*
 		Integer [][] arr = { {1,3,2,5,3,null,9},
 							 {1,3,2,5,null,null,9,6,null,7},
@@ -2259,15 +2346,12 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		Integer [][] arr = { {1,3,2,5,3,null,9},
-							 {1,3,2,5,null,null,9,6,null,7},
-							 {1,3,2,5},
-							 //{0,  0,0,  null,0,0,null,    null,0,0,null,  null,0,0,null,      null,0,0,null,  null,0,0,null,  null,0,0,null,  null,0,0,null  },
-				             {-64,12,18,-4,-53,null,76,null,-51,null,null,-93,3,null,-31,47,null,3,53,-81,33,4,null,-51,-44,-60,11,null,null,null,null,78,null,-35,-64,26,-81,-31,27,60,74,null,null,8,-38,47,12,-24,null,-59,-49,-11,-51,67,null,null,null,null,null,null,null,-67,null,-37,-19,10,-55,72,null,null,null,-70,17,-4,null,null,null,null,null,null,null,3,80,44,-88,-91,null,48,-90,-30,null,null,90,-34,37,null,null,73,-38,-31,-85,-31,-96,null,null,-18,67,34,72,null,-17,-77,null,56,-65,-88,-53,null,null,null,-33,86,null,81,-42,null,null,98,-40,70,-26,24,null,null,null,null,92,72,-27,null,null,null,null,null,null,-67,null,null,null,null,null,null,null,-54,-66,-36,null,-72,null,null,43,null,null,null,-92,-1,-98,null,null,null,null,null,null,null,39,-84,null,null,null,null,null,null,null,null,null,null,null,null,null,-93,null,null,null,98},
-							 {0,0,0,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null}};		
-		TreeNode root = arrayToTree(arr[4]);
-		int result = widthOfBinaryTree(root);						
+		Integer [][] arr = { {1,2,3}, {4,9,0,5,1}, {5} };		
+		TreeNode root = arrayToTree(arr[2]);
+		int result = sumNumbers(root);						
 		System.out.println("sonuc : " + result);
+		
+		
 
 
 	}
