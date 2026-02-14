@@ -1959,9 +1959,24 @@ public class LeetCodeTreeSolutions {
 	
 	public static int widthOfBinaryTree(TreeNode root) 
 	{
-		//çalýþmýyor
-		//13.02.2026
-		//kuyruk'un boyutu sürekli artýyor.
+		/*
+		Critical point is choosing type of variable for node index.
+		Node index is related with depth:
+		
+			Level Index	node count
+			0	  1 node
+			1	  2 nodes		
+			n	  2^n nodes
+			
+		Some test cases have a depth bigger than 64.
+
+		Example following test case's depth is 68. At level 68 first non-null node's index is 442721857769029238783, and last non-null node's index is 442721857769029238784.
+
+		When depth is bigger than 32, int type is not enough and when bigger than 64 long type is not enough.
+		So we must use BigInteger type for Node index.
+		
+		Test case with height of 68:  {0,0,0,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null,null,0,0,null}		
+		*/
 		
 		Queue<TreeNode> q = new LinkedList<>();		
 		Map<TreeNode, String>  mapNodePath = new HashMap<>();   //node, path from root to node
