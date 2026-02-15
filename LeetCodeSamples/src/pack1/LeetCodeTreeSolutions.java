@@ -2074,52 +2074,80 @@ public class LeetCodeTreeSolutions {
 		return result;
     }
 	
-	public static List<List<Integer>>  pathSum(TreeNode root) 
+	public static List<List<Integer>>  pathSum(TreeNode root,  int targetSum) 
 	{
 		//date : 14.02.2026
 		Queue<TreeNode> q = new LinkedList<>();
-		Map<TreeNode, List<Integer>> mapPath = new HashMap<>();		
+		Map<TreeNode, List<Integer>> mapPath = new HashMap<>();
+		Map<TreeNode, Integer>       mapPathSum = new HashMap<>();
 		TreeNode curr, left, right;
 		
 		List<List<Integer>>  ans= new LinkedList<>();
 		List<Integer> pathItems = new ArrayList<>();
 		
-		if(root!=null)  {
+		if(root!=null)  
+		{
 			q.add(root);	
 			pathItems.add(root.val);
 			mapPath.put(root, pathItems);
+			mapPathSum.put(root, root.val);
 		}
-		
-		//yapýlýyor.
-		/*
+				
 		while(!q.isEmpty()) 
 		{
 			int size = q.size();
-			pathItems = new ArrayList<>();
+			//pathItems = new ArrayList<>();
 			
 			for(int i=0; i<size; i++) 
 			{
 				curr = q.poll();
 				
-				pathItems = mapPath.get(curr); 
+				pathItems = mapPath.get(curr);
+				int pathSum = mapPathSum.get(curr);
 				
-				if(isLeaf(curr))  { result += sumVal;  System.out.println(sumVal);} 
+				if(isLeaf(curr) && pathSum==targetSum)  
+				{ 
+					ans.add(pathItems);
+					System.out.println(pathItems);
+				} 
 				else 
 				{															
 					left  = curr.left;
 					right = curr.right;
 					
-					if(left!=null)  { q.add(left);   mapPath.put(left,  sumVal*10+left.val); }
-					if(right!=null) { q.add(right);  mapPath.put(right, sumVal*10+right.val); }
+					if(left!=null)  { 
+						int val = left.val; 
+						q.add(left);    
+						List<Integer> pathItemsLeft = new ArrayList<>(pathItems);
+						pathItemsLeft.add(val);						
+						mapPath.put(left, pathItemsLeft);
+						mapPathSum.put(left, pathSum + val); 						
+					}
+					if(right!=null) { 
+						int val = right.val; 
+						q.add(right);   
+						List<Integer> pathItemsRight = new ArrayList<>(pathItems);
+						pathItemsRight.add(val);						
+						mapPath.put(right, pathItemsRight);
+						mapPathSum.put(right, pathSum + val); 
+					}
 				}
 			}
 		}
-		*/
+		
 		return ans;
     }
 	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {5,4,8,11,null,13,4,7,2,null,null,5,1}, {1,2,3}, {1,2} };
+		int [] targetSum = {22, 5 , 0} ;
+		int index = 0;
+		TreeNode root = arrayToTree(arr[index]);		
+		List<List<Integer>> result = pathSum(root, targetSum[index] );						
+		System.out.println("sonuc : " + result);
+		*/
 		
 		/*
 		Integer [][] arr = { {1,2,3}, {4,9,0,5,1}, {5} };		
@@ -2346,9 +2374,11 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		Integer [][] arr = { {1,2,3}, {4,9,0,5,1}, {5} };		
-		TreeNode root = arrayToTree(arr[2]);
-		int result = sumNumbers(root);						
+		Integer [][] arr = { {5,4,8,11,null,13,4,7,2,null,null,5,1}, {1,2,3}, {1,2} };
+		int [] targetSum = {22, 5 , 0} ;
+		int index = 0;
+		TreeNode root = arrayToTree(arr[index]);		
+		List<List<Integer>> result = pathSum(root, targetSum[index] );						
 		System.out.println("sonuc : " + result);
 		
 		
