@@ -2138,6 +2138,99 @@ public class LeetCodeTreeSolutions {
 		return ans;
     }
 	
+	public static TreeNode createBSTfromInOrderTreeNodes(List<TreeNode> root) 
+	{
+		//oluþturulacak (15.02.2026)
+		return null;
+	}
+	
+	public static TreeNode deleteNode(TreeNode root, int key) 
+	{
+		//Eksik, henüz tamamlanmadý.
+		//15.02.2026
+		TreeNode curr=root, left, right, parent;
+		TreeNode dummyRoot = new TreeNode(-1);
+		boolean isFound = false;
+		
+		dummyRoot.left = root;
+		parent = dummyRoot;
+		
+		while(!isFound && curr!=null) 
+		{
+			int val = curr.val;
+			left  = curr.left;
+			right = curr.right;
+			
+			if(val == key) 
+			{
+				List<TreeNode> inOrderList = inOrderTraversal(curr);
+				//bst from sortedArray
+				
+				if(curr == parent.left) 
+				{
+					if(right!=null)       parent.left = right; 
+					else if(left!=null)   parent.left = left;
+				}
+				else 
+				{
+					if(right!=null)       parent.right = right; 
+					else if(left!=null)   parent.right = left;
+				}
+				
+				curr.left = null;
+				curr.right= null;
+				
+				isFound=true;
+				break;
+				
+			}
+			else if(val>key)  { curr=curr.left;   parent = curr;  }
+			else if(val<key)  { curr=curr.right;  parent = curr;  }
+		}		
+		
+		return dummyRoot.left;
+	}
+
+	public static boolean isCompleteTree(TreeNode root) 
+	{
+		Queue<TreeNode> q = new LinkedList<>();
+		TreeNode curr, left, right;
+		boolean answer = true;
+		int levelMaxNodeCount =1 ;            //maximum number of nodes on the level
+			
+		if(root!=null) q.add(root);
+		
+		while(!q.isEmpty() && answer) 
+		{
+			int size = q.size();
+			int nodeIdxInLevel =0;
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr  = q.poll();
+				left  = curr.left;
+				right = curr.right;
+				
+				if(left==null && right!=null) 
+				{
+					answer=false; 
+					break;
+				}		
+				//if next level exists then current level must be full. size==levelMaxNodeCount
+				if( ( left!=null || right!=null ) && size!=levelMaxNodeCount) 
+				{
+					answer=false; 
+					break;
+				}
+				if(left!=null)   q.add(left);
+				if(right!=null)  q.add(right);			
+			}
+			levelMaxNodeCount*=2;
+		}
+		
+		return answer;
+	}
+	
 	public static void testCases() 
 	{
 		/*
@@ -2374,11 +2467,11 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		Integer [][] arr = { {5,4,8,11,null,13,4,7,2,null,null,5,1}, {1,2,3}, {1,2} };
-		int [] targetSum = {22, 5 , 0} ;
-		int index = 0;
-		TreeNode root = arrayToTree(arr[index]);		
-		List<List<Integer>> result = pathSum(root, targetSum[index] );						
+		Integer [][] arr = { {1,2,3,4,5,6}, {1,2,3,4,5,6,7,8,9,null,10}, {1,2} };
+		
+		int index = 1;
+		TreeNode root = arrayToTree(arr[1]);		
+		boolean result = isCompleteTree(root);						
 		System.out.println("sonuc : " + result);
 		
 		
