@@ -2195,44 +2195,77 @@ public class LeetCodeTreeSolutions {
 	{
 		Queue<TreeNode> q = new LinkedList<>();
 		TreeNode curr, left, right;
-		boolean answer = true;
-		int levelMaxNodeCount =1 ;            //maximum number of nodes on the level
+		boolean isComplete = true;		
+		int currLevelNotNullNodeCount=0;
+		int currLevelMaxNodeCount = 1;		
+		int level = 0;
+		boolean isNextLevelExists = true;
 			
-		if(root!=null) q.add(root);
+		if(root!=null) {
+			q.add(root);
+			currLevelNotNullNodeCount=1;
+		}
 		
-		while(!q.isEmpty() && answer) 
+		while(!q.isEmpty() && isComplete && isNextLevelExists) 
 		{
-			int size = q.size();
-			int nodeIdxInLevel =0;
+			int size = q.size();			
+			TreeNode prevNode=new TreeNode(-1);
+			currLevelNotNullNodeCount=0;
+			isNextLevelExists=false;
 			
 			for(int i=0; i<size; i++) 
 			{
 				curr  = q.poll();
-				left  = curr.left;
-				right = curr.right;
-				
-				if(left==null && right!=null) 
+				if(curr!=null) 
 				{
-					answer=false; 
-					break;
-				}		
-				//if next level exists then current level must be full. size==levelMaxNodeCount
-				if( ( left!=null || right!=null ) && size!=levelMaxNodeCount) 
-				{
-					answer=false; 
-					break;
+					left  = curr.left;
+					right = curr.right;
+					currLevelNotNullNodeCount++;
 				}
-				if(left!=null)   q.add(left);
-				if(right!=null)  q.add(right);			
+				else 
+				{ 
+					left=null;
+					right=null;
+				}
+
+				q.add(left); 
+				q.add(right);
+				
+				if(left!=null || right!=null) 
+					isNextLevelExists=true;
+				
+				if( prevNode==null && curr!=null) 
+				{
+					isComplete=false; 
+					break;
+				} 
+				prevNode = curr;										
 			}
-			levelMaxNodeCount*=2;
+			
+			if(isNextLevelExists && currLevelNotNullNodeCount<currLevelMaxNodeCount) 
+			{
+				isComplete=false; 
+				break;
+			} 
+				
+			System.out.println("level : " + level++);
+
+			currLevelMaxNodeCount*=2;
 		}
 		
-		return answer;
+		return isComplete;
 	}
 	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {1,2,3,4,5,6}, {1,2,3,4,5,6,7,8,null,10}, {1,null,2}, {2} ,{1,2,3,4,5,6,7,8,9,10,11,12,13,null,null,15} };		
+		int index = 1;
+		TreeNode root = arrayToTree(arr[index]);		
+		boolean result = isCompleteTree(root);						
+		System.out.println("sonuc : " + result);
+		*/
+		
 		/*
 		Integer [][] arr = { {5,4,8,11,null,13,4,7,2,null,null,5,1}, {1,2,3}, {1,2} };
 		int [] targetSum = {22, 5 , 0} ;
@@ -2467,10 +2500,9 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		Integer [][] arr = { {1,2,3,4,5,6}, {1,2,3,4,5,6,7,8,9,null,10}, {1,2} };
-		
+		Integer [][] arr = { {1,2,3,4,5,6}, {1,2,3,4,5,6,7,8,null,10}, {1,null,2}, {2} ,{1,2,3,4,5,6,7,8,9,10,11,12,13,null,null,15} };		
 		int index = 1;
-		TreeNode root = arrayToTree(arr[1]);		
+		TreeNode root = arrayToTree(arr[index]);		
 		boolean result = isCompleteTree(root);						
 		System.out.println("sonuc : " + result);
 		
