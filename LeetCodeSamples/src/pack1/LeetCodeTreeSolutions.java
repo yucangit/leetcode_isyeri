@@ -2256,8 +2256,62 @@ public class LeetCodeTreeSolutions {
 		return isComplete;
 	}
 	
+	public static TreeNode addOneRow(TreeNode root, int val, int depth) 
+	{
+		Queue<TreeNode> q = new LinkedList<>();
+		TreeNode curr, left, right;
+		int level=0;         //At definition of problem root is at level 1						
+		
+		TreeNode dummyRoot = new TreeNode(val);      //To eliminate "dept==1" control
+		dummyRoot.left = root;            
+				
+		q.add(dummyRoot);
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr  = q.poll();
+				left  = curr.left;
+				right = curr.right;
+				
+				if(left!=null)    q.add(left);
+				if(right!=null)   q.add(right);
+				
+				if(level+1==depth)   //   || (level==depth && isRowAdded==false)) 
+				{
+					TreeNode node1 = new TreeNode(val);
+					node1.left = left;
+					curr.left = node1;
+
+					TreeNode node2 = new TreeNode(val);
+					node2.right = right;																
+					curr.right = node2;
+					
+					//isRowAdded=true;
+				}
+			}
+			
+			level++;
+		}
+        
+		return dummyRoot.left;
+    }
+	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {4,2,6,3,1,5}, {4,2,null,3,1}, {4,2,6,3,1,5}, {1} };		
+		int index = 2;
+		int[] val = {1,1,1};
+		int[] depth = {2,3,1};		
+		TreeNode root = arrayToTree(arr[index]);		
+		TreeNode result = addOneRow(root, val[index], depth[index]);		
+		System.out.println(treeToList(result));
+		*/
+		
 		/*
 		Integer [][] arr = { {1,2,3,4,5,6}, {1,2,3,4,5,6,7,8,null,10}, {1,null,2}, {2} ,{1,2,3,4,5,6,7,8,9,10,11,12,13,null,null,15} };		
 		int index = 1;
@@ -2500,10 +2554,15 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		Integer [][] arr = { {1,2,3,4,5,6}, {1,2,3,4,5,6,7,8,null,10}, {1,null,2}, {2} ,{1,2,3,4,5,6,7,8,9,10,11,12,13,null,null,15} };		
-		int index = 1;
+		Integer [][] arr = { {4,2,6,3,1,5}, {4,2,null,3,1}, {4,2,6,3,1,5}, {1} };		
+		int index = 2;
+		int[] val = {1,1,1};
+		int[] depth = {2,3,1};
+		
 		TreeNode root = arrayToTree(arr[index]);		
-		boolean result = isCompleteTree(root);						
+		TreeNode result = addOneRow(root, val[index], depth[index]);		
+		System.out.println(treeToList(result));
+		
 		System.out.println("sonuc : " + result);
 		
 		
