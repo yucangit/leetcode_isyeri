@@ -1494,7 +1494,7 @@ public class LeetCodeTreeSolutions {
 			Problem           : Delete Leaves With a Given Value
 			Problem Aciklama  : Given a binary tree root and an integer target, delete all the leaf nodes with value target.
 			Link              : https://leetcode.com/problems/delete-leaves-with-a-given-value/description/?envType=problem-list-v2&envId=binary-tree
-			Cozum Algoritmasi : BFS ile aï¿½aï¿½ ï¿½zerinde seviye bazlý ilerlenir. o anki node bir leaf node ise ve degeri de uyumlu ise parent node'un ilgili child nodu null yapilir.
+			Cozum Algoritmasi : BFS ile agac uzerinde seviye bazlý ilerlenir. o anki node bir leaf node ise ve degeri de uyumlu ise parent node'un ilgili child nodu null yapilir.
 			                    Deepest node'lar ortak parent bulunmaya calisilir. 
 			Durum             : Yapildi.
 		*/
@@ -1613,8 +1613,8 @@ public class LeetCodeTreeSolutions {
 		Problem           : Binary Tree Level Order Traversal
 		Problem Aciklama  : Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).						    
 		Link              : https://leetcode.com/problems/binary-tree-level-order-traversal/?envType=problem-list-v2&envId=binary-tree
-		Cozum Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolasma(BFS) yapýlýr.
-		Durum             : ï¿½ï¿½zï¿½ldï¿½.
+		Cozum Algoritmasý : Kuyruk veri yapisi kullanilarak seviye bazlý dolasma(BFS) yapilir.
+		Durum             : Yapildi.
 	    */
     	
     	List<List<Integer>> result = new LinkedList<>();
@@ -1687,10 +1687,10 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 12.02.2026
 		Problem           : Binary Tree Right Side View
-		Problem Aï¿½ï¿½klama  : Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.						    
+		Problem Aciklama  : Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.						    
 		Link              : https://leetcode.com/problems/binary-tree-right-side-view/description/?envType=problem-list-v2&envId=binary-tree
-		ï¿½ï¿½zï¿½m Algoritmasï¿½ : Kuyruk veri yapï¿½sï¿½ kullanï¿½larak seviye bazlï¿½ dolaï¿½ma(BFS) yapï¿½lï¿½r. Her seviye iï¿½in kuyruï¿½un en son elemanï¿½ alï¿½nï¿½r.
-		Durum             : ï¿½ï¿½zï¿½ldï¿½.
+		Cozum Algoritmasi : Kuyruk veri yapisi kullanilarak seviye bazli dolasma(BFS) yapilir. Her seviye icin kuyrugun en son elemani alinir.
+		Durum             : Yapildi.
 	    */
     	
     	Deque<TreeNode> q = new LinkedList<>();
@@ -1753,10 +1753,10 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 12.02.2026
 		Problem           : Even Odd Tree
-		Problem Aï¿½ï¿½klama  : 						    
+		Problem Aciklama  : 						    
 		Link              : https://leetcode.com/problems/even-odd-tree/description/?envType=problem-list-v2&envId=binary-tree
 		cozum Algoritmasi : Kuyruk veri yapisi kullanilarak seviye bazli dolasma(BFS) yapilir. 
-		Durum             : cozuldu.
+		Durum             : Cozuldu.
 	    */
     	
     	Queue<TreeNode> q = new LinkedList<>();
