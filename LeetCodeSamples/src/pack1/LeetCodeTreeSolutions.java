@@ -63,7 +63,7 @@ class FindElements
 
 	public FindElements(TreeNode root) 
 	{
-	    //yï¿½ntem : level order traversing
+	    //Yontem : level order traversing
 		
 		Queue<TreeNode> q = new LinkedList<>();
 		set = new HashSet<>();
@@ -103,7 +103,7 @@ class FindElements
 
 public class LeetCodeTreeSolutions {
 	
-	//Bu fonksiyonda hata var mï¿½?(06.02.2026) . (Doï¿½ru gibi. 13.02.2026)
+	//Bu fonksiyonda hata var mi?(06.02.2026) . (Dogru gibi. 13.02.2026)
 	public static TreeNode arrayToTree(Integer []arr) 
 	{	
 		//int sayac = 1;
@@ -334,7 +334,7 @@ public class LeetCodeTreeSolutions {
 	{			
 		//Problem      : 865. Smallest Subtree with all the Deepest Nodes
 		//Problem link : https://leetcode.com/problems/smallest-subtree-with-all-the-deepest-nodes/?envType=daily-question&envId=2026-01-09
-		//Durum        : ï¿½ï¿½zï¿½ldï¿½(16.01.2026).
+		//Durum        : Yapildi(16.01.2026).
 	
 		if(root.left==null && root.right==null) return root;
 		
@@ -668,8 +668,8 @@ public class LeetCodeTreeSolutions {
 	
 	public static int countNodes(TreeNode root) 
 	{ 
-		//Karmaï¿½ï¿½klï¿½ï¿½ï¿½n O(n)'den kï¿½ï¿½ï¿½k olmasï¿½ isteniyor.
-		//Yapï¿½lamadï¿½(23.01.2026)
+		//Karmasikligin O(n)'den kucuk olmasi isteniyor.
+		//Yapilamadi(23.01.2026)
 		int count = 0;
 		int level=0;
 		Queue<TreeNode> q = new LinkedList<>();
@@ -1173,14 +1173,14 @@ public class LeetCodeTreeSolutions {
 		Queue<TreeNode> q = new LinkedList<>();
 		TreeNode curr, left, right;
 		
-		System.out.println("TreeToList ï¿½ncesi");
+		System.out.println("TreeToList oncesi");
 		//List<Integer> list1 = null;
 		List<Integer> list2 = treeToList(subRoot);
 		
 		q.add(root);		
 		int j=0;
 		
-		System.out.println("while dï¿½ngï¿½sï¿½ne baï¿½lanacak!");
+		System.out.println("while dongusunue baslanacak!");
 				
 		while( !q.isEmpty() && result==false ) 
 		{
@@ -1274,8 +1274,8 @@ public class LeetCodeTreeSolutions {
 	public static int averageOfSubtree(TreeNode root) 
 	{	
 		/*
-			ï¿½ï¿½zï¿½m tarihi : 10.02.2026
-			Sonuï¿½        : Baï¿½arï¿½lï¿½
+			Cozum tarihi : 10.02.2026
+			Sonuc        : Basarili.
 		*/
 		Deque<TreeNode> st = new LinkedList<>();
 		Map<TreeNode, Integer> mapSums = new HashMap<>();     //sum of currNode and subnodes val
@@ -1425,10 +1425,10 @@ public class LeetCodeTreeSolutions {
 		/*
 		Tarih             : 11.02.2026
 		Problem           : Lowest Common Ancestor of Deepest Leaves
-		Problem Aï¿½ï¿½klama  : Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
+		Problem Aciklama  : Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
 		Link              : https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/?envType=problem-list-v2&envId=binary-tree
-		ï¿½ï¿½zï¿½m Algoritmasï¿½ : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
-		                    Deepest node'lar ortak parent bulunmaya ï¿½alï¿½ï¿½ï¿½lï¿½r. 
+		Cozum Algoritmasý : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
+		                    Deepest node'lar ortak parent bulunmaya calisilir. 
 		*/
 		
 		Queue <TreeNode> q = new LinkedList<>();
@@ -1492,11 +1492,11 @@ public class LeetCodeTreeSolutions {
 		/*
 			Tarih             : 11.02.2026
 			Problem           : Delete Leaves With a Given Value
-			Problem Aï¿½ï¿½klama  : Given a binary tree root and an integer target, delete all the leaf nodes with value target.
+			Problem Aciklama  : Given a binary tree root and an integer target, delete all the leaf nodes with value target.
 			Link              : https://leetcode.com/problems/delete-leaves-with-a-given-value/description/?envType=problem-list-v2&envId=binary-tree
-			ï¿½ï¿½zï¿½m Algoritmasï¿½ : BFS ile aï¿½aï¿½ ï¿½zerinde seviye bazlï¿½ ilerlenir. o anki node bir leaf node ise ve deï¿½eri de uyumlu ise parent node'un ilgili child nodu null yapï¿½lï¿½r.
-			                    Deepest node'lar ortak parent bulunmaya ï¿½alï¿½ï¿½ï¿½lï¿½r. 
-			Durum             : ï¿½ï¿½zï¿½ldï¿½.
+			Cozum Algoritmasi : BFS ile aï¿½aï¿½ ï¿½zerinde seviye bazlý ilerlenir. o anki node bir leaf node ise ve degeri de uyumlu ise parent node'un ilgili child nodu null yapilir.
+			                    Deepest node'lar ortak parent bulunmaya calisilir. 
+			Durum             : Yapildi.
 		*/
 	 		
 		Queue<TreeNode> q = new LinkedList<>();
@@ -1563,11 +1563,11 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 11.02.2026
 		Problem           : Count Good Nodes in Binary Tree
-		Problem Aï¿½ï¿½klama  : Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+		Problem Aciklama  : Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
 						    Return the number of good nodes in the binary tree.
 		Link              : https://leetcode.com/problems/count-good-nodes-in-binary-tree/description/?envType=problem-list-v2&envId=binary-tree
-		ï¿½ï¿½zï¿½m Algoritmasï¿½ :  
-		Durum             : ï¿½ï¿½zï¿½ldï¿½.
+		Cozum Algoritmasý :  
+		Durum             : Yapildi.
 	    */
     	Queue<TreeNode> q = new LinkedList<>();
     	Map<TreeNode, Integer> map = new HashMap<>();
@@ -1611,9 +1611,9 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 12.02.2026
 		Problem           : Binary Tree Level Order Traversal
-		Problem Aï¿½ï¿½klama  : Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).						    
+		Problem Aciklama  : Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).						    
 		Link              : https://leetcode.com/problems/binary-tree-level-order-traversal/?envType=problem-list-v2&envId=binary-tree
-		ï¿½ï¿½zï¿½m Algoritmasï¿½ : Kuyruk veri yapï¿½sï¿½ kullanï¿½larak seviye bazlï¿½ dolaï¿½ma(BFS) yapï¿½lï¿½r.
+		Cozum Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolasma(BFS) yapýlýr.
 		Durum             : ï¿½ï¿½zï¿½ldï¿½.
 	    */
     	
@@ -1652,10 +1652,10 @@ public class LeetCodeTreeSolutions {
     	/*
 		Tarih             : 12.02.2026
 		Problem           : Find Bottom Left Tree Value
-		Problem Aï¿½ï¿½klama  : Given the root of a binary tree, return the leftmost value in the last row of the tree.						    
+		Problem Aciklama  : Given the root of a binary tree, return the leftmost value in the last row of the tree.						    
 		Link              : https://leetcode.com/problems/find-bottom-left-tree-value/description/?envType=problem-list-v2&envId=binary-tree
-		ï¿½ï¿½zï¿½m Algoritmasï¿½ : Kuyruk veri yapï¿½sï¿½ kullanï¿½larak seviye bazlï¿½ dolaï¿½ma(BFS) yapï¿½lï¿½r.
-		Durum             : ï¿½ï¿½zï¿½ldï¿½.
+		cozum Algoritmasý : Kuyruk veri yapýsý kullanýlarak seviye bazlý dolasma(BFS) yapýlýr.
+		Durum             : cozuldu.
 	    */
     	
     	Queue<TreeNode> q = new LinkedList<>();
@@ -1755,8 +1755,8 @@ public class LeetCodeTreeSolutions {
 		Problem           : Even Odd Tree
 		Problem Aï¿½ï¿½klama  : 						    
 		Link              : https://leetcode.com/problems/even-odd-tree/description/?envType=problem-list-v2&envId=binary-tree
-		ï¿½ï¿½zï¿½m Algoritmasï¿½ : Kuyruk veri yapï¿½sï¿½ kullanï¿½larak seviye bazlï¿½ dolaï¿½ma(BFS) yapï¿½lï¿½r. 
-		Durum             : ï¿½ï¿½zï¿½ldï¿½.
+		cozum Algoritmasi : Kuyruk veri yapisi kullanilarak seviye bazli dolasma(BFS) yapilir. 
+		Durum             : cozuldu.
 	    */
     	
     	Queue<TreeNode> q = new LinkedList<>();
@@ -1880,7 +1880,7 @@ public class LeetCodeTreeSolutions {
 		/*
 			13.02.2026
 			Bu fonksiyonun orjinalinde "TreeNode2" yerine "Node" bulunuyor.
-			Ancak bu problem bir Tree sorusu olduï¿½u iï¿½in bu ï¿½ekilde gï¿½ncellendi.
+			Ancak bu problem bir Tree sorusu oldugu icin bu sekilde guncellendi.
 		*/
 		Queue<TreeNode2> q = new LinkedList<>();
 		TreeNode2 curr, left, right;
@@ -2362,7 +2362,7 @@ public class LeetCodeTreeSolutions {
 		
 	public static TreeNode replaceValueInTree(TreeNode root) 
 	{
-		//yapýlýyor(17.02.2026)
+		//Yapýldý(17.02.2026)
 		Queue<TreeNode> q = new LinkedList<>();
 		Map<TreeNode, TreeNode> map = new HashMap<>();    //node, brother of the key node
 		List<TreeNode> levelNodes = new ArrayList<>();
@@ -2638,14 +2638,14 @@ public class LeetCodeTreeSolutions {
 		*/
 		
 		/*
-		Integer [][] arr = {{10,5,15,3,7,null,18}};    //seviye seviye, ï¿½nce 1.seviyedeki node'lar sonra 2.seviyedekiler ...		
+		Integer [][] arr = {{10,5,15,3,7,null,18}};    //seviye seviye, once 1.seviyedeki node'lar sonra 2.seviyedekiler ...		
 		TreeNode root = arrayToTree(arr[0]);		
 		int result= rangeSumBST(root,7,15);
 		*/
 		
 		/*
 		//subtreeWithAllDeepest()
-		Integer [][] arr = {{3,5,1,6,2,0,8,null,null,7,4,null,null,null,null},{1},{0,1,3,null,2},{3,5,1,6,2,0,8,null,null,7,4,null,9,10,null},{1}};    //seviye seviye, ï¿½nce 1.seviyedeki node'lar sonra 2.seviyediler ...		
+		Integer [][] arr = {{3,5,1,6,2,0,8,null,null,7,4,null,null,null,null},{1},{0,1,3,null,2},{3,5,1,6,2,0,8,null,null,7,4,null,9,10,null},{1}};    //seviye seviye, once 1.seviyedeki node'lar sonra 2.seviyedikiler ...		
 		TreeNode root = arrayToTree(arr[2]);		
 		TreeNode subTree= subtreeWithAllDeepest(root);
 		*/		
