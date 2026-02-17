@@ -223,9 +223,9 @@ public class LeetCodeTreeSolutions {
 		
 	public static List<TreeNode> inOrderTraversal(TreeNode root)
 	{
-		//bu fonksiyon do�ru �al���yor gibi(11.02.2026).
+		//bu fonksiyon dogru calismiyor gibi(11.02.2026).
 		
-		Deque<TreeNode> st  = new LinkedList<>();
+		Deque<TreeNode> st  = new LinkedList<>();      //deque class faster than stack class 
 		Set<TreeNode> processed = new HashSet<>();     //left and right childs added to stack
 		List<TreeNode>  result = new LinkedList<>();
 		
@@ -2335,9 +2335,42 @@ public class LeetCodeTreeSolutions {
 		return sum;
 		
 	}
+		
+	public static TreeNode bstToGst(TreeNode root) 
+	{
+		List<TreeNode> inOrderList = inOrderTraversal(root);
+		
+		Map<TreeNode, Integer> map = new HashMap<>();   //node, sum value 
+		int size= inOrderList.size();
+		int cumSum=0;
+		
+		for(int i=size-1; i>=0; i--) 
+		{
+			TreeNode curr = inOrderList.get(i);
+			cumSum += curr.val;
+			map.put(curr, cumSum);
+		}
+		
+		for(int i=size-1; i>=0; i--) 
+		{
+			TreeNode curr = inOrderList.get(i);
+			curr.val = map.get(curr);			
+		}
+		
+		return root;
+		
+	}
 	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {6,7,8,2,7,1,3,9,null,1,4,null,null,null,5}, {1}};		
+		int index = 1;
+		TreeNode root = arrayToTree(arr[index]);		
+		int result = sumEvenGrandparent(root);		
+		System.out.println(result);	
+		*/
+		
 		/*
 		Integer [][] arr = { {6,7,8,2,7,1,3,9,null,1,4,null,null,null,5}, {1}};		
 		int index = 1;
