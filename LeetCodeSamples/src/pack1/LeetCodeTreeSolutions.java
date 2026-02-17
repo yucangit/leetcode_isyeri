@@ -2300,8 +2300,52 @@ public class LeetCodeTreeSolutions {
 		return dummyRoot.left;
     }
 	
+	public static int sumEvenGrandparent(TreeNode root) 
+	{
+		Queue<TreeNode> q = new LinkedList<>();
+		Map<TreeNode, TreeNode> map = new HashMap<>();   //node, parent node
+		TreeNode curr, left, right;
+		int level =0, sum=0;
+		
+		if(root!=null)   q.add(root);
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr  = q.poll();
+				left  = curr.left;
+				right = curr.right;
+				
+				if(left!=null)  {  q.add(left);   map.put(left, curr);  }
+				if(right!=null) {  q.add(right);  map.put(right, curr); }
+				
+				if(level>=2) 
+				{
+					TreeNode parent = map.get(curr);
+					TreeNode grandParent = map.get(parent);
+					if(grandParent.val%2==0) sum+=curr.val;
+				}
+				
+			}
+			level++;
+		}
+		return sum;
+		
+	}
+	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {6,7,8,2,7,1,3,9,null,1,4,null,null,null,5}, {1}};		
+		int index = 1;
+		TreeNode root = arrayToTree(arr[index]);		
+		int result = sumEvenGrandparent(root);		
+		System.out.println(result);	
+		*/
+		
 		/*
 		Integer [][] arr = { {4,2,6,3,1,5}, {4,2,null,3,1}, {4,2,6,3,1,5}, {1} };		
 		int index = 2;
@@ -2554,19 +2598,11 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		Integer [][] arr = { {4,2,6,3,1,5}, {4,2,null,3,1}, {4,2,6,3,1,5}, {1} };		
-		int index = 2;
-		int[] val = {1,1,1};
-		int[] depth = {2,3,1};
-		
+		Integer [][] arr = { {6,7,8,2,7,1,3,9,null,1,4,null,null,null,5}, {1}};		
+		int index = 1;
 		TreeNode root = arrayToTree(arr[index]);		
-		TreeNode result = addOneRow(root, val[index], depth[index]);		
-		System.out.println(treeToList(result));
-		
-		System.out.println("sonuc : " + result);
-		
-		
-
+		int result = sumEvenGrandparent(root);		
+		System.out.println(result);								
 
 	}
 }
