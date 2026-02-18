@@ -197,6 +197,23 @@ public class LeetCodeTreeSolutions {
 		return node.left==null && node.right==null;
 	}
 	
+	public static TreeNode findNodeInBST(TreeNode root, int val) 
+	{
+		TreeNode node=root;
+		
+		while( node!=null  && node.val!=val ) 
+		{
+			if(node.val<val) 			
+				node = node.right;			
+			else if(node.val>val) 
+				node = node.left;
+			else break;
+		}
+		
+		return node;
+		
+	}
+	
 	public static void printListContent(List<TreeNode> list, boolean yatay)
 	{				
 		int size = list.size();
@@ -2424,6 +2441,7 @@ public class LeetCodeTreeSolutions {
 
 	public static List<Integer> pathInZigZagTree(int label) 
 	{
+		//Durum : Yapildi(18.02.2026)
 		List<Integer> ans = new ArrayList<>();
 		
 		int level = (int) (Math.log10(label)/Math.log10(2));
@@ -2449,9 +2467,66 @@ public class LeetCodeTreeSolutions {
 		
 		return ans;
 	}
+
+	public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) 
+	{
+		//Yapildi(18.02.2026)
+		//Ancak cok daha kisa-pratik bir cozumu var sanki.
+		
+		Map<TreeNode, TreeNode> map = new HashMap<>();		
+		TreeNode commonAncestor = null, curr;		
+		boolean isCommonAncestorFound = false;
+		int levelP = 0, levelQ = 0;
+		
+		curr = root;
+		while(curr!=p) 
+		{
+			if(curr.val < p.val)      {  map.put(curr.right, curr);  curr = curr.right;  levelP++;}
+			else if(curr.val > p.val) {  map.put(curr.left, curr);   curr = curr.left;   levelP++;}
+			else break;  
+		}
+		
+		curr = root;
+		while(curr!=q) 
+		{
+			if(curr.val < q.val)      {  map.put(curr.right, curr);  curr = curr.right;  levelQ++;}
+			else if(curr.val > q.val) {  map.put(curr.left, curr);   curr = curr.left;   levelQ++;}
+			else break;  
+		}
+		
+		int levelDiff = levelP-levelQ;
+		TreeNode node1 = (levelDiff>0) ? p : q;    //deeper node
+		TreeNode node2 = (node1==p)    ? q : p;     //other node
+				
+		for(int i=0; i<Math.abs(levelDiff); i++)
+		{
+			node1 = map.get(node1);			
+		}						
+		
+		while(!isCommonAncestorFound) 
+		{
+			if(node1==node2) { commonAncestor = node1; break;}
+			node1 = map.get(node1);
+			node2 = map.get(node2);			
+		}
+				
+		return commonAncestor;
+	}
 	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {6,2,8,0,4,7,9,null,null,3,5}, {6,2,8,0,4,7,9,null,null,3,5},{2,1}};		
+		//int [] p = {2,2,2};
+		//int [] q = {8,4,1};
+		int index = 1;
+		TreeNode root = arrayToTree(arr[index]);	
+		TreeNode [] p = {findNodeInBST(root,2), findNodeInBST(root,2), findNodeInBST(root,2)};
+		TreeNode [] q = {findNodeInBST(root,8), findNodeInBST(root,4), findNodeInBST(root,1)};					
+		TreeNode result = lowestCommonAncestor(root, p[index], q[index] );		
+		System.out.println(treeToList(result));
+		*/
+		
 		/*
 		int []labels = {14,26,1,2,3, (int)Math.pow(10, 6)};
 		List<Integer> result = pathInZigZagTree(labels[5]);
@@ -2734,20 +2809,19 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		/*
-		Integer [][] arr = { {5,4,9,1,10,null,7}, {3,1,2},{1},{1,2}};		
-		int index = 3;
-		TreeNode root = arrayToTree(arr[index]);		
-		TreeNode result = replaceValueInTree(root);		
+		
+		Integer [][] arr = { {6,2,8,0,4,7,9,null,null,3,5}, {6,2,8,0,4,7,9,null,null,3,5},{2,1}};		
+		//int [] p = {2,2,2};
+		//int [] q = {8,4,1};
+		int index = 1;
+		TreeNode root = arrayToTree(arr[index]);	
+		TreeNode [] p = {findNodeInBST(root,2), findNodeInBST(root,2), findNodeInBST(root,2)};
+		TreeNode [] q = {findNodeInBST(root,8), findNodeInBST(root,4), findNodeInBST(root,1)};
+		
+			
+		TreeNode result = lowestCommonAncestor(root, p[index], q[index] );		
 		System.out.println(treeToList(result));
-		*/
 		
-		int []labels = {14,26,1,2,3, (int)Math.pow(10, 6)};
-		List<Integer> result = pathInZigZagTree(labels[5]);
-		System.out.println(result);
-		
-		//int level = (int) (Math.log10(labels[0])/Math.log(2));
-		//System.out.println(Math.log10(labels[0]) + " , " + Math.log10(2) + " , "+ Math.log10(labels[0])/Math.log10(2) );
 		
 		
 		
