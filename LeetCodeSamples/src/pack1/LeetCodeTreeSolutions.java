@@ -2362,7 +2362,7 @@ public class LeetCodeTreeSolutions {
 		
 	public static TreeNode replaceValueInTree(TreeNode root) 
 	{
-		//Yapýldý(17.02.2026)
+		//Yapildi(17.02.2026)
 		Queue<TreeNode> q = new LinkedList<>();
 		Map<TreeNode, TreeNode> map = new HashMap<>();    //node, brother of the key node
 		List<TreeNode> levelNodes = new ArrayList<>();
@@ -2421,9 +2421,43 @@ public class LeetCodeTreeSolutions {
 		return root;
 		
 	}
+
+	public static List<Integer> pathInZigZagTree(int label) 
+	{
+		List<Integer> ans = new ArrayList<>();
+		
+		int level = (int) (Math.log10(label)/Math.log10(2));
+		boolean isLevelValsReverse = (level%2==0) ? false:true;    //level0 is inOrder, level1 is reverseOrder ...
+		int minValOfLevel = (int) Math.pow(2, level);
+		int maxValOfLevel = 2*minValOfLevel-1;
+		int idx = (isLevelValsReverse)?maxValOfLevel-label : label - minValOfLevel; 		
+				
+		ans.add(label);
+		
+		while(level>0) 
+		{
+			System.out.println("level : " + level + ", minVal : "  + minValOfLevel + ", maxVal:" + maxValOfLevel + ", label:" + label + ", idx : " + idx );
+			level--; 
+			isLevelValsReverse = !isLevelValsReverse;
+			maxValOfLevel = minValOfLevel-1;
+			//minValOfLevel = (int) Math.pow(2, level);
+			minValOfLevel = (maxValOfLevel+1)/2;
+			idx = idx/2;
+			label = (isLevelValsReverse)?maxValOfLevel-idx :  minValOfLevel + idx;
+			ans.add(0, label);
+		}
+		
+		return ans;
+	}
 	
 	public static void testCases() 
 	{
+		/*
+		int []labels = {14,26,1,2,3, (int)Math.pow(10, 6)};
+		List<Integer> result = pathInZigZagTree(labels[5]);
+		System.out.println(result);
+		*/
+		
 		/*
 		Integer [][] arr = { {5,4,9,1,10,null,7}, {3,1,2},{1},{1,2}};		
 		int index = 3;
@@ -2700,11 +2734,24 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
+		/*
 		Integer [][] arr = { {5,4,9,1,10,null,7}, {3,1,2},{1},{1,2}};		
 		int index = 3;
 		TreeNode root = arrayToTree(arr[index]);		
 		TreeNode result = replaceValueInTree(root);		
-		System.out.println(treeToList(result));		
+		System.out.println(treeToList(result));
+		*/
+		
+		int []labels = {14,26,1,2,3, (int)Math.pow(10, 6)};
+		List<Integer> result = pathInZigZagTree(labels[5]);
+		System.out.println(result);
+		
+		//int level = (int) (Math.log10(labels[0])/Math.log(2));
+		//System.out.println(Math.log10(labels[0]) + " , " + Math.log10(2) + " , "+ Math.log10(labels[0])/Math.log10(2) );
+		
+		
+		
+		
 		
 		
 
