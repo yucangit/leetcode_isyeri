@@ -2467,7 +2467,7 @@ public class LeetCodeTreeSolutions {
 		//System.out.println(result);								
 				
 		
-		Integer [][] arr = { {1,2,3,4,5,6}, {1,2,3,4,5,6,7,8,9,null,10}, {1,2} };
+		Integer [][] arr = { {1,2,3,4,5,6}, {1,2,3,4,5,6,7,8,null,9,null}, {1,2} };
 		
 		int index = 1;
 		TreeNode root = arrayToTree(arr[1]);		
