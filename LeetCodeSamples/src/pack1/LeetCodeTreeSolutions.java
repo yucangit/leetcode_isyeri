@@ -2513,6 +2513,60 @@ public class LeetCodeTreeSolutions {
 		return commonAncestor;
 	}
 	
+	public List<Integer> getAllElements(TreeNode root1, TreeNode root2) 
+	{
+		List<Integer> merged = new ArrayList<>();
+		List<Integer> list1 = treeToList(root1);
+		List<Integer> list2 = treeToList(root2);
+		
+		int idx1=0, idx2=0;
+		int size1= list1.size(), size2= list2.size();
+		
+		while( idx1<size1 || idx2<size2) 
+		{
+			int val1 = list1.get(idx1);
+			int val2 = list2.get(idx2);
+					
+			if(val1<val2) 
+			{
+				merged.add(val1);
+				idx1++;				
+			}
+			else if(val1>val2) 
+			{
+				merged.add(val2);
+				idx2++;				
+			}
+			else if(val1==val2) 
+			{
+				merged.add(val1);
+				idx1++;
+				merged.add(val2);
+				idx2++;		
+			}
+			if(idx1==size1 || idx2==size2) break;			
+		}
+		
+		if(idx1<size1 || idx2<size2) 
+		{
+			int idx=-1;
+			List<Integer> list;
+			if(idx1<size1)  
+			{
+				idx =idx1;
+				list = list1;
+			}
+			else if(idx2<size2)  
+			{
+				idx =idx2;
+				list = list2;
+			}
+		}
+		
+		
+		return merged;
+	}
+	
 	public static void testCases() 
 	{
 		/*
