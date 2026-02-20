@@ -2513,7 +2513,7 @@ public class LeetCodeTreeSolutions {
 		return commonAncestor;
 	}
 	
-	public List<Integer> getAllElements(TreeNode root1, TreeNode root2) 
+	public static List<Integer> getAllElements(TreeNode root1, TreeNode root2) 
 	{
 		List<Integer> merged = new ArrayList<>();
 		List<Integer> list1 = treeToList(root1);
@@ -2566,6 +2566,46 @@ public class LeetCodeTreeSolutions {
 		
 		return merged;
 	}
+	
+	public static List<List<Integer>> zigzagLevelOrder(TreeNode root) 
+	{
+		Deque<TreeNode> q = new LinkedList<>();				
+		List<List<Integer>> answer = new LinkedList<>();
+		TreeNode curr, left, right;
+		boolean inOrder = true;      //first level is inOrder, second is reverse order ...
+		
+		if(root!=null) q.add(root);
+		
+		while(!q.isEmpty()) 
+		{
+			List<Integer> levelItems = new LinkedList<Integer>();
+			int size = q.size();
+			
+			for(int i=0; i<size; i++) 
+			{
+				if(inOrder)  { curr = q.pollFirst(); levelItems.add(curr.val); q.addLast(curr);  }
+				else         { curr = q.pollLast();  levelItems.add(curr.val); q.addFirst(curr);  }
+			}
+			
+			answer.add(levelItems);
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr = q.pollFirst();												
+				
+				left  = curr.left;
+				right = curr.right;
+				
+				if(left!=null)   { q.addLast(left);  } 
+				if(right!=null)  { q.addLast(right); } 
+			}
+			
+			inOrder = !inOrder;
+		}
+		
+		
+		return answer;		
+	}	
 	
 	public static void testCases() 
 	{
