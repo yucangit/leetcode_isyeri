@@ -2569,6 +2569,9 @@ public class LeetCodeTreeSolutions {
 	
 	public static List<List<Integer>> zigzagLevelOrder(TreeNode root) 
 	{
+		//Bu sekilde yapildi, ama daha pratik bir yolu var. 
+		//20.02.2026
+		
 		Deque<TreeNode> q = new LinkedList<>();				
 		List<List<Integer>> answer = new LinkedList<>();
 		TreeNode curr, left, right;
