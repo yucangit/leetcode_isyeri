@@ -197,6 +197,16 @@ public class LeetCodeTreeSolutions {
 		return node.left==null && node.right==null;
 	}
 	
+	public static List<Integer> nodeListToIntegerList(List<TreeNode> nodeList)
+	{
+		List<Integer> list = new ArrayList<>();
+		
+		for(TreeNode node:nodeList)
+			list.add(node.val);
+		
+		return list;
+	} 
+	
 	public static TreeNode findNodeInBST(TreeNode root, int val) 
 	{
 		TreeNode node=root;
@@ -241,6 +251,10 @@ public class LeetCodeTreeSolutions {
 	public static List<TreeNode> inOrderTraversal(TreeNode root)
 	{
 		//bu fonksiyon dogru calismiyor gibi(11.02.2026).
+		/*
+		 	getAllElements problemi icin dogru calisti. (23.02.20226)		 
+		 
+		*/
 		
 		Deque<TreeNode> st  = new LinkedList<>();      //deque class faster than stack class 
 		Set<TreeNode> processed = new HashSet<>();     //left and right childs added to stack
@@ -276,8 +290,7 @@ public class LeetCodeTreeSolutions {
 			}											
 		}
 		
-		return result;
-		
+		return result;		
 	}
 	
 	public static List<TreeNode> preOrderTraversal(TreeNode root)
@@ -2515,14 +2528,16 @@ public class LeetCodeTreeSolutions {
 	
 	public static List<Integer> getAllElements(TreeNode root1, TreeNode root2) 
 	{
+		//Durum : Yapildi
+		//Tarih : 23.02.2026
 		List<Integer> merged = new ArrayList<>();
-		List<Integer> list1 = treeToList(root1);
-		List<Integer> list2 = treeToList(root2);
+		List<Integer> list1 = nodeListToIntegerList(inOrderTraversal(root1));   // treeToList(root1);
+		List<Integer> list2 = nodeListToIntegerList(inOrderTraversal(root2));   // treeToList(root2);
 		
 		int idx1=0, idx2=0;
 		int size1= list1.size(), size2= list2.size();
 		
-		while( idx1<size1 || idx2<size2) 
+		while( idx1<size1 && idx2<size2) 
 		{
 			int val1 = list1.get(idx1);
 			int val2 = list2.get(idx2);
@@ -2544,26 +2559,32 @@ public class LeetCodeTreeSolutions {
 				merged.add(val2);
 				idx2++;		
 			}
-			if(idx1==size1 || idx2==size2) break;			
+			//if(idx1==size1 || idx2==size2) break;			
 		}
 		
 		if(idx1<size1 || idx2<size2) 
 		{
 			int idx=-1;
-			List<Integer> list;
+			List<Integer> list = null;
+			int size=0;
+			
 			if(idx1<size1)  
 			{
 				idx =idx1;
 				list = list1;
+				size = list1.size();
 			}
 			else if(idx2<size2)  
 			{
 				idx =idx2;
 				list = list2;
+				size = list2.size();
 			}
+			
+			for(; idx<size; idx++)
+				merged.add(list.get(idx));
 		}
-		
-		
+				
 		return merged;
 	}
 	
@@ -2610,8 +2631,43 @@ public class LeetCodeTreeSolutions {
 		return answer;		
 	}	
 	
+	public static TreeNode insertIntoBST(TreeNode root, int val) 
+	{
+		//Durum : Yapildi
+		//Tarih : 23.02.2026
+		TreeNode newNode = new TreeNode(val);
+		
+		if(root==null) return newNode;
+		
+		TreeNode curr = root;
+		
+		while(curr!=null) 
+		{
+			if(curr.val<val) { 
+				if(curr.right==null) { curr.right=newNode; break; } 
+				else                   curr = curr.right;
+			}
+			else if(curr.val>val) { 
+				if(curr.left==null)  { curr.left=newNode;  break; }  
+				else                   curr = curr.left;
+			}
+		}
+		
+		return root;		
+	}		
+	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr1 = { {2,1,4},{2,1},{}};
+		Integer [][] arr2 = { {1,0,3},{2,1,3,null,null,null,4},{6,5,7}};		
+		int index = 1;
+		TreeNode root1 = arrayToTree(arr1[index]);
+		TreeNode root2 = arrayToTree(arr2[index]);
+		List<Integer> result = getAllElements(root1, root2);													
+		System.out.println(result);
+		*/
+		
 		/*
 		Integer [][] arr = { {6,2,8,0,4,7,9,null,null,3,5}, {6,2,8,0,4,7,9,null,null,3,5},{2,1}};		
 		//int [] p = {2,2,2};
@@ -2907,24 +2963,15 @@ public class LeetCodeTreeSolutions {
 				
 		
 
-		Integer [][] arr = { {6,2,8,0,4,7,9,null,null,3,5}, {6,2,8,0,4,7,9,null,null,3,5},{2,1}};		
-		//int [] p = {2,2,2};
-		//int [] q = {8,4,1};
+		 		
+		Integer [][] arr1 = { {2,1,4},{2,1},{}};
+		Integer [][] arr2 = { {1,0,3},{2,1,3,null,null,null,4},{6,5,7}};		
 		int index = 1;
-		TreeNode root = arrayToTree(arr[index]);	
-		TreeNode [] p = {findNodeInBST(root,2), findNodeInBST(root,2), findNodeInBST(root,2)};
-		TreeNode [] q = {findNodeInBST(root,8), findNodeInBST(root,4), findNodeInBST(root,1)};
-		
-			
-		TreeNode result = lowestCommonAncestor(root, p[index], q[index] );		
-		System.out.println(treeToList(result));
-		
-		
-		
-		
-		
-		
-		
+		TreeNode root1 = arrayToTree(arr1[index]);
+		TreeNode root2 = arrayToTree(arr2[index]);
+		List<Integer> result = getAllElements(root1, root2);
+													
+		System.out.println(result);
 
 	}
 }
