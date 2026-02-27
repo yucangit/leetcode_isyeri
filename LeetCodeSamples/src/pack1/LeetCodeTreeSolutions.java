@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Iterator;
 
 //Definition for a binary tree node.
 class TreeNode
@@ -100,6 +101,24 @@ class FindElements
     }
 }	
 
+class BSTIterator {
+	List<TreeNode> inOrder;
+	Iterator<TreeNode> ite;
+
+    public BSTIterator(TreeNode root) {
+        inOrder = LeetCodeTreeSolutions.inOrderTraversal(root);
+        ite = inOrder.iterator();
+    }
+    
+    public int next() {
+    	    	
+        return ite.next().val;
+    }
+    
+    public boolean hasNext() {
+        return ite.hasNext();
+    }
+}
 
 public class LeetCodeTreeSolutions {
 	
@@ -252,8 +271,9 @@ public class LeetCodeTreeSolutions {
 	{
 		//bu fonksiyon dogru calismiyor gibi(11.02.2026).
 		/*
-		 	getAllElements problemi icin dogru calisti. (23.02.20226)		 
-		 
+		 	getAllElements problemi icin dogru calisti. (23.02.2026)	
+		 	Binary Search Tree Iterator problemi icin dogru calisti. (27.02.2026)		
+		 	convertBST problemi icin dogru calisti. (27.02.2026)  	 		 
 		*/
 		
 		Deque<TreeNode> st  = new LinkedList<>();      //deque class faster than stack class 
@@ -2656,6 +2676,97 @@ public class LeetCodeTreeSolutions {
 		return root;		
 	}		
 	
+	public static TreeNode convertBST(TreeNode root) {
+		
+		List<TreeNode> list = inOrderTraversal(root);
+		int size = list.size();
+		TreeNode curr = null;        
+		int nextVal = (size>0)?list.get(size-1).val:0;	  //get value of last element if exists	
+		
+		for(int i=size-2; i>=0; i--)                      //last element's value will not be updated.
+		{	
+			curr = list.get(i);			
+			//curr.val = curr.val + list.get(i+1).val;
+			curr.val = curr.val + nextVal;
+			nextVal = curr.val;
+		}
+		
+		return root;
+		
+    }
+	
+	public List<TreeNode> delNodes(TreeNode root, int[] to_delete) 
+	{
+		
+		Queue<TreeNode> treeRoots = new LinkedList<>();			
+		Set <Integer> setToDelete = new HashSet<>();				
+		List<TreeNode> ans = new LinkedList<>();
+		Queue<TreeNode> q = new LinkedList<>();    //to traverse the tree (BFS)
+		TreeNode curr, left, right;
+		
+		
+				
+		treeRoots.add(root);
+		
+		//ans.add(dummyRoot);
+		
+		for(int val:to_delete) 
+		{
+			setToDelete.add(val);
+		}
+						
+			
+		while(!treeRoots.isEmpty()) 
+		{
+			TreeNode currRoot = treeRoots.poll();
+			TreeNode dummyRoot = new TreeNode(-1);
+			dummyRoot.left = currRoot;
+			q.add(dummyRoot);
+			//q.add(currRoot);
+			
+			while(!q.isEmpty()) 
+			{
+				int size = q.size();
+				
+				for(int i=0; i<size; i++) 
+				{
+					curr = q.poll();
+					left = curr.left;
+					right = curr.right;
+					
+					if( left!=null && setToDelete.contains(left.val)) 
+					{
+						curr.left = null;
+						if(left.left!=null)  treeRoots.add(left.left);
+						if(left.right!=null) treeRoots.add(left.right);
+						
+						setToDelete.remove(left);
+						
+					}
+				}
+			}
+		}
+		
+		
+		
+		return ans;
+		
+	}
+	
+	public List<TreeNode> delNodes2(TreeNode root, int[] to_delete) 
+	{
+		
+		Queue<TreeNode> treeRoots = new LinkedList<>();			
+		Set <Integer> setToDelete = new HashSet<>();				
+		List<TreeNode> ans = new LinkedList<>();
+		Queue<TreeNode> q = new LinkedList<>();    //to traverse the tree (BFS)
+		TreeNode curr, left, right;
+		
+		
+		
+		return ans;
+	}
+
 	public static void testCases() 
 	{
 		/*
