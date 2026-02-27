@@ -1477,7 +1477,7 @@ public class LeetCodeTreeSolutions {
 		Problem           : Lowest Common Ancestor of Deepest Leaves
 		Problem Aciklama  : Given the root of a binary tree, return the lowest common ancestor of its deepest leaves.
 		Link              : https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/?envType=problem-list-v2&envId=binary-tree
-		Cozum Algoritmasý : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
+		Cozum Algoritmasi : BFS ile deepest node'lar ve her bir node'a ait parent node belirlenir.
 		                    Deepest node'lar ortak parent bulunmaya calisilir. 
 		*/
 		
@@ -1537,6 +1537,8 @@ public class LeetCodeTreeSolutions {
 		return result;
 	}
 
+	
+	
 	public static TreeNode removeLeafNodes(TreeNode root, int target) 
 	{
 		/*
@@ -2503,7 +2505,10 @@ public class LeetCodeTreeSolutions {
 
 	public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) 
 	{
-		//Yapildi(18.02.2026)
+		//Durum   : Yapildi
+		//Tarih   : 18.02.2026		
+		//Problem : Lowest Common Ancestor of a Binary Search Tree
+		//Link    : https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/?envType=problem-list-v2&envId=binary-tree
 		//Ancak cok daha kisa-pratik bir cozumu var sanki.
 		
 		Map<TreeNode, TreeNode> map = new HashMap<>();		
@@ -2545,6 +2550,72 @@ public class LeetCodeTreeSolutions {
 				
 		return commonAncestor;
 	}
+	
+	public static TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) 
+	{
+		/*Durum   : Yapildi.
+		  Tarih   : 27.02.2026
+		  Problem : Lowest Common Ancestor of a Binary Tree
+		  Link    : https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/?envType=problem-list-v2&envId=binary-tree
+		  Yorum   : Enine arama yapilarak her bir node'un parent node'u belirlenir.
+		   		    Ayni seviye olacak sekilde daha derin node'un parent node'larýna gidilir.
+		   		    Ayni seviyeye geldikten sonra ayni parent' olana kadar bir üst seviyeye cikilir. 
+		 */
+		
+        Queue<TreeNode> queue = new LinkedList<>();
+		Map<TreeNode, TreeNode> map = new HashMap<>();    //node, parentNode
+		TreeNode curr, left, right, ancestor=null;
+		int level=0, levelP = -1, levelQ=-1;
+				
+		if(root!=null)   queue.add(root);
+		
+		//part1
+        //find parent nodes
+		while(!queue.isEmpty()) 
+		{
+			int size = queue.size();
+			for(int i=0; i<size; i++) 
+			{
+				curr  = queue.poll();
+				if(curr==p) { levelP = level; }
+				if(curr==q) { levelQ = level; }				
+
+				left  = curr.left;
+				right = curr.right;
+				
+				if(left!=null)  { queue.add(left);    map.put(left, curr);  }
+				if(right!=null) { queue.add(right);   map.put(right, curr); }
+
+                if(levelP>-1 && levelQ>-1) { queue.clear();  break; }   //we have enough info. Exit from "for" and "while" loops
+			}		
+			level++;
+		}
+				
+		//part2
+        //find lowest common ancestor node
+		int levelDiff = Math.abs(levelP-levelQ);
+		TreeNode deeperNode = (levelP>levelQ)?p:q;
+		TreeNode otherNode  = (deeperNode==p)?q:p;
+		
+		for(int i=0; i<levelDiff; i++) 
+		{
+			deeperNode = map.get(deeperNode);
+		}
+		
+		//now, they are at same level
+		//find common lowest ancestor
+		while(ancestor==null)
+		{            
+			if(deeperNode == otherNode)   ancestor = deeperNode;
+			else 
+            {   
+                deeperNode = map.get(deeperNode);
+				otherNode  = map.get(otherNode);			   
+            }
+		}
+				
+		return ancestor;
+    }
 	
 	public static List<Integer> getAllElements(TreeNode root1, TreeNode root2) 
 	{
@@ -2676,7 +2747,10 @@ public class LeetCodeTreeSolutions {
 		return root;		
 	}		
 	
-	public static TreeNode convertBST(TreeNode root) {
+	public static TreeNode convertBST(TreeNode root) 
+	{
+		//Tarih : 27.02.2026
+		//Durum : Yapildi.
 		
 		List<TreeNode> list = inOrderTraversal(root);
 		int size = list.size();
@@ -2691,8 +2765,7 @@ public class LeetCodeTreeSolutions {
 			nextVal = curr.val;
 		}
 		
-		return root;
-		
+		return root;		
     }
 	
 	public List<TreeNode> delNodes(TreeNode root, int[] to_delete) 
