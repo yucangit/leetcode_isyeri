@@ -1290,6 +1290,45 @@ public class LeetCodeStackSamples {
     	return (int) (maxProduct%(int)(Math.pow(10,9)+7));       
     }
     
+    public static String reverseParentheses(String s) 
+    {
+    	//Durum :  Yapiliyor
+    	//Tarih : 27.02.2026
+    	//Eksikler : Parantez içermemesi durumunda yanlýþ çalýþýyor.
+    	Stack<Character> st = new Stack<>();    	
+    	Queue<Character> q = new LinkedList<>();
+    	
+    	char [] arr = s.toCharArray();    	
+    	
+    	for(char ch:arr) 
+    	{
+    		if(ch=='(' || ( ch>='a' && ch<='z') ) 
+    			st.push(ch);
+    		else if(ch==')') 
+    		{
+    			char ch2=st.peek();
+    			while(st.peek()!='(' ) {    			
+	    			ch2= st.pop();	    			
+    				q.add(ch2);	    			
+    			} 
+    			st.pop();
+    			
+    			while(!q.isEmpty()) 
+    			{
+    				st.push(q.poll());
+    			}
+    		}
+    	}
+    	
+    	StringBuilder sb = new StringBuilder();
+    	
+    	while(!st.isEmpty()) 
+    		sb.append(st.pop());
+    	
+    	return sb.reverse().toString();
+        
+    }
+    
     public void testCases() 
     {
     	
@@ -1553,28 +1592,11 @@ public class LeetCodeStackSamples {
     
     public static void main(String[] args) {
     	
-    	TreeNode root = new TreeNode(1);
+    	String [] arr = {"(abcd)","(u(love)i)","(ed(et(oc))el)", "abcd", "a(bcd)e","a(bcd)def(ghi)j"};
+    	int index=2;
+    	String result = reverseParentheses(arr[index]);
+    	System.out.println(result);
     	
-    	root.left = new TreeNode(2);
-    	root.left.left = new TreeNode(4);
-    	root.left.right = new TreeNode(5);
-    	
-    	root.right = new TreeNode(3);
-    	root.right.left = new TreeNode(6);    	
-    	    	    	
-    	//int result = maxProduct(root);
-    	//System.out.println(result);
-    	
-    	
-    	int a1 = (int) (Math.pow(10,9) + 7);
-    	long a2 = (long) (Math.pow(10,9) + 7);
-    	
-    	System.out.println(a1 + "\n" + a2);
-    	System.out.println(Integer.MAX_VALUE);
-    	System.out.println(Long.MAX_VALUE);
-    	System.out.println(Double.MAX_VALUE);
-    	
-
 	}
 
 }
