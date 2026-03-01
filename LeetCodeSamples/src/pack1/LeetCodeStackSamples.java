@@ -1292,41 +1292,59 @@ public class LeetCodeStackSamples {
     
     public static String reverseParentheses(String s) 
     {
-    	//Durum :  Yapiliyor
-    	//Tarih : 27.02.2026
-    	//Eksikler : Parantez içermemesi durumunda yanlýþ çalýþýyor.
+    	/*
+  		   Durum     : Yapildi.  
+		   Tarih     : 28.02.2026
+		   Problem   : Reverse Substrings Between Each Pair of Parentheses
+		   Link      : https://leetcode.com/problems/reverse-substrings-between-each-pair-of-parentheses/description/?envType=problem-list-v2&envId=stack
+		   Algoritma :
+		   Eksikler  :   
+    	*/
+    	
     	Stack<Character> st = new Stack<>();    	
     	Queue<Character> q = new LinkedList<>();
+    	
+    	int parenthesCount = 0;
+    	StringBuilder sb = new StringBuilder();
     	
     	char [] arr = s.toCharArray();    	
     	
     	for(char ch:arr) 
     	{
-    		if(ch=='(' || ( ch>='a' && ch<='z') ) 
-    			st.push(ch);
-    		else if(ch==')') 
+    		if(ch=='(' ) 
     		{
-    			char ch2=st.peek();
-    			while(st.peek()!='(' ) {    			
-	    			ch2= st.pop();	    			
-    				q.add(ch2);	    			
-    			} 
-    			st.pop();
-    			
-    			while(!q.isEmpty()) 
-    			{
-    				st.push(q.poll());
-    			}
+    			st.push(ch);
+    			parenthesCount++;
     		}
-    	}
+    		else if ( parenthesCount==0 )
+    			sb.append(ch);
+    		else if ( parenthesCount>0 ) 
+    		{
+    			if( ch>='a' && ch<='z')      		    		
+    				st.push(ch);    	    			    		    		
+	    		else if(ch==')')  
+	    		{
+	    			char ch2=st.peek();
+	    			while(st.peek()!='(' ) {     			
+		    			ch2= st.pop();	    			
+	    				q.add(ch2);	    			
+	    			} 
+	    			st.pop();   //remove corresponding '(' from stack
+	    			
+	    			parenthesCount--;
+	    			
+	    			while(!q.isEmpty())  
+	    			{
+	    				char ch3 = q.poll();
+	    				
+	    				if(parenthesCount==0)  sb.append(ch3);
+	    				else                   st.push(ch3);
+	    			}
+	    		}
+    		}
+    	}    	    	    	    
     	
-    	StringBuilder sb = new StringBuilder();
-    	
-    	while(!st.isEmpty()) 
-    		sb.append(st.pop());
-    	
-    	return sb.reverse().toString();
-        
+    	return sb.toString();        
     }
     
     public void testCases() 
@@ -1590,10 +1608,13 @@ public class LeetCodeStackSamples {
     	
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) { 
     	
-    	String [] arr = {"(abcd)","(u(love)i)","(ed(et(oc))el)", "abcd", "a(bcd)e","a(bcd)def(ghi)j"};
-    	int index=2;
+    	String [] arr = {"(abcd)","(u(love)i)","(ed(et(oc))el)", "abcd", "a(bcd)e","a(bcd)def(ghi)j",
+    			         "yhqqvjhjchlahdn(())", "(mno(pqr(stu)vwx)yz)","vdgzyj()","ta()usw((((abc))))",
+    			         "()"
+    			        };
+    	int index=10;
     	String result = reverseParentheses(arr[index]);
     	System.out.println(result);
     	
