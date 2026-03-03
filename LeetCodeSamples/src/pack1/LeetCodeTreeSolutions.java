@@ -361,7 +361,9 @@ public class LeetCodeTreeSolutions {
 		TreeNode node = null, left=null, right=null;
 		int level = 1;
 		
-		q.add(root);
+		if(root!=null)
+			q.add(root);
+		else level = 0 ;
 		
 		while(!q.isEmpty()) 
 		{
@@ -2768,6 +2770,72 @@ public class LeetCodeTreeSolutions {
 		return root;		
     }
 	
+	public static List<List<String>> printTree(TreeNode root) {
+		/*
+		  Tarih         : 03.03.2026
+		  Durum         : Yapiliyor
+		  Problem Adi   : Print Binary Tree
+		  Problem Link  : https://leetcode.com/problems/print-binary-tree/description/?envType=problem-list-v2&envId=binary-tree
+		  Algoritma     :
+		  Diger         :
+		*/
+		
+		Queue <TreeNode> q = new LinkedList<>();
+		List<List<String>> ans = new LinkedList<>();
+		Map<TreeNode, Integer[]> map = new HashMap<>();
+		TreeNode curr, left, right;
+		
+		int height = findLevelCount(root)-1;
+		int width = (int) (Math.pow(2, height+1)) - 1;
+		int row=0, column = (width-1)/2;
+		
+		if(root!=null) {
+			q.add(root);
+			map.put(root, new Integer[]{row, column});
+		}
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			
+			String[] arrRowVals = new String[width];
+			//Arrays.fill(arrRowVals, 0, width, "");
+			Arrays.fill(arrRowVals, "");	
+			
+			for(int i=0; i<size; i++) 
+			{
+				curr  = q.poll();
+				int colIdx = map.get(curr)[1]; 
+				arrRowVals[colIdx] = curr.val + "";
+				
+				left  = curr.left;
+				right = curr.right;
+				
+				int newColIdxBase = (int) Math.pow(2, height-row-1);
+				
+				if(left!=null) 
+				{
+					q.add(left);					
+					map.put(left, new Integer[]{row+1, colIdx - newColIdxBase});					
+				}
+				if(right!=null) 
+				{
+					q.add(right);					
+					map.put(right, new Integer[]{row+1, colIdx + newColIdxBase});
+				}
+			}
+			
+			List<String> rowVals = new ArrayList<String>();
+			for(int i=0; i<width; i++)
+				rowVals.add(arrRowVals[i]);			
+			
+			ans.add(rowVals);
+			row++;
+		}
+		
+		return ans;
+	}
+	
 	public List<TreeNode> delNodes(TreeNode root, int[] to_delete) 
 	{
 		
@@ -2840,6 +2908,7 @@ public class LeetCodeTreeSolutions {
 		return ans;
 	}
 
+	
 	public static void testCases() 
 	{
 		/*
@@ -3147,13 +3216,12 @@ public class LeetCodeTreeSolutions {
 				
 		
 
-		 		
-		Integer [][] arr1 = { {2,1,4},{2,1},{}};
-		Integer [][] arr2 = { {1,0,3},{2,1,3,null,null,null,4},{6,5,7}};		
-		int index = 1;
-		TreeNode root1 = arrayToTree(arr1[index]);
-		TreeNode root2 = arrayToTree(arr2[index]);
-		List<Integer> result = getAllElements(root1, root2);
+
+		Integer [][] arr1 = { {}, {5},  {1,2}, {1,2,3,null,4},{}};			
+		int index = 0;
+		TreeNode root = arrayToTree(arr1[index]);
+		
+		List<List<String>> result = printTree(root);
 													
 		System.out.println(result);
 
