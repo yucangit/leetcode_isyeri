@@ -358,29 +358,56 @@ public class LeetCodeTreeSolutions {
 	public static int findLevelCount(TreeNode root) 
 	{
 		Queue<TreeNode> q = new LinkedList<>();
-		TreeNode node = null, left=null, right=null;
-		int level = 1;
+		TreeNode curr = null, left=null, right=null;
+		int level = 0;
 		
 		if(root!=null)
-			q.add(root);
-		else level = 0 ;
+			q.add(root);		
 		
 		while(!q.isEmpty()) 
 		{
-			node = q.poll();
-			left = node.left;
-			right = node.right;
-			
-			if(left==null && right==null) continue; 
-
+			int size = q.size();
+			for(int i=0; i<size; i++) {
+				curr  = q.poll();
+				left  = curr.left;
+				right = curr.right;								 					
+				
+				if(left!=null)    q.add(left);
+				if(right!=null)   q.add(right);			
+			}
 			level++;
-			
-			if(left!=null)    q.add(left);
-			if(right!=null)   q.add(right);			
 		}
 		
 		return level;			
 	}
+	
+	
+	public static int findHeight(TreeNode root) 
+	{
+		Queue<TreeNode> q = new LinkedList<>();
+		TreeNode curr = null, left=null, right=null;
+		int height = -1;
+		
+		if(root!=null)
+			q.add(root);		
+		
+		while(!q.isEmpty()) 
+		{
+			int size = q.size();
+			for(int i=0; i<size; i++) {
+				curr  = q.poll();
+				left  = curr.left;
+				right = curr.right;								 					
+				
+				if(left!=null)    q.add(left);
+				if(right!=null)   q.add(right);			
+			}
+			height++;
+		}
+		
+		return height;		//root==null ise -1 dönüyor.
+	}
+	
 	
 	public static TreeNode subtreeWithAllDeepest(TreeNode root) 
 	{			
@@ -1538,9 +1565,7 @@ public class LeetCodeTreeSolutions {
 		
 		return result;
 	}
-
-	
-	
+		
 	public static TreeNode removeLeafNodes(TreeNode root, int target) 
 	{
 		/*
@@ -2772,8 +2797,8 @@ public class LeetCodeTreeSolutions {
 	
 	public static List<List<String>> printTree(TreeNode root) {
 		/*
-		  Tarih         : 03.03.2026
-		  Durum         : Yapiliyor
+		  Tarih         : 04.03.2026
+		  Durum         : Yapildi.
 		  Problem Adi   : Print Binary Tree
 		  Problem Link  : https://leetcode.com/problems/print-binary-tree/description/?envType=problem-list-v2&envId=binary-tree
 		  Algoritma     :
@@ -2785,8 +2810,9 @@ public class LeetCodeTreeSolutions {
 		Map<TreeNode, Integer[]> map = new HashMap<>();
 		TreeNode curr, left, right;
 		
-		int height = findLevelCount(root)-1;
+		int height = findLevelCount(root)-1;				
 		int width = (int) (Math.pow(2, height+1)) - 1;
+		System.out.println("height : " + height + ",  width : " + width);
 		int row=0, column = (width-1)/2;
 		
 		if(root!=null) {
@@ -2798,8 +2824,7 @@ public class LeetCodeTreeSolutions {
 		{
 			int size = q.size();
 			
-			String[] arrRowVals = new String[width];
-			//Arrays.fill(arrRowVals, 0, width, "");
+			String[] arrRowVals = new String[width];			
 			Arrays.fill(arrRowVals, "");	
 			
 			for(int i=0; i<size; i++) 
@@ -3217,8 +3242,8 @@ public class LeetCodeTreeSolutions {
 		
 
 
-		Integer [][] arr1 = { {}, {5},  {1,2}, {1,2,3,null,4},{}};			
-		int index = 0;
+		Integer [][] arr1 = { {}, {5},  {1,2}, {1,2,3,null,4}, {5,3,6,2,4,null,7}};			
+		int index = 4;
 		TreeNode root = arrayToTree(arr1[index]);
 		
 		List<List<String>> result = printTree(root);
