@@ -2,6 +2,7 @@ package pack1;
 
 import java.util.Queue;
 import java.util.Deque;
+import java.util.Stack;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -239,8 +240,7 @@ public class LeetCodeTreeSolutions {
 			else break;
 		}
 		
-		return node;
-		
+		return node;		
 	}
 	
 	public static void printListContent(List<TreeNode> list, boolean yatay)
@@ -356,7 +356,8 @@ public class LeetCodeTreeSolutions {
 	}
 		
 	public static int findLevelCount(TreeNode root) 
-	{
+	{		
+		//Tarih : 04.03.2026
 		Queue<TreeNode> q = new LinkedList<>();
 		TreeNode curr = null, left=null, right=null;
 		int level = 0;
@@ -380,10 +381,11 @@ public class LeetCodeTreeSolutions {
 		
 		return level;			
 	}
-	
-	
+		
 	public static int findHeight(TreeNode root) 
 	{
+		//Tarih : 04.03.2026
+		
 		Queue<TreeNode> q = new LinkedList<>();
 		TreeNode curr = null, left=null, right=null;
 		int height = -1;
@@ -406,8 +408,7 @@ public class LeetCodeTreeSolutions {
 		}
 		
 		return height;		//root==null ise -1 dönüyor.
-	}
-	
+	}	
 	
 	public static TreeNode subtreeWithAllDeepest(TreeNode root) 
 	{			
@@ -2812,7 +2813,7 @@ public class LeetCodeTreeSolutions {
 		
 		int height = findLevelCount(root)-1;				
 		int width = (int) (Math.pow(2, height+1)) - 1;
-		System.out.println("height : " + height + ",  width : " + width);
+		//System.out.println("height : " + height + ",  width : " + width);
 		int row=0, column = (width-1)/2;
 		
 		if(root!=null) {
@@ -2860,6 +2861,65 @@ public class LeetCodeTreeSolutions {
 		
 		return ans;
 	}
+	
+	public TreeNode buildTree(int[] preorder, int[] inorder) 
+	{	
+		/*
+		  Tarih         : 04.03.2026
+		  Durum         : Yapilmaya calisiliyor.
+		  Problem Adi   :
+		  Problem Link  :
+		  Algoritma     :
+		  Diger         :
+		*/					
+		
+		Stack<Integer[]> stPreOrder = new Stack<>();
+		Stack<Integer[]> stInOrder  = new Stack<>();
+		Stack<TreeNode>  stParent   = new Stack<>();
+		Stack<Integer> stLeftOrRight = new Stack<>();    //0->left, 1->right						
+				
+		
+		TreeNode root = new TreeNode(preorder[0]);
+		
+		int idx = Utils.getIndex(preorder, root.val);
+		Integer [] preOrder = (Integer[]) Arrays.stream(preorder).boxed().toArray();
+		Integer [] inOrder  = (Integer[]) Arrays.stream(preorder).boxed().toArray();
+		
+		Integer[] leftPreOrder  = Arrays.copyOfRange(preOrder, 0, idx-1);
+		Integer[] rightPreOrder = Arrays.copyOfRange(preOrder, idx+1, preOrder.length-1);		
+		Integer[] leftInOrder   = Arrays.copyOfRange(inOrder, 0, idx-1);
+		Integer[] rightInOrder  = Arrays.copyOfRange(inOrder, idx+1, inOrder.length-1);
+				
+		stPreOrder.push( rightPreOrder);
+		stLeftOrRight.push(1);             //right child values		
+		stPreOrder.push( leftPreOrder);
+		stLeftOrRight.push(0);             //left child values
+		
+		stInOrder.push( rightInOrder);		
+		stInOrder.push( leftInOrder);		
+		
+		stParent.push(root);		
+		
+		while(!stPreOrder.isEmpty()) 
+		{
+			Integer [] arrPreOrder = stPreOrder.pop();
+			Integer [] arrInOrder  = stInOrder.pop();
+			TreeNode parent = new TreeNode(arrPreOrder[0]);					
+			
+			idx = Utils.getIndex(arrPreOrder, parent.val);
+			
+			
+			leftPreOrder  = Arrays.copyOfRange(arrPreOrder, 0, idx-1);
+			rightPreOrder  = Arrays.copyOfRange(arrPreOrder, idx+1, arrPreOrder.length-1);
+			
+			leftInOrder  = Arrays.copyOfRange(arrInOrder, 0, idx-1);
+			rightInOrder  = Arrays.copyOfRange(arrInOrder, idx+1, arrInOrder.length-1);
+		}
+
+		
+		return root;
+	}
+	
 	
 	public List<TreeNode> delNodes(TreeNode root, int[] to_delete) 
 	{
@@ -2936,6 +2996,14 @@ public class LeetCodeTreeSolutions {
 	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr1 = { {}, {5},  {1,2}, {1,2,3,null,4}, {5,3,6,2,4,null,7}};			
+		int index = 4;
+		TreeNode root = arrayToTree(arr1[index]);		
+		List<List<String>> result = printTree(root);												
+		System.out.println(result);
+		*/
+		
 		/*
 		Integer [][] arr1 = { {2,1,4},{2,1},{}};
 		Integer [][] arr2 = { {1,0,3},{2,1,3,null,null,null,4},{6,5,7}};		
