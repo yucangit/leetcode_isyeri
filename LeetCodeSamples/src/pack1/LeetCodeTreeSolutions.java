@@ -130,7 +130,10 @@ class Tree2
 	
 	TreeNode parent;
 	
-	public Tree2() {}
+	public Tree2() 
+	{
+		//leftPreOrder = new Integer[] {};
+	}
 }
 
 public class LeetCodeTreeSolutions {
@@ -2930,6 +2933,12 @@ public class LeetCodeTreeSolutions {
 		while(!stTree.isEmpty()) 
 		{
 			item = stTree.pop();
+			leftPreOrder  = item.leftPreOrder;
+			rightPreOrder = item.rightPreOrder;
+			leftInOrder  = item.leftInOrder;
+			rightInOrder = item.rightInOrder;
+			
+			
 			
 			/*
 			Integer [] arrInOrder  = stInOrder.pop();
