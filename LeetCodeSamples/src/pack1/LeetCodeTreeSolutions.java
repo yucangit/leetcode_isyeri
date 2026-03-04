@@ -121,6 +121,18 @@ class BSTIterator {
     }
 }
 
+class Tree2
+{
+	Integer[] leftPreOrder;
+	Integer[] rightPreOrder;
+	Integer[] leftInOrder;
+	Integer[] rightInOrder;
+	
+	TreeNode parent;
+	
+	public Tree2() {}
+}
+
 public class LeetCodeTreeSolutions {
 	
 	//Bu fonksiyonda hata var mi?(06.02.2026) . (Dogru gibi. 13.02.2026)
@@ -2873,11 +2885,15 @@ public class LeetCodeTreeSolutions {
 		  Diger         :
 		*/					
 		
+		/*
 		Stack<Integer[]> stPreOrder = new Stack<>();
 		Stack<Integer[]> stInOrder  = new Stack<>();
 		Stack<TreeNode>  stParent   = new Stack<>();
-		Stack<Integer> stLeftOrRight = new Stack<>();    //0->left, 1->right						
-				
+		Stack<Integer> stLeftOrRight = new Stack<>();    //0->left, 1->right		
+		*/
+		
+		Stack<Tree2> stTree = new Stack<>();
+		Tree2 item = new Tree2();		
 		
 		TreeNode root = new TreeNode(preorder[0]);
 		
@@ -2889,7 +2905,16 @@ public class LeetCodeTreeSolutions {
 		Integer[] rightPreOrder = Arrays.copyOfRange(preOrder, idx+1, preOrder.length-1);		
 		Integer[] leftInOrder   = Arrays.copyOfRange(inOrder, 0, idx-1);
 		Integer[] rightInOrder  = Arrays.copyOfRange(inOrder, idx+1, inOrder.length-1);
-				
+		
+		
+		item.leftPreOrder  = leftPreOrder;
+		item.rightPreOrder = rightPreOrder;
+		item.leftInOrder   = leftInOrder;
+		item.rightInOrder  = rightInOrder;
+		item.parent        = root;
+		stTree.push(item);
+		
+		/*
 		stPreOrder.push( rightPreOrder);
 		stLeftOrRight.push(1);             //right child values		
 		stPreOrder.push( leftPreOrder);
@@ -2898,11 +2923,15 @@ public class LeetCodeTreeSolutions {
 		stInOrder.push( rightInOrder);		
 		stInOrder.push( leftInOrder);		
 		
-		stParent.push(root);		
+		stParent.push(root);
+		*/				
 		
-		while(!stPreOrder.isEmpty()) 
+		
+		while(!stTree.isEmpty()) 
 		{
-			Integer [] arrPreOrder = stPreOrder.pop();
+			item = stTree.pop();
+			
+			/*
 			Integer [] arrInOrder  = stInOrder.pop();
 			TreeNode parent = new TreeNode(arrPreOrder[0]);					
 			
@@ -2914,6 +2943,7 @@ public class LeetCodeTreeSolutions {
 			
 			leftInOrder  = Arrays.copyOfRange(arrInOrder, 0, idx-1);
 			rightInOrder  = Arrays.copyOfRange(arrInOrder, idx+1, arrInOrder.length-1);
+			*/
 		}
 
 		
