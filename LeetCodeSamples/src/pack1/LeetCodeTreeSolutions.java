@@ -123,16 +123,19 @@ class BSTIterator {
 
 class Tree2
 {
-	Integer[] leftPreOrder;
-	Integer[] rightPreOrder;
-	Integer[] leftInOrder;
-	Integer[] rightInOrder;
+	int [] preOrder;
+	int [] inOrder;
 	
 	TreeNode parent;
+	int leftOrRight;    //0->left, 1->right
 	
-	public Tree2() 
+	public Tree2() { }
+	public Tree2(int[] preOrder, int [] inOrder, TreeNode parent, int leftOrRight) 
 	{
-		//leftPreOrder = new Integer[] {};
+		this.preOrder = preOrder;
+		this.inOrder = inOrder;
+		this.parent = parent;
+		this.leftOrRight = leftOrRight;
 	}
 }
 
@@ -2877,84 +2880,86 @@ public class LeetCodeTreeSolutions {
 		return ans;
 	}
 	
-	public TreeNode buildTree(int[] preorder, int[] inorder) 
+	public static void divideAndPushOntoStack(Stack<Tree2> st, TreeNode parent, int[] preOrder, int[] inOrder) 
+	{		
+		//buildTree fonksiyonu için oluþturuldu.
+		//TreeNode parent = new TreeNode(preOrder[0]);		
+		
+		int idx = Utils.getIndex(inOrder, parent.val);
+		
+		//get left part
+		int[] leftPreOrder = Arrays.copyOfRange(preOrder, 1, idx+1);   //first node is root.
+		int[] leftInOrder  = Arrays.copyOfRange(inOrder, 0, idx);				
+		
+		Tree2 item = new Tree2(leftPreOrder, leftInOrder, parent, 0);
+		st.push(item);
+		
+		//get right part
+		int[] rightPreOrder = Arrays.copyOfRange(preOrder, idx+1, preOrder.length);
+		int[] rightInOrder  = Arrays.copyOfRange(inOrder, idx+1, inOrder.length);		
+		
+		item = new Tree2(rightPreOrder, rightInOrder, parent, 1);
+		st.push(item);				
+	}
+	
+	public static TreeNode buildTree(int[] preOrder, int[] inOrder) 
 	{	
 		/*
 		  Tarih         : 04.03.2026
-		  Durum         : Yapilmaya calisiliyor.
-		  Problem Adi   :
-		  Problem Link  :
+		  Durum         : Yapildi.
+		  Problem Adi   : Construct Binary Tree from Preorder and Inorder Traversal
+		  Problem Link  : https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/?envType=problem-list-v2&envId=binary-tree
 		  Algoritma     :
 		  Diger         :
-		*/					
+		*/									
 		
-		/*
-		Stack<Integer[]> stPreOrder = new Stack<>();
-		Stack<Integer[]> stInOrder  = new Stack<>();
-		Stack<TreeNode>  stParent   = new Stack<>();
-		Stack<Integer> stLeftOrRight = new Stack<>();    //0->left, 1->right		
-		*/
+		Stack<Tree2> stTree = new Stack<>();					
+		TreeNode root, parent=null, child = null;						
 		
-		Stack<Tree2> stTree = new Stack<>();
-		Tree2 item = new Tree2();		
+		root = new TreeNode(preOrder[0]);
 		
-		TreeNode root = new TreeNode(preorder[0]);
-		
-		int idx = Utils.getIndex(preorder, root.val);
-		Integer [] preOrder = (Integer[]) Arrays.stream(preorder).boxed().toArray();
-		Integer [] inOrder  = (Integer[]) Arrays.stream(preorder).boxed().toArray();
-		
-		Integer[] leftPreOrder  = Arrays.copyOfRange(preOrder, 0, idx-1);
-		Integer[] rightPreOrder = Arrays.copyOfRange(preOrder, idx+1, preOrder.length-1);		
-		Integer[] leftInOrder   = Arrays.copyOfRange(inOrder, 0, idx-1);
-		Integer[] rightInOrder  = Arrays.copyOfRange(inOrder, idx+1, inOrder.length-1);
-		
-		
-		item.leftPreOrder  = leftPreOrder;
-		item.rightPreOrder = rightPreOrder;
-		item.leftInOrder   = leftInOrder;
-		item.rightInOrder  = rightInOrder;
-		item.parent        = root;
-		stTree.push(item);
-		
-		/*
-		stPreOrder.push( rightPreOrder);
-		stLeftOrRight.push(1);             //right child values		
-		stPreOrder.push( leftPreOrder);
-		stLeftOrRight.push(0);             //left child values
-		
-		stInOrder.push( rightInOrder);		
-		stInOrder.push( leftInOrder);		
-		
-		stParent.push(root);
-		*/				
-		
+		divideAndPushOntoStack(stTree, root, preOrder, inOrder);												
 		
 		while(!stTree.isEmpty()) 
 		{
-			item = stTree.pop();
-			leftPreOrder  = item.leftPreOrder;
-			rightPreOrder = item.rightPreOrder;
-			leftInOrder  = item.leftInOrder;
-			rightInOrder = item.rightInOrder;
+			Tree2 item = stTree.pop();
+			int[] preOrder1 = item.preOrder;
+			int[] inOrder1  = item.inOrder;
 			
-			
-			
-			/*
-			Integer [] arrInOrder  = stInOrder.pop();
-			TreeNode parent = new TreeNode(arrPreOrder[0]);					
-			
-			idx = Utils.getIndex(arrPreOrder, parent.val);
-			
-			
-			leftPreOrder  = Arrays.copyOfRange(arrPreOrder, 0, idx-1);
-			rightPreOrder  = Arrays.copyOfRange(arrPreOrder, idx+1, arrPreOrder.length-1);
-			
-			leftInOrder  = Arrays.copyOfRange(arrInOrder, 0, idx-1);
-			rightInOrder  = Arrays.copyOfRange(arrInOrder, idx+1, arrInOrder.length-1);
-			*/
+			int size = inOrder1.length;
+			if(size==0) 
+				continue;
+			else if(size==1) 
+			{
+				child = new TreeNode(preOrder1[0]);
+				if(item.leftOrRight==0) item.parent.left = child;
+				else                    item.parent.right = child;
+			}
+			else if(size==2) 
+			{
+				parent = new TreeNode(preOrder1[0]);
+				child  = new TreeNode(preOrder1[1]);
+				
+				if(parent.val==inOrder1[1]) parent.left = child;
+				else                        parent.right = child;
+				
+				if(item.leftOrRight==0) item.parent.left = parent;
+				else                    item.parent.right = parent;				
+			}
+			else if(size>2) 
+			{
+				//divide into two parts
+				parent = new TreeNode(preOrder1[0]);
+				
+				if(item.leftOrRight==0) 
+					item.parent.left = parent;
+				else                    
+					item.parent.right = parent;	
+				
+				divideAndPushOntoStack(stTree, parent, preOrder1, inOrder1);
+			}   
+									
 		}
-
 		
 		return root;
 	}
@@ -3017,6 +3022,7 @@ public class LeetCodeTreeSolutions {
 		return ans;
 		
 	}
+	
 	
 	public List<TreeNode> delNodes2(TreeNode root, int[] to_delete) 
 	{
@@ -3298,6 +3304,7 @@ public class LeetCodeTreeSolutions {
 		*/		
 	}
 	
+	
 	public static void main(String [] args) 
 	{
 		/*
@@ -3346,16 +3353,15 @@ public class LeetCodeTreeSolutions {
 		*/
 		//System.out.println(result);								
 				
+				
+		int [][] preorder = { {3,9,20,15,7}, {-1} ,{3,9,10,20,15,11,7}, {1,2,4,6,5,3,7,8,9,10} };
+		int [][] inorder  = { {9,3,15,20,7}, {-1}, {10,9,3,11,15,20,7}, {4,2,5,6,1,3,8,9,7,10} };
+		int index = 3;
+		//TreeNode root = arrayToTree(arr1[index]);
 		
-
-
-		Integer [][] arr1 = { {}, {5},  {1,2}, {1,2,3,null,4}, {5,3,6,2,4,null,7}};			
-		int index = 4;
-		TreeNode root = arrayToTree(arr1[index]);
-		
-		List<List<String>> result = printTree(root);
+		TreeNode result = buildTree(preorder[index], inorder[index]);
 													
-		System.out.println(result);
+		System.out.println(treeToList(result));
 
 	}
 }
