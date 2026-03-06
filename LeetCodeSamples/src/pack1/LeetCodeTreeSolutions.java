@@ -1536,9 +1536,7 @@ public class LeetCodeTreeSolutions {
 		
 		return result;
 	}
-
-	
-	
+			
 	public static TreeNode removeLeafNodes(TreeNode root, int target) 
 	{
 		/*
@@ -2766,7 +2764,7 @@ public class LeetCodeTreeSolutions {
 		}
 		
 		return root;		
-    }
+    }    
 	
 	public List<TreeNode> delNodes(TreeNode root, int[] to_delete) 
 	{
