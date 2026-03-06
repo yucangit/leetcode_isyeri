@@ -27,8 +27,7 @@ public class Utils
 		 
 		 return result;
 	 }
-	 
-	 
+	 	 
 	 public static long binaryToNumber(String binary) 
 	 {
 		 long result =0;
@@ -53,6 +52,32 @@ public class Utils
 		 
 		 return result;
 	 }
+	 	 
+	 public static int getIndex(int [] arr, int val) 
+	 {
+		 int idx = -1;
+		 for(int i=0; i<arr.length; i++) 
+		 {
+			 if(arr[i]==val) 
+			 {
+				 idx = i;
+				 break;
+			 }
+		 }
+		 return idx;
+	 }
 	 
-	 
+	 public static int getIndex(Integer [] arr, int val) 
+	 {
+		 int idx = -1;
+		 for(int i=0; i<arr.length; i++) 
+		 {
+			 if(arr[i]==val) 
+			 {
+				 idx = i;
+				 break;
+			 }
+		 }
+		 return idx;
+	 }
 }
