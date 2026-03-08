@@ -868,11 +868,25 @@ public class LeetCodeTreeSolutions {
 		Eksikler  :    
 	    */
 		 
+		class TreeNode3
+		{
+			TreeNode node;
+			int level;
+			int bit;   //left->0, right->1
+			boolean visited;
+			public TreeNode3(TreeNode node, int level, int bit, boolean visited) 
+			{
+				this.node = node;
+				this.level = level;
+				this.bit = bit;
+				this.visited = visited;
+			}
+		}
+		
 		int count = 0;
 		int height=0;
 		
-		TreeNode curr=root, left=null, right=null;				
-		StringBuilder sb = new StringBuilder();
+		TreeNode curr=root, left=null, right=null;						
 		
 		if(curr==null) 
 			return 0;				
@@ -887,31 +901,47 @@ public class LeetCodeTreeSolutions {
 		System.out.println("height : " + height);
 		
 		//find right most node's path like (1110, 1110,110 ...)
-		Stack<TreeNode> st = new Stack<>();
-		st.push(root);
-		sb.append(1);   //root is 1
+		Stack<TreeNode3> st = new Stack<>();
+		TreeNode3 curr3;				
+		StringBuilder sb = new StringBuilder();
 		int level=0;
 		
-		curr = root;		
-		while(level<height) 
+		curr3= new TreeNode3(root,0,1,false);
+		st.push(curr3);		
+					
+		while(level<=height) 
 		{
-			left  = curr.left;
-			right = curr.right;
+			curr3 = st.peek();
+			level = curr3.level;
 			
-			if(isLeaf(curr) && level!=height)   // 
+			if(curr3.visited)    //means false path. Backtrack
 			{
-				System.out.println("current node ("+curr.val+") is leaf and level="+level + ". Path is : " + sb.toString()+ ". Backtracking left node.");
 				st.pop();
-				curr = st.peek();
-				level--;
 				sb.deleteCharAt(sb.toString().length()-1);   //remove last bit
-				//continue;
+				continue;
+			}
+			
+			int binaryPathBit = curr3.bit; 
+			sb.append(binaryPathBit); 
+			
+			left  = curr3.node.left;
+			right = curr3.node.right;
+			
+			if(left==null && right==null )   //is Leaf?
+			{
+				if(level==height) 						
+					break;
+				if(level!=height)   // backtracking 
+				{
+					System.out.println("current node ("+curr3.node.val+") is leaf and level="+level + ". Path is='" + sb.toString()+ "'.  Backtracking left node.");
+					st.pop();
+					sb.deleteCharAt(sb.toString().length()-1);   //remove last bit					
+				}
 			}
 			else 
-			{
-				if(left!=null)   { st.push(left);   curr= left;   if(right==null)  sb.append('0');  }
-				if(right!=null)  { st.push(right);  curr= right;                   sb.append('1');  }		
-				level++;
+			{				
+				if(left!=null)   { st.push(new TreeNode3(left, level+1, 0, false));  }
+				if(right!=null)  { st.push(new TreeNode3(right,level+1, 1, false)); }								
 			}
 			
 			System.out.println("currNode : " + curr.val +", level="+level +  ". Path is : " + sb.toString());
@@ -925,7 +955,7 @@ public class LeetCodeTreeSolutions {
 		
 		count += lastNodeIdxAtLastLevel-firstNodeIdxAtLastLevel +1;
 		
-		return count;       
+		return count;    
     }
 		
 	public static boolean leafSimilar(TreeNode root1, TreeNode root2) 
@@ -3559,7 +3589,7 @@ public class LeetCodeTreeSolutions {
 		*/		
 	}
 	
-	
+	 
 	public static void main(String [] args) 
 	{
 		/*
@@ -3611,12 +3641,12 @@ public class LeetCodeTreeSolutions {
 						
 				
 		Integer [][] arr = { {1,2,3,4,5,6},{},{1},{1,2,3,4}};		
-		int index = 3;
+		int index = 2;
 		TreeNode root = arrayToTree(arr[index]);
 		
 		int result = countNodes2(root);
 													
 		System.out.println("node count : " + result);				
 
-	}
+   	}
 }
