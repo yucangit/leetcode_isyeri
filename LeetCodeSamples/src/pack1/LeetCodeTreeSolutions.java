@@ -900,19 +900,21 @@ public class LeetCodeTreeSolutions {
 			
 			if(isLeaf(curr) && level!=height)   // 
 			{
-				System.out.println("current node is leaf and level="+level + "<height=" + height + ". Path is : " + sb.toString()+ ". Backtracking left node.");
+				System.out.println("current node ("+curr.val+") is leaf and level="+level + ". Path is : " + sb.toString()+ ". Backtracking left node.");
 				st.pop();
 				curr = st.peek();
 				level--;
 				sb.deleteCharAt(sb.toString().length()-1);   //remove last bit
 				//continue;
 			}
+			else 
+			{
+				if(left!=null)   { st.push(left);   curr= left;   if(right==null)  sb.append('0');  }
+				if(right!=null)  { st.push(right);  curr= right;                   sb.append('1');  }		
+				level++;
+			}
 			
-			if(left!=null)   { st.push(left);   curr= left;   if(right==null)  sb.append('0');  }
-			if(right!=null)  { st.push(right);  curr= right;                   sb.append('1');  }		
-			level++;
-			
-			System.out.println("level="+level + ", height=" + height + ". Path is : " + sb.toString());
+			System.out.println("currNode : " + curr.val +", level="+level +  ". Path is : " + sb.toString());
 		}
 		
 		System.out.println("last node binary path : " + sb.toString());
