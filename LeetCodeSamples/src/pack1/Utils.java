@@ -12,18 +12,18 @@ public class Utils
 		return ch;
 	}
 	
-	 public static int binaryToInt(String binary) 
-	 {
-		 int result =0;
-		 int mul = 1;
-		 
-		 int size= binary.length();
-		 for(int i=size-1; i>=0; i--) 
-		 {
-			 int bit = binary.charAt(i)=='1'?1:0;
-			 result += mul*bit;
-			 mul*=2;
-		 }
+	public static int binaryToInt(String binary) 
+	{
+		int result =0;
+		int mul = 1;
+		
+		int size= binary.length();
+		for(int i=size-1; i>=0; i--) 
+		{
+			int bit = binary.charAt(i)=='1'?1:0;
+			result += mul*bit;
+			mul*=2;
+		}
 		 
 		 return result;
 	 }

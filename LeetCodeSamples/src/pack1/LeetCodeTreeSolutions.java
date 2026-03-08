@@ -764,37 +764,166 @@ public class LeetCodeTreeSolutions {
         
     }
 	
+	public static void name() {
+		/*
+			Durum     :  
+			Tarih     : 07.03.2026
+			Problem   :
+			Link      :
+			Algoritma :
+			Eksikler  :    
+		*/
+		
+	}
 	public static int countNodes(TreeNode root) 
 	{ 
-		//Karmasikligin O(n)'den kucuk olmasi isteniyor.
-		//Yapilamadi(23.01.2026)
+		/*
+		Durum     : 
+		Tarih     : 07.03.2026
+		Problem   : Count Complete Tree Nodes
+		Link      : https://leetcode.com/problems/count-complete-tree-nodes/?envType=problem-list-v2&envId=binary-tree
+		Algoritma : 
+					Karmasikligin O(n)'den kucuk olmasi isteniyor.					
+		            Önce height bulunur : Sürekli sol child'a gidilir.
+			        En son seviyeye kadar olan node'laýn sayýsý bulunur. count1= =2^height-1
+		     	    En son seviyedeki node'larýn sayýsý bulunur: 
+		     	       Son level'daki ilk ve son node'larýn index deðerleri bulunur: 
+		                  En soldaki ve en saðdaki node'larýn binary path deðerleri bulunur ve int'e çevrilir. :
+		                     root=1 ile baþlayarak, sol child'lara 0, right child'lara ise 1 verilerek en saðdaki node'un binary path deðeri bulunur.
+			       count2 = son index deðeri - ilk index deðeri
+			       sonuc : count1 + count2    
+		Eksikler  :    
+	    */
+		 
 		int count = 0;
-		int level=0;
-		Queue<TreeNode> q = new LinkedList<>();
-		TreeNode curr=null, left=null, right=null;
-		q.add(root);
+		int height=0;
 		
-		while(!q.isEmpty()) 
+		TreeNode curr=root, left=null, right=null;				
+		StringBuilder sb = new StringBuilder();
+		
+		if(curr==null) 
+			return 0;
+		
+		sb.append(1);   //root is 1
+		
+		//find height
+		curr = root;
+		while(curr.left !=null)  
 		{
-			int size = q.size();
-			curr  = q.poll();
+			curr=curr.left;
+			height++;			
+		}
+		System.out.println("height : " + height);
+		
+		//find right most node's path like (1110, 1110,110 ...)
+		Stack<TreeNode> st = new Stack<>();
+		int level=0;
+		curr = root;		
+		while(curr.right!=null || curr.left!=null) 
+		{
 			left  = curr.left;
 			right = curr.right;
 			
-			if(left!=null || right!=null) 
-				count += Math.pow(2,level);
-			level++;
-				
-			for(int i=0; i<size-1; i++) 
+			if(right!=null)   
 			{
-				
+				sb.append(1);
+				curr = curr.right;
 			}
-			
+			else  
+			{
+				sb.append(0);
+				curr = curr.left;
+			}						
 		}
 		
+		System.out.println("last node binary path : " + sb.toString());
 		
-		return count;
-        
+		count = (int) Math.pow(2, height)-1;   //nodes except at last level
+		int firstNodeIdxAtLastLevel = (int) Math.pow(2, height);
+		int lastNodeIdxAtLastLevel = Utils.binaryToInt( sb.toString());
+		lastNodeIdxAtLastLevel = (lastNodeIdxAtLastLevel<firstNodeIdxAtLastLevel)?0:lastNodeIdxAtLastLevel;   //son seviyede tek bir node varsa, last
+		
+		count += lastNodeIdxAtLastLevel-firstNodeIdxAtLastLevel +1;
+		
+		return count;       
+    }
+	
+	public static int countNodes2(TreeNode root) 
+	{ 
+		/*
+		Durum     :   
+		Tarih     : 07.03.2026
+		Problem   : Count Complete Tree Nodes
+		Link      : https://leetcode.com/problems/count-complete-tree-nodes/?envType=problem-list-v2&envId=binary-tree
+		Algoritma : 
+					Karmasikligin O(n)'den kucuk olmasi isteniyor.					
+		            Önce height bulunur : Sürekli sol child'a gidilir.
+			        En son seviyeye kadar olan node'laýn sayýsý bulunur. count1= =2^height-1
+		     	    En son seviyedeki node'larýn sayýsý bulunur: 
+		     	       Son level'daki ilk ve son node'larýn index deðerleri bulunur: 
+		                  En soldaki ve en saðdaki node'larýn binary path deðerleri bulunur ve int'e çevrilir. :
+		                     root=1 ile baþlayarak, sol child'lara 0, right child'lara ise 1 verilerek en saðdaki node'un binary path deðeri bulunur.
+			       count2 = son index deðeri - ilk index deðeri
+			       sonuc : count1 + count2    
+		Eksikler  :    
+	    */
+		 
+		int count = 0;
+		int height=0;
+		
+		TreeNode curr=root, left=null, right=null;				
+		StringBuilder sb = new StringBuilder();
+		
+		if(curr==null) 
+			return 0;				
+		
+		//find height
+		curr = root;
+		while(curr.left !=null) 
+		{
+			curr=curr.left;
+			height++;			
+		}
+		System.out.println("height : " + height);
+		
+		//find right most node's path like (1110, 1110,110 ...)
+		Stack<TreeNode> st = new Stack<>();
+		st.push(root);
+		sb.append(1);   //root is 1
+		int level=0;
+		
+		curr = root;		
+		while(level<height) 
+		{
+			left  = curr.left;
+			right = curr.right;
+			
+			if(isLeaf(curr) && level!=height)   // 
+			{
+				System.out.println("current node is leaf and level="+level + "<height=" + height + ". Path is : " + sb.toString()+ ". Backtracking left node.");
+				st.pop();
+				curr = st.peek();
+				level--;
+				sb.deleteCharAt(sb.toString().length()-1);   //remove last bit
+				//continue;
+			}
+			
+			if(left!=null)   { st.push(left);   curr= left;   if(right==null)  sb.append('0');  }
+			if(right!=null)  { st.push(right);  curr= right;                   sb.append('1');  }		
+			level++;
+			
+			System.out.println("level="+level + ", height=" + height + ". Path is : " + sb.toString());
+		}
+		
+		System.out.println("last node binary path : " + sb.toString());
+		
+		count = (int) Math.pow(2, height)-1;   //nodes except at last level
+		int firstNodeIdxAtLastLevel = (int) Math.pow(2, height);
+		int lastNodeIdxAtLastLevel = Utils.binaryToInt( sb.toString());		
+		
+		count += lastNodeIdxAtLastLevel-firstNodeIdxAtLastLevel +1;
+		
+		return count;       
     }
 		
 	public static boolean leafSimilar(TreeNode root1, TreeNode root2) 
@@ -3474,19 +3603,18 @@ public class LeetCodeTreeSolutions {
 		TreeNode root1 = arrayToTree(arr[5]);
 		TreeNode root2 = arrayToTree(arr[6]);
 		boolean result = isSubtree2(root1,root2);
-		*/
+		*/ 
 		//System.out.println(result);								
 				
 						
 				
-		Integer [][] arr = { {1,2,3,4,5,6,7}, {1,2,3,null,4}, {14,4,null,15}};
-		int [] k  = { 1, 3, 2};
-		int index = 2;
+		Integer [][] arr = { {1,2,3,4,5,6},{},{1},{1,2,3,4}};		
+		int index = 3;
 		TreeNode root = arrayToTree(arr[index]);
 		
-		int result = kthLargestPerfectSubtree(root, k[index]);
+		int result = countNodes2(root);
 													
-		System.out.println(result);				
+		System.out.println("node count : " + result);				
 
 	}
 }
