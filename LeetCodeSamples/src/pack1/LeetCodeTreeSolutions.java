@@ -3554,9 +3554,9 @@ public class LeetCodeTreeSolutions {
 				
 						
 				
-		Integer [][] arr = { {1,2,3,4,5,6,7}, {1,2,3,null,4} };
-		int [] k  = { 1, 3};
-		int index = 0;
+		Integer [][] arr = { {1,2,3,4,5,6,7}, {1,2,3,null,4} ,{14,4,null,15} };
+		int [] k  = { 1, 3, 2};
+		int index = 2;
 		TreeNode root = arrayToTree(arr[index]);
 		
 		int result = kthLargestPerfectSubtree2(root, k[index]);
