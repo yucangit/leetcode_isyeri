@@ -763,38 +763,116 @@ public class LeetCodeTreeSolutions {
         return set.size()==1;
         
     }
-	
+			
 	public static int countNodes(TreeNode root) 
 	{ 
-		//Karmasikligin O(n)'den kucuk olmasi isteniyor.
-		//Yapilamadi(23.01.2026)
-		int count = 0;
-		int level=0;
-		Queue<TreeNode> q = new LinkedList<>();
-		TreeNode curr=null, left=null, right=null;
-		q.add(root);
-		
-		while(!q.isEmpty()) 
+		/*
+		Durum     : Yapildi.
+		Tarih     : 09.03.2026
+		Problem   : Count Complete Tree Nodes
+		Link      : https://leetcode.com/problems/count-complete-tree-nodes/?envType=problem-list-v2&envId=binary-tree
+		Algoritma : 
+					Karmasikligin O(n)'den kucuk olmasi isteniyor.					
+		            Önce height bulunur : Sürekli sol child'a gidilir.
+			        En son seviyeye kadar olan node'laýn sayýsý bulunur. count1= =2^height-1
+		     	    En son seviyedeki node'larýn sayýsý bulunur: 
+		     	       Son level'daki ilk ve son node'larýn index deðerleri bulunur: 
+		                  En soldaki ve en saðdaki node'larýn binary path deðerleri bulunur ve int'e çevrilir. :
+		                     root=1 ile baþlayarak, sol child'lara 0, right child'lara ise 1 verilerek en saðdaki node'un binary path deðeri bulunur.
+			       count2 = son index deðeri - ilk index deðeri
+			       sonuc : count1 + count2    
+		Eksikler  :    
+	    */
+		 
+		class TreeNode3
 		{
-			int size = q.size();
-			curr  = q.poll();
-			left  = curr.left;
-			right = curr.right;
-			
-			if(left!=null || right!=null) 
-				count += Math.pow(2,level);
-			level++;
-				
-			for(int i=0; i<size-1; i++) 
+			TreeNode node;
+			int level;
+			int bit;   //left->0, right->1
+			boolean visited;
+			public TreeNode3(TreeNode node, int level, int bit, boolean visited) 
 			{
-				
+				this.node = node;
+				this.level = level;
+				this.bit = bit;
+				this.visited = visited;
 			}
-			
 		}
 		
+		int count = 0;
+		int height=0;
 		
-		return count;
-        
+		TreeNode curr=root, left=null, right=null;						
+		
+		if(curr==null) 
+			return 0;				
+		
+		//find height
+		curr = root;
+		while(curr.left !=null) 
+		{
+			curr=curr.left;
+			height++;			
+		}
+		System.out.println("height : " + height);
+		
+		//find right most node's path like (1110, 1110,110 ...)
+		Stack<TreeNode3> st = new Stack<>();
+		TreeNode3 curr3;				
+		StringBuilder sb = new StringBuilder();
+		int level=0;
+		
+		curr3= new TreeNode3(root,0,1,false);         // node, level, bit, visited
+		st.push(curr3);		
+					
+		while(level<=height) 
+		{
+			curr3 = st.peek();
+			level = curr3.level;
+			
+			if(curr3.visited)    //means false path. Backtrack
+			{
+				st.pop();
+				sb.deleteCharAt(sb.toString().length()-1);   //remove last bit
+				continue;
+			}
+			
+			int binaryPathBit = curr3.bit; 
+			sb.append(binaryPathBit); 
+			
+			left  = curr3.node.left;
+			right = curr3.node.right;
+			
+			if( isLeaf(curr3.node) )   
+			{
+				if(level==height) 						
+					break;
+				if(level!=height)   // backtracking 
+				{
+					System.out.println("current node ("+curr3.node.val+") is leaf and level="+level + ". Path is='" + sb.toString()+ "'.  Backtracking left node.");
+					st.pop();
+					sb.deleteCharAt(sb.toString().length()-1);   //remove last bit					
+				}
+			}
+			else 
+			{				
+				if(left!=null)   { st.push(new TreeNode3(left, level+1, 0, false));  }
+				if(right!=null)  { st.push(new TreeNode3(right,level+1, 1, false)); }
+				curr3.visited = true;
+			}
+			
+			System.out.println("currNode : " + curr.val +", level="+level +  ". Path is : " + sb.toString());
+		}
+		
+		System.out.println("last node binary path : " + sb.toString());
+		
+		count = (int) Math.pow(2, height)-1;   //nodes except at last level
+		int firstNodeIdxAtLastLevel = (int) Math.pow(2, height);
+		int lastNodeIdxAtLastLevel = Utils.binaryToInt( sb.toString());		
+		
+		count += lastNodeIdxAtLastLevel-firstNodeIdxAtLastLevel +1;
+		
+		return count;    
     }
 		
 	public static boolean leafSimilar(TreeNode root1, TreeNode root2) 
@@ -1584,7 +1662,7 @@ public class LeetCodeTreeSolutions {
 		
 		return result;
 	}
-		
+
 	public static TreeNode removeLeafNodes(TreeNode root, int target) 
 	{
 		/*
@@ -2812,7 +2890,7 @@ public class LeetCodeTreeSolutions {
 		}
 		
 		return root;		
-    }
+    }    
 	
 	public static List<List<String>> printTree(TreeNode root) {
 		/*
@@ -2967,90 +3045,7 @@ public class LeetCodeTreeSolutions {
     {
     	/*
 		  Tarih         : 06.03.2026
-		  Durum         : Yapiliyor
-		  Problem Adi   :
-		  Problem Link  :
-		  Algoritma     :
-		  Diger         :
-		*/
-    	
-    	Stack<TreeNode> st = new Stack<>();                       //For traversing the tree            
-     	Map<TreeNode, Integer> mapHeight = new HashMap<>();       //subTree Root, height of subtree
-     	Map<TreeNode, Integer> mapSubTreeNodeCount = new HashMap<>();
-     	Set<TreeNode> visited = new HashSet<>();                  //left and right childs are pushed to stack
-     	Set<TreeNode> perfectSubTree = new HashSet<>();       	
-     	TreeNode curr, left, right;
-     	List<Integer> listPerfectSubTreeNodeCount = new ArrayList<>();    //only perfect node's node count(size) 
-     	int ans = -1;                                             //kth largest perfect subtree's size
-     	
-     	if(root!=null) 
-     		st.push(root);
-     	
-     	while(!st.isEmpty()) 
-     	{
-     		curr = st.peek(); 
-     		if( isLeaf(curr) )  
-     		{ 
-     			st.pop();   
-     			visited.add(curr);   
-     			mapHeight.put(curr, 0);  
-     			mapSubTreeNodeCount.put(curr,1);  
-     			perfectSubTree.add(curr); 
-     		}
-     		else 
-     		{
-     			left  = curr.left;
- 				right = curr.right;
- 				
-     			if(!visited.contains(curr))   //go to child nodes 
-     			{     				     			
-     				if(left!=null)   st.push(left);
-     				if(right!=null)  st.push(right);
-     				
-     				visited.add(curr);
-     			}
-     			else 
-     			{
-     				st.pop();
-     				int leftNodeCount  = mapSubTreeNodeCount.get(left);
-     				int rightNodeCount = mapSubTreeNodeCount.get(right);
-     				int currNodeCount = leftNodeCount + rightNodeCount; 
-     				mapSubTreeNodeCount.put(curr, currNodeCount);
-     				
-     				if( perfectSubTree.contains(left) && perfectSubTree.contains(right) && leftNodeCount==rightNodeCount ) 
-     				{     				
-     					perfectSubTree.add(curr);     					    
-     					listPerfectSubTreeNodeCount.add(currNodeCount);
-     				}     			
-     			}     			     			     		
-     		}
-     	}
-     	
-     	int perfectSubTreeCount = perfectSubTree.size();
-     	
-     	if(perfectSubTreeCount<k) 
-     	{
-     		ans = -1;
-     	}
-     	else {
-     	
-	     	Integer [] arr = new Integer[perfectSubTreeCount];
-	     	listPerfectSubTreeNodeCount.toArray(arr);
-	     	Arrays.sort(arr);
-	     	
-	     	ans = arr[k-1];
-	     	
-     	}
-     	
-    	return ans;
-    	
-    }
-    
-    public static int kthLargestPerfectSubtree2(TreeNode root, int k) 
-    {
-    	/*
-		  Tarih         : 06.03.2026
-		  Durum         : Yapiliyor
+		  Durum         : Yapildi.
 		  Problem Adi   : K-th Largest Perfect Subtree Size in Binary Tree
 		  Problem Link  : https://leetcode.com/problems/k-th-largest-perfect-subtree-size-in-binary-tree/description/?envType=problem-list-v2&envId=binary-tree
 		  Algoritma     :
@@ -3131,7 +3126,8 @@ public class LeetCodeTreeSolutions {
      				
      				curr.subTreeNodeCount = currNodeCount;
      				
-     				if( left!=null && left.perfectSubTree && right!=null && right.perfectSubTree && leftNodeCount==rightNodeCount ) 
+     				if(left==null || right==null) {}   //cannot be perfect subtree
+     				else if( left.perfectSubTree && right.perfectSubTree && leftNodeCount==rightNodeCount )    
      				{     				
      					curr.perfectSubTree = true;     	
      					listPerfectSubTreeNodeCount.add(currNodeCount);
@@ -3142,12 +3138,10 @@ public class LeetCodeTreeSolutions {
      	
      	int size = listPerfectSubTreeNodeCount.size();
      	
-     	if(size<k) 
-     	{
-     		ans = -1;
-     	}
-     	else {
-     	
+     	if(size<k)       	
+     		ans = -1;     	
+     	else 
+     	{      	
 	     	Integer [] arr = new Integer[size];
 	     	listPerfectSubTreeNodeCount.toArray(arr);
 	     	Arrays.sort(arr);	     	
@@ -3232,6 +3226,15 @@ public class LeetCodeTreeSolutions {
 	
 	public static void testCases() 
 	{
+		/*
+		Integer [][] arr = { {1,2,3,4,5,6,7}, {1,2,3,null,4}, {14,4,null,15}};
+		int [] k  = { 1, 3, 2};
+		int index = 2;
+		TreeNode root = arrayToTree(arr[index]);		
+		int result = kthLargestPerfectSubtree(root, k[index]);													
+		System.out.println(result);
+		*/
+		
 		/*
 		int [][] preorder = { {3,9,20,15,7}, {-1} ,{3,9,10,20,15,11,7}, {1,2,4,6,5,3,7,8,9,10} };
 		int [][] inorder  = { {9,3,15,20,7}, {-1}, {10,9,3,11,15,20,7}, {4,2,5,6,1,3,8,9,7,10} };
@@ -3503,7 +3506,7 @@ public class LeetCodeTreeSolutions {
 		*/		
 	}
 	
-	
+	 
 	public static void main(String [] args) 
 	{
 		/*
@@ -3549,19 +3552,18 @@ public class LeetCodeTreeSolutions {
 		TreeNode root1 = arrayToTree(arr[5]);
 		TreeNode root2 = arrayToTree(arr[6]);
 		boolean result = isSubtree2(root1,root2);
-		*/
+		*/ 
 		//System.out.println(result);								
-				
-						
-				
-		Integer [][] arr = { {1,2,3,4,5,6,7}, {1,2,3,null,4} ,{14,4,null,15} };
-		int [] k  = { 1, 3, 2};
-		int index = 2;
+													
+
+		Integer [][] arr = { {1,2,3,4,5,6},{},{1},{1,2,3,4}, {1,2,3,4,5,6,7,8,9,10,11}};		
+
+		int index = 3;
 		TreeNode root = arrayToTree(arr[index]);
 		
-		int result = kthLargestPerfectSubtree2(root, k[index]);
+		int result = countNodes2(root);
 													
-		System.out.println(result);				
+		System.out.println("node count : " + result);				
 
-	}
+   	}
 }
