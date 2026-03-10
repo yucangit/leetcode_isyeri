@@ -3561,7 +3561,7 @@ public class LeetCodeTreeSolutions {
 		int index = 3;
 		TreeNode root = arrayToTree(arr[index]);
 		
-		int result = countNodes2(root);
+		int result = countNodes(root);
 													
 		System.out.println("node count : " + result);				
 
