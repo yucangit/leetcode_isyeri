@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.Deque;
 
 
 //Definition for a binary tree node.
@@ -244,7 +245,7 @@ public class LeetCodeStackSamples {
         return revPre+secondPart;
     }
 
-    public String removeOuterParentheses(String s) 
+    public static String removeOuterParentheses(String s) 
     {
     	//URL : https://leetcode.com/problems/remove-outermost-parentheses/description/?envType=problem-list-v2&envId=stack
         Stack<Character> st  = new Stack<Character>();
@@ -574,7 +575,7 @@ public class LeetCodeStackSamples {
         return result;
     }
     
-    public List<Integer> inorderTraversal(TreeNode root) 
+    public static List<Integer> inorderTraversal(TreeNode root) 
     {
         Stack<TreeNode> st = new Stack<TreeNode>();
         List<Integer> result = new LinkedList<Integer>();
@@ -597,7 +598,7 @@ public class LeetCodeStackSamples {
         return result;
     }
     
-    public int[] finalPrices(int[] prices) 
+    public static int[] finalPrices(int[] prices) 
     {        
         Stack<Integer> st = new Stack<Integer>();
         int [] result = new int[prices.length];
@@ -622,7 +623,7 @@ public class LeetCodeStackSamples {
 
     }
     
-    public String removeStars(String s) 
+    public static String removeStars(String s) 
     {
         Stack<Character> st = new Stack<Character>();
 
@@ -684,7 +685,7 @@ public class LeetCodeStackSamples {
         return result;
     }
     
-    public List<String> buildArray(int[] target, int n) 
+    public static List<String> buildArray(int[] target, int n) 
     {
         List<String> result = new LinkedList<String>();        
         int arrIdx=0;
@@ -1145,7 +1146,7 @@ public class LeetCodeStackSamples {
 		return resultDummyHead.right;
     }
     
-    public List<String> binaryTreePaths(TreeNode root) {
+    public static List<String> binaryTreePaths(TreeNode root) {
         
     	//https://leetcode.com/problems/binary-tree-paths/?envType=problem-list-v2&envId=string
     	//Eksik (04.09.2025)
@@ -1347,8 +1348,88 @@ public class LeetCodeStackSamples {
     	return sb.toString();        
     }
     
+    public static int clumsy(int n) {
+    	/*
+		  Tarih         : 10.03.2026
+		  Durum         : Yapildi.
+		  Problem Adi   : Clumsy Factorial
+		  Problem Link  : https://leetcode.com/problems/clumsy-factorial/description/?envType=problem-list-v2&envId=stack
+		  Algoritma     :
+		  Diger         : Daha pratik bir sekilde yapilabiliyor.
+		*/
+    	
+    	char []ops = {'*','/','+','-'}; 
+    	int result = 1;
+    	    	
+    	List<String> list = new ArrayList<>();
+    	
+    	for(int i=n, j=0; i>0; i--, j++) 
+    	{
+    		list.add(i+"");
+    		if(i>1)   list.add(ops[j%4]+"");    		    			
+    	}
+    	    	
+    	//System.out.println(list);    	    	    	    	
+    	
+    	Deque<String> st = new LinkedList<>();
+    	st.push(list.get(0));
+    	
+    	int num1, num2;
+    	
+    	for(int i=1; i<list.size(); i++ ) 
+    	{ 
+    		String elm = list.get(i);
+	    	switch ( elm ) 
+			{ 
+				case "*" : 
+					num1 = Integer.parseInt(st.pollLast()); 
+					num2 = Integer.parseInt(list.get(i+1));  
+					st.addLast( num1*num2 +"" );   
+					i++;
+					break;
+				case "/" : 
+					st.addLast( Integer.parseInt(st.pollLast()) / Integer.parseInt(list.get(i+1)) +"" );   
+					i++;	
+					break;
+				default  : st.addLast(elm);
+			}
+    	}
+    	
+    	result = Integer.parseInt(st.pollFirst());
+    	
+    	while(!st.isEmpty()) 
+    	{ 
+    		String op =  st.pollFirst();
+	    	switch ( op ) 
+			{ 
+				case "+" : result +=  Integer.parseInt(st.pollFirst());  break;
+				case "-" : result -=  Integer.parseInt(st.pollFirst());	 break;									
+			}
+    	}    	
+    	
+    	return result;
+    }
+        
+    
+    
     public void testCases() 
     {
+    	/*
+    	int [] n = {4, 10 };
+    	int index=1;
+    	int result = clumsy(n[index]);
+    	System.out.println(result);
+    	*/
+    	
+    	/*
+    	String [] arr = {"(abcd)","(u(love)i)","(ed(et(oc))el)", "abcd", "a(bcd)e","a(bcd)def(ghi)j",
+		         "yhqqvjhjchlahdn(())", "(mno(pqr(stu)vwx)yz)","vdgzyj()","ta()usw((((abc))))",
+		         "()"
+		        };
+		int index=10;
+		String result = reverseParentheses(arr[index]);
+		System.out.println(result);
+		*/
     	
     	/*
     	 TreeNode root = new TreeNode(5);
@@ -1409,8 +1490,7 @@ public class LeetCodeStackSamples {
     	System.out.println("asdf");
     	System.out.println(Integer.parseInt("-0"));
     	char ch='0';
-    	System.out.println("ch:" + ch + " ascii : "+(int)ch);
-    	
+    	System.out.println("ch:" + ch + " ascii : "+(int)ch);    	
     	System.out.println(Integer.parseInt("12"+"10"));
     	
     	
@@ -1608,16 +1688,12 @@ public class LeetCodeStackSamples {
     	
     }
     
-    public static void main(String[] args) { 
-    	
-    	String [] arr = {"(abcd)","(u(love)i)","(ed(et(oc))el)", "abcd", "a(bcd)e","a(bcd)def(ghi)j",
-    			         "yhqqvjhjchlahdn(())", "(mno(pqr(stu)vwx)yz)","vdgzyj()","ta()usw((((abc))))",
-    			         "()"
-    			        };
-    	int index=10;
-    	String result = reverseParentheses(arr[index]);
-    	System.out.println(result);
-    	
+    public static void main(String[] args) 
+    {     	    
+    	int [] n = {4, 10 };
+    	int index=1;
+    	int result = clumsy(n[index]);
+    	System.out.println(result);    	
 	}
 
 }
