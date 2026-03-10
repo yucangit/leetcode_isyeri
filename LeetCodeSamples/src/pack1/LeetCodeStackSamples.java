@@ -575,7 +575,7 @@ public class LeetCodeStackSamples {
         return result;
     }
     
-    public List<Integer> inorderTraversal(TreeNode root) 
+    public static List<Integer> inorderTraversal(TreeNode root) 
     {
         Stack<TreeNode> st = new Stack<TreeNode>();
         List<Integer> result = new LinkedList<Integer>();
@@ -598,7 +598,7 @@ public class LeetCodeStackSamples {
         return result;
     }
     
-    public int[] finalPrices(int[] prices) 
+    public static int[] finalPrices(int[] prices) 
     {        
         Stack<Integer> st = new Stack<Integer>();
         int [] result = new int[prices.length];
@@ -623,7 +623,7 @@ public class LeetCodeStackSamples {
 
     }
     
-    public String removeStars(String s) 
+    public static String removeStars(String s) 
     {
         Stack<Character> st = new Stack<Character>();
 
@@ -685,7 +685,7 @@ public class LeetCodeStackSamples {
         return result;
     }
     
-    public List<String> buildArray(int[] target, int n) 
+    public static List<String> buildArray(int[] target, int n) 
     {
         List<String> result = new LinkedList<String>();        
         int arrIdx=0;
@@ -1146,7 +1146,7 @@ public class LeetCodeStackSamples {
 		return resultDummyHead.right;
     }
     
-    public List<String> binaryTreePaths(TreeNode root) {
+    public static List<String> binaryTreePaths(TreeNode root) {
         
     	//https://leetcode.com/problems/binary-tree-paths/?envType=problem-list-v2&envId=string
     	//Eksik (04.09.2025)
@@ -1411,8 +1411,16 @@ public class LeetCodeStackSamples {
     }
         
     
+    
     public void testCases() 
     {
+    	/*
+    	int [] n = {4, 10 };
+    	int index=1;
+    	int result = clumsy(n[index]);
+    	System.out.println(result);
+    	*/
+    	
     	/*
     	String [] arr = {"(abcd)","(u(love)i)","(ed(et(oc))el)", "abcd", "a(bcd)e","a(bcd)def(ghi)j",
 		         "yhqqvjhjchlahdn(())", "(mno(pqr(stu)vwx)yz)","vdgzyj()","ta()usw((((abc))))",
@@ -1681,14 +1689,11 @@ public class LeetCodeStackSamples {
     }
     
     public static void main(String[] args) 
-    { 
-    	
-    	
+    {     	    
     	int [] n = {4, 10 };
     	int index=1;
     	int result = clumsy(n[index]);
-    	System.out.println(result);
-    	
+    	System.out.println(result);    	
 	}
 
 }
