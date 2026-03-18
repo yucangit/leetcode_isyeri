@@ -328,8 +328,151 @@ public class LeetCodeArrays {
     	return ans;
     }
     
+    public static int removeDuplicates(int[] nums) {
+    	/*
+		  Tarih         : 16.03.2026
+		  Durum         : Yapildi.
+		  Problem Adi   : Remove Duplicates from Sorted Array
+		  Problem Link  : https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+		  Algoritma     :
+		  Diger         :
+		*/
+    	
+    	int idx1=1, idx2=0;
+    	
+    	int size = nums.length;
+    	
+    	for(int i=1; i<size; i++) 
+    	{
+    		if(nums[i]==nums[i-1]) 
+    		{
+    			continue;
+    		}
+    		else 
+    		{ 
+    			idx2++; 
+    			nums[idx2] = nums[i];    			
+    		}
+    	}    
+    	
+    	return idx2+1;
+    	
+    }
+    
+    public static void FancySequence() {
+		/*
+		  Tarih         : 16.03.2026
+		  Durum         : Yapilmadi. 
+		  Problem Adi   : Fancy Sequence
+		  Problem Link  : https://leetcode.com/problems/fancy-sequence/?envType=daily-question&envId=2026-03-15
+		  Algoritma     :
+		  Diger         : Zaman-Ýþlem karmaþýklýðý O(n) olunca TimeLimitException oluþuyor. 
+		                  Daha verimli bir yöntem denenebilir mi?
+		                  Yorumlarda yaklaþým olarak "Lazy evalutaion" ve Fermat's Little Theorem" belirtilmiþ.
+		*/
+    	
+    	class Fancy {
+    		int [][] nums;     //number,     time
+    		int [][] opt;      //operation,  time
+    		int [][] incArr;   //increment,  time
+    		int [][] mulArr;   //multiplier, time
+    		int index;
+    		int time;
+
+    	    public Fancy() 
+    	    {
+    	        nums   = new int[100000][2];
+    	        opt    = new int[100000][2];
+    	        incArr = new int[100000][2];
+    	        mulArr = new int[100000][2];
+    	        index  = -1;
+    	        time   = -1;
+    	    }
+    	    
+    	    public void append(int val) 
+    	    {
+    	    	index++;
+    	    	time++;
+    	        nums[index][0] = val;
+    	        nums[index][1] = time;
+    	    }
+    	    
+    	    public void addAll(int inc) 
+    	    {
+    	    	index++;
+    	    	time++;
+    	        incArr[index][0] = inc;
+    	        incArr[index][1] = time;    	    	
+    	    }
+    	    
+    	    public void multAll(int m) 
+    	    {
+    	    	index++;
+    	    	time++;
+    	        mulArr[index][0] = m;
+    	        mulArr[index][1] = time;
+    	    }
+    	    
+    	    public int getIndex(int idx) 
+    	    {
+    	    	time++;
+    	    	
+    	    	for(int i=nums[idx][1]; i<time; i++) 
+    	    	{
+    	    		
+    	    	}
+    	    	
+    	        return nums[idx][0];
+    	    }
+    	}
+    	
+		
+	}
+
+    public static String longestCommonPrefix(String[] strs) 
+    {
+    	//Tarih : 18.03.2026
+    	//Durum : Yapildi.
+    	
+    	StringBuilder sb = new StringBuilder();    	
+    	int minLength = 200;
+    	
+    	//find min size of strings
+    	for(int i=0; i<strs.length; i++)   
+    		minLength = Math.min(minLength, strs[i].length());
+    	
+    	for(int i=0; i<minLength; i++)   //check ith character 
+    	{
+    		boolean isAllSame = true;
+    		char ch = strs[0].charAt(i);
+    		
+    		for(String str : strs) 
+    		{    
+    			if(str.charAt(i)!=ch) 
+    			{ 
+    				isAllSame=false; 
+    				break; 
+    			}
+    		}
+    		
+    		if(isAllSame) 
+    			sb.append(ch);
+    		else 
+    			break;
+    	}
+    	
+    	return sb.toString();
+    }
+    
     public static void testCases() 
 	{
+    	/*
+		String [][] strs = {{"flower","flow","flight", ""},{"dog","racecar","car"}, {"cir","car"}};
+		int index = 2;
+		String result =  longestCommonPrefix(strs[index]);
+		System.out.println("sonuc : " + result);
+		*/
+    	
     	/*
 		int [][] nums = {{0,2,1,3,4,6,5,7,8},{1024,512,256,128,64,32,16,8,4,2,1},{12,0,0,11,1}};
 		int index = 2;
@@ -428,7 +571,13 @@ public class LeetCodeArrays {
 		printArrayContent(result, true);
 		*/
 		
-		System.out.println( Integer.bitCount(4) );
+		//System.out.println( Integer.bitCount(4) );
+		
+		String [][] strs = {{"flower","flow","flight", ""},{"dog","racecar","car"}, {"cir","car"}};
+		int index = 2;
+		String result =  longestCommonPrefix(strs[index]);
+		System.out.println("sonuc : " + result);
+		
 		
 		
 		

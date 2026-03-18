@@ -1110,7 +1110,6 @@ public class LeetCodeString
     	return pairCount;
         
     }
-
     
     
     public static String[] findWords(String[] words) 
@@ -1573,7 +1572,6 @@ public class LeetCodeString
 
         return minChange;
     }
- 
     
     public static int numUniqueEmails(String[] emails) 
     {
@@ -2853,8 +2851,7 @@ public class LeetCodeString
         String str = sb.deleteCharAt(idx).toString();
         return str;       
     }
-    
-    
+        
     public static boolean isIsomorphic(String s, String t) {
     	Map<Character,Character> map = new HashMap<>();
         //char[][] map = new char[128][1];
@@ -2886,16 +2883,46 @@ public class LeetCodeString
 
     }
     
-    public static void main(String[] args) 
-	{
+    public static int strStr(String haystack, String needle) 
+    {
+    	/*
+		  Tarih         : 18.03.2026
+		  Durum         : yapiliyor
+		  Problem Adi   : Find the Index of the First Occurrence in a String
+		  Problem Link  : https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+		  Algoritma     :
+		  Diger         :
+		*/
+    	int idx = -1;    
+    	int len1Needle = needle.length();
+    	int len2Hay = haystack.length();
+    		
+		for(int i=0; i<= len2Hay - len1Needle; i++)
+		{
+			int j=0;
+			int matchChCount=0;		
+			
+			while( j < len1Needle && i+j<len2Hay && haystack.charAt(i+j)==needle.charAt(j) ) 
+			{ 
+				matchChCount++;
+				j++;
+			}
+			
+			if(matchChCount==len1Needle){ 
+				idx = i;
+                break;
+            }
+		}
     	
-    	//String s = "adf";
-    	//StringBuilder sb = new StringBuilder();
-    	//sb.deleteCharAt(0);
-    	
+		return idx;
+    }       
+    
+    public static void testCases() 
+    {    
+    	/*
     	String [][]arr = {{"egg","add"},{"foo", "bar"},{"paper","title"},{"badc","baba"}};    	
     	System.out.println(isIsomorphic(arr[2][0], arr[2][1]));
-    	
+    	*/
     	
     	/*
     	String [] arr = {"123","1234","551","133235"};
@@ -3447,6 +3474,17 @@ public class LeetCodeString
 		//String str1 = "sen1 sen2 assf";
 		
 		 //System.out.println(str.equals(str1));
+    }
+    
+    public static void main(String[] args) 
+	{
+    	
+    	String[] haystack = {"sadbutsad", "leetcode", "asd"};
+    	String[] needle = {"sad", "leeto", "asd"};
+    	int index = 0;
+    	
+    	int result = strStr(haystack[index], needle[index]);
+    	System.out.println("sonuc : " + result);
 		
 		
 	}
