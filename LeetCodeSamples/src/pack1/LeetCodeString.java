@@ -2887,7 +2887,7 @@ public class LeetCodeString
     {
     	/*
 		  Tarih         : 18.03.2026
-		  Durum         : yapiliyor
+		  Durum         : Yapildi.
 		  Problem Adi   : Find the Index of the First Occurrence in a String
 		  Problem Link  : https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
 		  Algoritma     :
@@ -2902,7 +2902,7 @@ public class LeetCodeString
 			int j=0;
 			int matchChCount=0;		
 			
-			while( j < len1Needle && i+j<len2Hay && haystack.charAt(i+j)==needle.charAt(j) ) 
+			while( j < len1Needle && haystack.charAt(i+j)==needle.charAt(j) ) 
 			{ 
 				matchChCount++;
 				j++;
@@ -2916,9 +2916,114 @@ public class LeetCodeString
     	
 		return idx;
     }       
+
+    public static String reversePrefix(String s, int k) 
+    {    	
+		/*
+		  Tarih         : 18.03.2026
+		  Durum         :  
+		  Problem Adi   : Reverse String Prefix
+		  Problem Link  : https://leetcode.com/problems/reverse-string-prefix/description/?envType=problem-list-v2&envId=string
+		  Algoritma     : 
+		  Diger         :
+		*/
+					    	
+    	StringBuilder sb = new StringBuilder();
+    	char [] arr = s.toCharArray();
+    	
+    	for(int i=0; i<k/2; i++) 
+    	{
+    		char temp = arr[k-1-i];
+    		arr[k-1-i] = arr[i];
+    		arr[i] = temp;
+    	}
+    	
+    	sb.append(arr);
+    	
+    	return sb.toString();
+    }
+
+    public String mapWordWeights(String[] words, int[] weights) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 18.03.2026
+        StringBuilder sb = new StringBuilder();
+
+        for(String word:words)
+        {
+            int sum = 0;
+            for( char ch:word.toCharArray() )
+            {
+                sum+= weights[ch-'a'];
+            }
+            sum%=26;
+
+            char ch = (char) ('a'+(25-sum));
+            sb.append(ch);
+        }
+
+        return sb.toString();
+        
+    }
+
+    public static String reverseByType(String s) 
+    {
+    	//Tarih : 18.03.2026
+    	//Durum : Yapiliyor
+    	
+    	char [] arr = s.toCharArray();
+    	int size= s.length();
+    	int left = 0, right = size-1;    	    	
+    	
+    	//swap special characters
+    	while(left<=right) 
+    	{
+    		while( left<size && (arr[left]>'a'  && arr[left]<'z' ) ) left++;
+    		while( right>0   && (arr[right]>'a' && arr[right]<'z' ) ) right--;
+    		
+    		if(left<=right) 
+    		{
+    			char temp = arr[left];
+    			arr[left] = arr[right];
+    			arr[right] = temp;
+    			left++;
+    			right--;
+    		}
+    	}
+    	
+    	left = 0;
+    	right = s.length()-1;
+    	
+    	//swap [a-z] characters
+    	while(left<=right) 
+    	{
+    		while( left<size && !(arr[left]>'a'  && arr[left]<'z' ) ) left++;
+    		while( right>0   && !(arr[right]>'a' && arr[right]<'z' ) ) right--;
+    		
+    		if(left<=right) 
+    		{
+    			char temp = arr[left];
+    			arr[left] = arr[right];
+    			arr[right] = temp;
+    			left++;
+    			right--;
+    		}
+    	}
+    	
+    	return new String(arr);
+    	
+    }
     
     public static void testCases() 
     {    
+    	/*
+    	String[] haystack = {"sadbutsad", "leetcode", "asd"};
+    	String[] needle = {"sad", "leeto", "asd"};
+    	int index = 0;    	
+    	int result = strStr(haystack[index], needle[index]);
+    	System.out.println("sonuc : " + result);
+    	*/
+    	
     	/*
     	String [][]arr = {{"egg","add"},{"foo", "bar"},{"paper","title"},{"badc","baba"}};    	
     	System.out.println(isIsomorphic(arr[2][0], arr[2][1]));
@@ -3476,16 +3581,20 @@ public class LeetCodeString
 		 //System.out.println(str.equals(str1));
     }
     
+
+    
     public static void main(String[] args) 
 	{
-    	
+    	/*
     	String[] haystack = {"sadbutsad", "leetcode", "asd"};
     	String[] needle = {"sad", "leeto", "asd"};
     	int index = 0;
     	
     	int result = strStr(haystack[index], needle[index]);
     	System.out.println("sonuc : " + result);
+    	*/
 		
+    	System.out.println((char)('a'+25));
 		
 	}
 
