@@ -3075,6 +3075,22 @@ public class LeetCodeString
         return sb.toString().replace(" ","");
     }
     
+    public static String trimTrailingVowels(String s) 
+    {
+    	int endIdx = s.length()-1;
+    	String vovels = "aeiou";    	
+    	
+    	for(int i=endIdx; i>=0; i--) 
+    	{    		
+    		char ch = s.charAt(i); 
+    		if(vovels.indexOf(ch)!=-1) 
+    			endIdx--;
+    		else break;
+    	}
+    	
+    	return s.substring(0,endIdx+1);
+    }
+    
     public static void testCases() 
     {    
     	/*
@@ -3661,11 +3677,10 @@ public class LeetCodeString
     public static void main(String[] args) 
 	{  
 		
-    	String []str = {"abcd","abc"};
-    	int index = 1;
-    	String result= makeSmallestPalindrome(str[index]);    
-    	System.out.println(result);
-    	   
+    	String []str = {"aeiou","idea", "day", "abc","a","b"};
+    	int index = 5;
+    	String result= trimTrailingVowels(str[index]);    
+    	System.out.println(result);    	    	   
 		
 	}
 
