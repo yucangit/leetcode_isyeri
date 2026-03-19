@@ -472,25 +472,6 @@ public class LeetCodeString
         
         return count;
     }
-
-    public int countPoints(String rings) 
-    {
-    	//bu problem henüz çözülmedi(27.08.2025)
-    	
-    	List < Set<Character> > listOfSet = new ArrayList < Set<Character> > ();            	
-    	
-    	for(int i=0; i<rings.length(); i+=2) 
-    	{
-    		char ring = rings.charAt(i);
-    		int  rod  = Integer.parseInt(rings.charAt(i+1)+"");
-    		
-    		listOfSet.get(rod).add(ring);    		    		
-    	}
-    	
-    	for(int i=0; i<9;i++) {}
-    	
-    	return 0;
-    }
     
     public static String freqAlphabets(String s) {
     	
@@ -1110,8 +1091,7 @@ public class LeetCodeString
     	return pairCount;
         
     }
-    
-    
+        
     public static String[] findWords(String[] words) 
     {
         
@@ -3014,8 +2994,103 @@ public class LeetCodeString
     	
     }
     
+    /*
+         	//bu problem henüz çözülmedi(27.08.2025)
+    	
+    	List < Set<Character> > listOfSet = new ArrayList < Set<Character> > ();            	
+    	
+    	for(int i=0; i<rings.length(); i+=2) 
+    	{
+    		char ring = rings.charAt(i);
+    		int  rod  = Integer.parseInt(rings.charAt(i+1)+"");
+    		
+    		listOfSet.get(rod).add(ring);    		    		
+    	}
+    	
+    	for(int i=0; i<9;i++) {}
+    	
+    	return 0;
+    */
+    
+    public static int countPoints(String rings) {
+    	//Durum : Yapildi.
+    	//Tarih : 19.03.2026
+    	
+    	//R3G2B1
+    	class MyHashSet
+    	{
+    		HashSet<Character> set;
+    		public MyHashSet() 
+    		{
+    			set = new HashSet<>();
+    		}
+    	}
+    	
+    	int result = 0;    	
+        MyHashSet [] rods = new MyHashSet[10];  
+        
+        for(int i=0; i<10;i++)
+        	rods[i] = new MyHashSet();
+        
+        char []arr = rings.toCharArray();
+        
+        for(int i=0; i<arr.length; i+=2) 
+        {
+        	int setIdx = arr[i+1]-'0';
+        	char color = arr[i];
+        	
+        	rods[setIdx].set.add(color);
+        }
+        
+        for(int i=0; i<10; i++) 
+        {
+        	if(rods[i].set.size()==3) result++;
+        }
+        
+        return result;
+
+    }
+
+    public static String makeSmallestPalindrome(String s) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 19.03.2026
+    	
+    	StringBuilder sb = new StringBuilder(s);    	
+    	int size = s.length();
+    	    	
+    	if(size%2==0)  
+    		sb.insert(size/2, " ");
+    	    	    	
+    	int midIdx = size/2;    	
+    	
+    	for(int i=1; i<=size/2;i++) 
+    	{
+    		char ch1 = sb.charAt(midIdx-i);
+    		char ch2 = sb.charAt(midIdx+i);
+    		if(ch1<ch2)      { sb.setCharAt(midIdx+i, ch1);   }
+    		else if(ch1>ch2) { sb.setCharAt(midIdx-i, ch2);   }
+    	}
+    	
+        return sb.toString().replace(" ","");
+    }
+    
     public static void testCases() 
     {    
+    	/*
+    	String []str = {"abcd","abc"};
+    	int index = 1;
+    	String result= makeSmallestPalindrome(str[index]);    
+    	System.out.println(result);
+    	*/
+    	
+    	/*
+    	String []rings = {"B0B6G0R6R0R6G9"};
+    	int index = 0;
+    	int result= countPoints(rings[0]);    
+    	System.out.println(result);
+    	*/
+    	
     	/*
     	String[] haystack = {"sadbutsad", "leetcode", "asd"};
     	String[] needle = {"sad", "leeto", "asd"};
@@ -3584,17 +3659,13 @@ public class LeetCodeString
 
     
     public static void main(String[] args) 
-	{
-    	/*
-    	String[] haystack = {"sadbutsad", "leetcode", "asd"};
-    	String[] needle = {"sad", "leeto", "asd"};
-    	int index = 0;
-    	
-    	int result = strStr(haystack[index], needle[index]);
-    	System.out.println("sonuc : " + result);
-    	*/
+	{  
 		
-    	System.out.println((char)('a'+25));
+    	String []str = {"abcd","abc"};
+    	int index = 1;
+    	String result= makeSmallestPalindrome(str[index]);    
+    	System.out.println(result);
+    	   
 		
 	}
 
