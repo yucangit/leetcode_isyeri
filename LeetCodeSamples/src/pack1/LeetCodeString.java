@@ -3077,6 +3077,9 @@ public class LeetCodeString
     
     public static String trimTrailingVowels(String s) 
     {
+    	//Durum : Yapildi.
+    	//Tarih : 19.03.2026
+    	
     	int endIdx = s.length()-1;
     	String vovels = "aeiou";    	
     	
@@ -3091,8 +3094,84 @@ public class LeetCodeString
     	return s.substring(0,endIdx+1);
     }
     
+    public static String largestEven(String s) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 19.03.2026
+    	
+    	int endIdx = s.length()-1;
+    	
+    	for(int i=endIdx; i>=0; i--) 
+    	{
+    		int num = s.charAt(i)-'0';
+    		if(num%2==1) 
+    			endIdx--;
+    		else break;
+    	}
+    	
+    	return s.substring(0, endIdx+1);
+    }
+    
+    public static String majorityFrequencyGroup(String s) 
+    {
+    	//Durum : Yapiliyor.
+    	//Tarih : 19.03.2026
+    	
+    	int [] freq = new int[26]; 
+    	Map<Integer, String> map = new HashMap<>();  //frequency, character list
+    	
+    	//find frequencies of characters
+    	for(char ch : s.toCharArray()) 
+    	{
+    		freq[ch-'a']++;
+    	}
+    	
+    	//build freq groups with map
+    	for(int i=0; i<26; i++) 
+    	{
+    		int count = freq[i];
+    		
+    		if(count>0) 
+    		{
+    			char ch = (char) ('a'+i) ;
+    			String chList = map.getOrDefault(count, "");
+    			chList += "" + ch;
+    			map.put(count, chList);
+    		}
+    	}
+    	
+    	//
+    	String [] arr = (String[]) map.values().toArray(new String[0]);
+    	List<String> maxStrList = new ArrayList<>();
+    	int maxSize = 0;
+    	
+    	for(String str  :arr) 
+    	{
+    		int size = str.length(); 
+    		if( size > maxSize) 
+    		{
+    			maxStrList.clear();
+    			maxSize = size;
+    			maxStrList.add(str);
+    		}
+    		else if( size == maxSize)     		    			    		
+    			maxStrList.add(str);    		
+    		
+    	}
+    	
+    	
+    	return null;        
+    }
+    
     public static void testCases() 
     {    
+    	/*
+    	String []str = {"aeiou","idea", "day", "abc","a","b"};
+    	int index = 5;
+    	String result= trimTrailingVowels(str[index]);    
+    	System.out.println(result);    
+    	*/
+    	
     	/*
     	String []str = {"abcd","abc"};
     	int index = 1;
@@ -3672,14 +3751,13 @@ public class LeetCodeString
 		 //System.out.println(str.equals(str1));
     }
     
-
     
     public static void main(String[] args) 
 	{  
 		
-    	String []str = {"aeiou","idea", "day", "abc","a","b"};
-    	int index = 5;
-    	String result= trimTrailingVowels(str[index]);    
+    	String []str = {"aaabbbccdddde","abcd", "pfpfgi"};
+    	int index = 0;
+    	String result= majorityFrequencyGroup(str[index]);    
     	System.out.println(result);    	    	   
 		
 	}
