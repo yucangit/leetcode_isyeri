@@ -1,9 +1,11 @@
 package pack1;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class LeetCodeArrays {
@@ -236,10 +238,263 @@ public class LeetCodeArrays {
         
     }
     
+    public static int evenNumberBitwiseORs(int[] nums) 
+    {
+    	//Tarih : 11.03.2026
+    	
+    	int result = 0;
+    	for(int num:nums) 
+    	{
+    		//if(num%2==0)
+    		if( (num & 1 )== 0)	
+    			result = result | num;
+    	}
+    	
+    	return result;
+    }
+    
+    public static boolean divideArray(int[] nums) 
+    {
+    	//Tarih : 11.03.2026
+    	HashMap<Integer, Integer> map = new HashMap<>();
+    	boolean ans = true;
+    	
+    	int size = nums.length;
+    	
+    	for(int num:nums) 
+    	{
+    		int count = map.getOrDefault(num, 0);
+    		map.put(num, count+1);
+    	}
+    	
+    	for(Map.Entry<Integer, Integer> ent: map.entrySet()) 
+    	{
+    		if(ent.getValue()%2!=0) 
+    		{ 
+    			ans = false; 
+    			break; 
+    		}
+    	}
+    	
+    	ans = map.size()==size/2  && ans;   
+    	
+    	return ans;
+    }
+    
+    public static int[] sortByBits(int[] arr) 
+    {
+    	//Tarih : 11.03.2026
+    	//Durum : Yapildi
+    	//Aciklama: 
+    	
+    	Map<Integer, List<Integer>> map = new HashMap<>();   //freq of 1 bits, num list
+    	
+    	for(int num : arr) 
+    	{
+    		//1 bitlerinin sayýsýný bulmak için doðrudan Integer.bitCount(4) fonksiyonu kullanýlabilir.
+    		String binStr = Integer.toBinaryString(num);
+    		int count = 0;
+    		
+    		for( char ch : binStr.toCharArray() ) 
+    		{
+    			count += ch-'0';
+    		}
+    		
+    		List<Integer> list = map.get(count);
+    		if(list==null) {
+    			list = new ArrayList<>();    			    		
+    		}
+    		list.add(num);    		
+    		map.put(count, list);
+    	}
+    	
+    	//sort process1
+    	
+    	List<Entry<Integer, List<Integer>>> list2 = new ArrayList<>(map.entrySet());
+    	list2.sort(Entry.comparingByKey());
+    	
+    	//sort process2 - sort numbers with same frequency 
+    	List<Integer> list3 = new ArrayList<>();
+    	for(int i=0; i<list2.size(); i++) 
+    	{    		
+    		List<Integer> list4 = list2.get(i).getValue();
+    		Collections.sort(list4);
+    		list3.addAll(list4);
+    	}
+    	
+    	int [] ans = new int[list3.size()];
+    	ans = list3.stream().mapToInt(Integer::intValue).toArray();
+    	
+    	return ans;
+    }
+    
+    public static int removeDuplicates(int[] nums) {
+    	/*
+		  Tarih         : 16.03.2026
+		  Durum         : Yapildi.
+		  Problem Adi   : Remove Duplicates from Sorted Array
+		  Problem Link  : https://leetcode.com/problems/remove-duplicates-from-sorted-array/
+		  Algoritma     :
+		  Diger         :
+		*/
+    	
+    	int idx1=1, idx2=0;
+    	
+    	int size = nums.length;
+    	
+    	for(int i=1; i<size; i++) 
+    	{
+    		if(nums[i]==nums[i-1]) 
+    		{
+    			continue;
+    		}
+    		else 
+    		{ 
+    			idx2++; 
+    			nums[idx2] = nums[i];    			
+    		}
+    	}    
+    	
+    	return idx2+1;
+    	
+    }
+    
+    public static void FancySequence() {
+		/*
+		  Tarih         : 16.03.2026
+		  Durum         : Yapilmadi. 
+		  Problem Adi   : Fancy Sequence
+		  Problem Link  : https://leetcode.com/problems/fancy-sequence/?envType=daily-question&envId=2026-03-15
+		  Algoritma     :
+		  Diger         : Zaman-Ýþlem karmaþýklýðý O(n) olunca TimeLimitException oluþuyor. 
+		                  Daha verimli bir yöntem denenebilir mi?
+		                  Yorumlarda yaklaþým olarak "Lazy evalutaion" ve Fermat's Little Theorem" belirtilmiþ.
+		*/
+    	
+    	class Fancy {
+    		int [][] nums;     //number,     time
+    		int [][] opt;      //operation,  time
+    		int [][] incArr;   //increment,  time
+    		int [][] mulArr;   //multiplier, time
+    		int index;
+    		int time;
+
+    	    public Fancy() 
+    	    {
+    	        nums   = new int[100000][2];
+    	        opt    = new int[100000][2];
+    	        incArr = new int[100000][2];
+    	        mulArr = new int[100000][2];
+    	        index  = -1;
+    	        time   = -1;
+    	    }
+    	    
+    	    public void append(int val) 
+    	    {
+    	    	index++;
+    	    	time++;
+    	        nums[index][0] = val;
+    	        nums[index][1] = time;
+    	    }
+    	    
+    	    public void addAll(int inc) 
+    	    {
+    	    	index++;
+    	    	time++;
+    	        incArr[index][0] = inc;
+    	        incArr[index][1] = time;    	    	
+    	    }
+    	    
+    	    public void multAll(int m) 
+    	    {
+    	    	index++;
+    	    	time++;
+    	        mulArr[index][0] = m;
+    	        mulArr[index][1] = time;
+    	    }
+    	    
+    	    public int getIndex(int idx) 
+    	    {
+    	    	time++;
+    	    	
+    	    	for(int i=nums[idx][1]; i<time; i++) 
+    	    	{
+    	    		
+    	    	}
+    	    	
+    	        return nums[idx][0];
+    	    }
+    	}
+    	
+		
+	}
+
+    public static String longestCommonPrefix(String[] strs) 
+    {
+    	//Tarih : 18.03.2026
+    	//Durum : Yapildi.
+    	
+    	StringBuilder sb = new StringBuilder();    	
+    	int minLength = 200;
+    	
+    	//find min size of strings
+    	for(int i=0; i<strs.length; i++)   
+    		minLength = Math.min(minLength, strs[i].length());
+    	
+    	for(int i=0; i<minLength; i++)   //check ith character 
+    	{
+    		boolean isAllSame = true;
+    		char ch = strs[0].charAt(i);
+    		
+    		for(String str : strs) 
+    		{    
+    			if(str.charAt(i)!=ch) 
+    			{ 
+    				isAllSame=false; 
+    				break; 
+    			}
+    		}
+    		
+    		if(isAllSame) 
+    			sb.append(ch);
+    		else 
+    			break;
+    	}
+    	
+    	return sb.toString();
+    }
+    
     public static void testCases() 
 	{
+    	/*
+		String [][] strs = {{"flower","flow","flight", ""},{"dog","racecar","car"}, {"cir","car"}};
+		int index = 2;
+		String result =  longestCommonPrefix(strs[index]);
+		System.out.println("sonuc : " + result);
+		*/
     	
-				
+    	/*
+		int [][] nums = {{0,2,1,3,4,6,5,7,8},{1024,512,256,128,64,32,16,8,4,2,1},{12,0,0,11,1}};
+		int index = 2;
+		int[] result = sortByBits(nums[index]);
+		printArrayContent(result, true);
+		*/
+    	
+    	/*
+		int [][] nums = {{3,2,3,2,2,2},{7,9,11},{1,8,16}};		
+		System.out.println(divideArray(nums[0]));
+		*/
+    	
+    	/*
+    	int [][] nums = {{1,2,3,4,5,6},{7,9,11},{1,8,16}};		
+		System.out.println(evenNumberBitwiseORs(nums[2]));
+    	*/
+    	
+    	/*
+    	int [][] nums = {{1,2,3},{4,3,2,1},{9},{1,9,2},{9,9,9},{9,9,1,9}};		
+		//System.out.println( plusOne(nums[0]) )
+		printArrayContent(plusOne(nums[5]),true);
+		*/
 		
 		//int a=1;
 		//System.out.println(Integer.toBinaryString(a)+"\nfirst index :" + Integer.toBinaryString(a).indexOf("1") + "\nlast index : " + Integer.toBinaryString(a).lastIndexOf("1"));
@@ -306,15 +561,25 @@ public class LeetCodeArrays {
 		System.out.println(result);
 		*/
 	}
-	
-	
-    
+	    
 	public static void main(String[] args) {
 		
-		int [][] nums = {{1,2,3},{4,3,2,1},{9},{1,9,2},{9,9,9},{9,9,1,9}};
+		/*
+		int [][] nums = {{0,2,1,3,4,6,5,7,8},{1024,512,256,128,64,32,16,8,4,2,1},{12,0,0,11,1}};
+		int index = 2;
+		int[] result = sortByBits(nums[index]);
+		printArrayContent(result, true);
+		*/
 		
-		//System.out.println( plusOne(nums[0]) )
-		printArrayContent(plusOne(nums[5]),true);
+		//System.out.println( Integer.bitCount(4) );
+		
+		String [][] strs = {{"flower","flow","flight", ""},{"dog","racecar","car"}, {"cir","car"}};
+		int index = 2;
+		String result =  longestCommonPrefix(strs[index]);
+		System.out.println("sonuc : " + result);
+		
+		
+		
 		
 	}
 

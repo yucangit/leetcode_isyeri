@@ -472,25 +472,6 @@ public class LeetCodeString
         
         return count;
     }
-
-    public int countPoints(String rings) 
-    {
-    	//bu problem henüz çözülmedi(27.08.2025)
-    	
-    	List < Set<Character> > listOfSet = new ArrayList < Set<Character> > ();            	
-    	
-    	for(int i=0; i<rings.length(); i+=2) 
-    	{
-    		char ring = rings.charAt(i);
-    		int  rod  = Integer.parseInt(rings.charAt(i+1)+"");
-    		
-    		listOfSet.get(rod).add(ring);    		    		
-    	}
-    	
-    	for(int i=0; i<9;i++) {}
-    	
-    	return 0;
-    }
     
     public static String freqAlphabets(String s) {
     	
@@ -1110,9 +1091,7 @@ public class LeetCodeString
     	return pairCount;
         
     }
-
-    
-    
+        
     public static String[] findWords(String[] words) 
     {
         
@@ -1573,7 +1552,6 @@ public class LeetCodeString
 
         return minChange;
     }
- 
     
     public static int numUniqueEmails(String[] emails) 
     {
@@ -2853,8 +2831,7 @@ public class LeetCodeString
         String str = sb.deleteCharAt(idx).toString();
         return str;       
     }
-    
-    
+        
     public static boolean isIsomorphic(String s, String t) {
     	Map<Character,Character> map = new HashMap<>();
         //char[][] map = new char[128][1];
@@ -2886,16 +2863,341 @@ public class LeetCodeString
 
     }
     
-    public static void main(String[] args) 
-	{
+    public static int strStr(String haystack, String needle) 
+    {
+    	/*
+		  Tarih         : 18.03.2026
+		  Durum         : Yapildi.
+		  Problem Adi   : Find the Index of the First Occurrence in a String
+		  Problem Link  : https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/
+		  Algoritma     :
+		  Diger         :
+		*/
+    	int idx = -1;    
+    	int len1Needle = needle.length();
+    	int len2Hay = haystack.length();
+    		
+		for(int i=0; i<= len2Hay - len1Needle; i++)
+		{
+			int j=0;
+			int matchChCount=0;		
+			
+			while( j < len1Needle && haystack.charAt(i+j)==needle.charAt(j) ) 
+			{ 
+				matchChCount++;
+				j++;
+			}
+			
+			if(matchChCount==len1Needle){ 
+				idx = i;
+                break;
+            }
+		}
     	
-    	//String s = "adf";
-    	//StringBuilder sb = new StringBuilder();
-    	//sb.deleteCharAt(0);
+		return idx;
+    }       
+
+    public static String reversePrefix(String s, int k) 
+    {    	
+		/*
+		  Tarih         : 18.03.2026
+		  Durum         :  
+		  Problem Adi   : Reverse String Prefix
+		  Problem Link  : https://leetcode.com/problems/reverse-string-prefix/description/?envType=problem-list-v2&envId=string
+		  Algoritma     : 
+		  Diger         :
+		*/
+					    	
+    	StringBuilder sb = new StringBuilder();
+    	char [] arr = s.toCharArray();
     	
+    	for(int i=0; i<k/2; i++) 
+    	{
+    		char temp = arr[k-1-i];
+    		arr[k-1-i] = arr[i];
+    		arr[i] = temp;
+    	}
+    	
+    	sb.append(arr);
+    	
+    	return sb.toString();
+    }
+
+    public String mapWordWeights(String[] words, int[] weights) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 18.03.2026
+        StringBuilder sb = new StringBuilder();
+
+        for(String word:words)
+        {
+            int sum = 0;
+            for( char ch:word.toCharArray() )
+            {
+                sum+= weights[ch-'a'];
+            }
+            sum%=26;
+
+            char ch = (char) ('a'+(25-sum));
+            sb.append(ch);
+        }
+
+        return sb.toString();
+        
+    }
+
+    public static String reverseByType(String s) 
+    {
+    	//Tarih : 18.03.2026
+    	//Durum : Yapiliyor
+    	
+    	char [] arr = s.toCharArray();
+    	int size= s.length();
+    	int left = 0, right = size-1;    	    	
+    	
+    	//swap special characters
+    	while(left<=right) 
+    	{
+    		while( left<size && (arr[left]>'a'  && arr[left]<'z' ) ) left++;
+    		while( right>0   && (arr[right]>'a' && arr[right]<'z' ) ) right--;
+    		
+    		if(left<=right) 
+    		{
+    			char temp = arr[left];
+    			arr[left] = arr[right];
+    			arr[right] = temp;
+    			left++;
+    			right--;
+    		}
+    	}
+    	
+    	left = 0;
+    	right = s.length()-1;
+    	
+    	//swap [a-z] characters
+    	while(left<=right) 
+    	{
+    		while( left<size && !(arr[left]>'a'  && arr[left]<'z' ) ) left++;
+    		while( right>0   && !(arr[right]>'a' && arr[right]<'z' ) ) right--;
+    		
+    		if(left<=right) 
+    		{
+    			char temp = arr[left];
+    			arr[left] = arr[right];
+    			arr[right] = temp;
+    			left++;
+    			right--;
+    		}
+    	}
+    	
+    	return new String(arr);
+    	
+    }
+    
+    /*
+         	//bu problem henüz çözülmedi(27.08.2025)
+    	
+    	List < Set<Character> > listOfSet = new ArrayList < Set<Character> > ();            	
+    	
+    	for(int i=0; i<rings.length(); i+=2) 
+    	{
+    		char ring = rings.charAt(i);
+    		int  rod  = Integer.parseInt(rings.charAt(i+1)+"");
+    		
+    		listOfSet.get(rod).add(ring);    		    		
+    	}
+    	
+    	for(int i=0; i<9;i++) {}
+    	
+    	return 0;
+    */
+    
+    public static int countPoints(String rings) {
+    	//Durum : Yapildi.
+    	//Tarih : 19.03.2026
+    	
+    	//R3G2B1
+    	class MyHashSet
+    	{
+    		HashSet<Character> set;
+    		public MyHashSet() 
+    		{
+    			set = new HashSet<>();
+    		}
+    	}
+    	
+    	int result = 0;    	
+        MyHashSet [] rods = new MyHashSet[10];  
+        
+        for(int i=0; i<10;i++)
+        	rods[i] = new MyHashSet();
+        
+        char []arr = rings.toCharArray();
+        
+        for(int i=0; i<arr.length; i+=2) 
+        {
+        	int setIdx = arr[i+1]-'0';
+        	char color = arr[i];
+        	
+        	rods[setIdx].set.add(color);
+        }
+        
+        for(int i=0; i<10; i++) 
+        {
+        	if(rods[i].set.size()==3) result++;
+        }
+        
+        return result;
+
+    }
+
+    public static String makeSmallestPalindrome(String s) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 19.03.2026
+    	
+    	StringBuilder sb = new StringBuilder(s);    	
+    	int size = s.length();
+    	    	
+    	if(size%2==0)  
+    		sb.insert(size/2, " ");
+    	    	    	
+    	int midIdx = size/2;    	
+    	
+    	for(int i=1; i<=size/2;i++) 
+    	{
+    		char ch1 = sb.charAt(midIdx-i);
+    		char ch2 = sb.charAt(midIdx+i);
+    		if(ch1<ch2)      { sb.setCharAt(midIdx+i, ch1);   }
+    		else if(ch1>ch2) { sb.setCharAt(midIdx-i, ch2);   }
+    	}
+    	
+        return sb.toString().replace(" ","");
+    }
+    
+    public static String trimTrailingVowels(String s) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 19.03.2026
+    	
+    	int endIdx = s.length()-1;
+    	String vovels = "aeiou";    	
+    	
+    	for(int i=endIdx; i>=0; i--) 
+    	{    		
+    		char ch = s.charAt(i); 
+    		if(vovels.indexOf(ch)!=-1) 
+    			endIdx--;
+    		else break;
+    	}
+    	
+    	return s.substring(0,endIdx+1);
+    }
+    
+    public static String largestEven(String s) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 19.03.2026
+    	
+    	int endIdx = s.length()-1;
+    	
+    	for(int i=endIdx; i>=0; i--) 
+    	{
+    		int num = s.charAt(i)-'0';
+    		if(num%2==1) 
+    			endIdx--;
+    		else break;
+    	}
+    	
+    	return s.substring(0, endIdx+1);
+    }
+    
+    public static String majorityFrequencyGroup(String s) 
+    {
+    	//Durum : Yapiliyor.
+    	//Tarih : 19.03.2026
+    	
+    	int [] freq = new int[26]; 
+    	Map<Integer, String> map = new HashMap<>();  //frequency, character list
+    	
+    	//find frequencies of characters
+    	for(char ch : s.toCharArray()) 
+    	{
+    		freq[ch-'a']++;
+    	}
+    	
+    	//build freq groups with map
+    	for(int i=0; i<26; i++) 
+    	{
+    		int count = freq[i];
+    		
+    		if(count>0) 
+    		{
+    			char ch = (char) ('a'+i) ;
+    			String chList = map.getOrDefault(count, "");
+    			chList += "" + ch;
+    			map.put(count, chList);
+    		}
+    	}
+    	
+    	//
+    	String [] arr = (String[]) map.values().toArray(new String[0]);
+    	List<String> maxStrList = new ArrayList<>();
+    	int maxSize = 0;
+    	
+    	for(String str  :arr) 
+    	{
+    		int size = str.length(); 
+    		if( size > maxSize) 
+    		{
+    			maxStrList.clear();
+    			maxSize = size;
+    			maxStrList.add(str);
+    		}
+    		else if( size == maxSize)     		    			    		
+    			maxStrList.add(str);    		
+    		
+    	}
+    	
+    	
+    	return null;        
+    }
+    
+    public static void testCases() 
+    {    
+    	/*
+    	String []str = {"aeiou","idea", "day", "abc","a","b"};
+    	int index = 5;
+    	String result= trimTrailingVowels(str[index]);    
+    	System.out.println(result);    
+    	*/
+    	
+    	/*
+    	String []str = {"abcd","abc"};
+    	int index = 1;
+    	String result= makeSmallestPalindrome(str[index]);    
+    	System.out.println(result);
+    	*/
+    	
+    	/*
+    	String []rings = {"B0B6G0R6R0R6G9"};
+    	int index = 0;
+    	int result= countPoints(rings[0]);    
+    	System.out.println(result);
+    	*/
+    	
+    	/*
+    	String[] haystack = {"sadbutsad", "leetcode", "asd"};
+    	String[] needle = {"sad", "leeto", "asd"};
+    	int index = 0;    	
+    	int result = strStr(haystack[index], needle[index]);
+    	System.out.println("sonuc : " + result);
+    	*/
+    	
+    	/*
     	String [][]arr = {{"egg","add"},{"foo", "bar"},{"paper","title"},{"badc","baba"}};    	
     	System.out.println(isIsomorphic(arr[2][0], arr[2][1]));
-    	
+    	*/
     	
     	/*
     	String [] arr = {"123","1234","551","133235"};
@@ -3447,7 +3749,16 @@ public class LeetCodeString
 		//String str1 = "sen1 sen2 assf";
 		
 		 //System.out.println(str.equals(str1));
+    }
+    
+    
+    public static void main(String[] args) 
+	{  
 		
+    	String []str = {"aaabbbccdddde","abcd", "pfpfgi"};
+    	int index = 0;
+    	String result= majorityFrequencyGroup(str[index]);    
+    	System.out.println(result);    	    	   
 		
 	}
 
