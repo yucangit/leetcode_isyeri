@@ -3114,19 +3114,19 @@ public class LeetCodeString
     
     public static String majorityFrequencyGroup(String s) 
     {
-    	//Durum : Yapiliyor.
-    	//Tarih : 19.03.2026
+    	//Durum : Yapildi.
+    	//Tarih : 20.03.2026
     	
     	int [] freq = new int[26]; 
     	Map<Integer, String> map = new HashMap<>();  //frequency, character list
     	
-    	//find frequencies of characters
+    	//Adim1: find frequencies of characters
     	for(char ch : s.toCharArray()) 
     	{
     		freq[ch-'a']++;
     	}
     	
-    	//build freq groups with map
+    	//Adim2: build freq groups with map
     	for(int i=0; i<26; i++) 
     	{
     		int count = freq[i];
@@ -3140,31 +3140,171 @@ public class LeetCodeString
     		}
     	}
     	
-    	//
-    	String [] arr = (String[]) map.values().toArray(new String[0]);
-    	List<String> maxStrList = new ArrayList<>();
-    	int maxSize = 0;
+    	//Adim3: 
     	
-    	for(String str  :arr) 
+    	int maxSize = 0;
+    	Map.Entry<Integer, String> result = map.entrySet().iterator().next();
+    	
+    	for(Map.Entry<Integer, String> entry : map.entrySet()) 
     	{
-    		int size = str.length(); 
-    		if( size > maxSize) 
-    		{
-    			maxStrList.clear();
-    			maxSize = size;
-    			maxStrList.add(str);
-    		}
-    		else if( size == maxSize)     		    			    		
-    			maxStrList.add(str);    		
+    		int count = entry.getKey();
+    		int size  = entry.getValue().length();
     		
+    		if( size >= result.getValue().length()) 
+    		{
+    			if( size > result.getValue().length() )     		    			    		
+    				result = entry;
+    			else if(count>result.getKey())
+    				result = entry;
+    		}    		    			    		    	
+    	}    	
+    	
+    	return result.getValue();        
+    }
+    
+    public static boolean scoreBalance(String s) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 20.03.2026
+    	int size = s.length();
+    	int []sumPos = new int[size];
+    	
+    	char []arr = s.toCharArray();
+    	
+    	sumPos[0] = arr[0]-'a'+1; 
+    			
+    	for(int i=1; i<size; i++) 
+    	{
+    		sumPos[i] += sumPos[i-1] + arr[i]-'a'+1;
     	}
     	
+    	int allSum= sumPos[size-1];
+    	boolean result=false;
     	
-    	return null;        
+    	for(int i=0; i<size; i++) 
+    	{
+    		if( 2*sumPos[i] == allSum) 
+    		{ 
+    			result = true; 
+    			break;
+    		}
+    	}
+    	
+    	return result;
+    }
+    
+    public int vowelConsonantScore(String s) 
+    {
+    	//Durum : Yapildi
+    	//Tarih : 20.03.2026
+    	
+    	char []arr = s.toCharArray();    	
+    	int v=0, c=0;
+    	
+    	for(char ch:arr) 
+    	{
+    		if(ch=='a' || ch=='e' || ch=='i' || ch=='o' || ch=='u' ) v++; 
+    		else if( Character.isLetter(ch) ) c++;
+    	}    	    	
+    	
+    	return (c==0)?0:v/c;
+
+    
+    }
+
+    public static int countTime(String time) 
+    {
+    	//Durum : Yapildi
+    	//Tarih : 20.03.2026
+    	String []arr = time.split(":");
+    	String hour = arr[0];
+    	String minu = arr[1];
+    	
+    	int count1 =0, count2=0;
+    	
+    	if(hour.matches("\\d{2}") )        count1 = 1;
+    	else if (hour.matches("[01]\\?") ) count1 = 10;     //[0-9]
+    	else if (hour.matches("2\\?") )    count1 = 4;      //[0-3]
+    	else if(hour.matches("\\?[0-3]") ) count1 = 3;      //[012]
+    	else if(hour.matches("\\?[4-9]") ) count1 = 2;      //[01]
+    	else if(hour.matches("\\?\\?") )   count1 = 24;     //00-23
+    	
+    	if(minu.matches("\\d{2}") )        count2 = 1;
+    	else if(minu.matches("\\d\\?") )  count2 = 10;     //[0-9]
+    	else if(minu.matches("\\?\\d") )   count2 = 6;      //[0-5] 	 
+    	else if(minu.matches("\\?\\?") )   count2 = 60;     //00-59
+    	
+    	return count1*count2;    	
+    }
+    
+    public static String swap(String s, int idx1, int idx2) 
+    {
+    	char [] arr = s.toCharArray();    	
+    	
+		char temp = arr[idx1];
+		arr[idx1] = arr[idx2];
+		arr[idx2] = temp;
+		
+		String result = new StringBuilder().append(arr).toString(); 
+		return result;
+    }
+    
+    public static boolean canBeEqual(String s1, String s2) 
+    {
+    	//Durum : Yapildi
+    	//Tarih : 20.03.2026
+    	
+    	boolean result  = false;
+    	    			
+    	if(s1.equals(s2))                   result =true;
+    	else if(swap(s1, 0, 2).equals(s2))  result =true; 
+    	else if(swap(s1, 1, 3).equals(s2))  result =true;
+    	else if(swap(swap(s1, 0, 2),1,3).equals(s2))  result =true;
+    	
+    	return result;
+    }
+
+    public int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) 
+    {        
+        
+        String []arrAli = arriveAlice.split("-");
+        String []arrBob = arriveBob.split("-");                       
+        int arrDayOfAli = (Integer.parseInt(arrAli[0])-1)*30 + Integer.parseInt(arrAli[1])*30;
+        int arrDayOfBob = (Integer.parseInt(arrBob[0])-1)*30 + Integer.parseInt(arrBob[1])*30;        
+        
+        String []arrLeaveAli = leaveAlice.split("-");
+        String []arrLeaveBob = leaveBob.split("-");
+        int leaveDayOfAli = (Integer.parseInt(arrLeaveAli[0])-1)*30 + Integer.parseInt(arrLeaveAli[1])*30;
+        int leaveDayOfBob = (Integer.parseInt(arrLeaveBob[0])-1)*30 + Integer.parseInt(arrLeaveBob[1])*30;
+        
+        int days = Math.min(leaveDayOfAli, leaveDayOfBob) - Math.max(arrDayOfAli, arrDayOfBob);
+        
+        return days>0?days:0;
     }
     
     public static void testCases() 
     {    
+    	/*
+    	String []str = {"0?:0?","2?:??"};
+    	int index = 1;
+    	int result= countTime(str[index]);    
+    	System.out.println(result);    
+    	*/
+    	
+    	/*
+    	String []str = {"adcb","bace","aa"};
+    	int index = 1;
+    	boolean result= scoreBalance(str[index]);    
+    	System.out.println(result);
+    	*/
+    	
+    	/*
+    	String []str = {"aaabbbccdddde","abcd", "pfpfgi"}; 
+    	int index = 0;
+    	String result= majorityFrequencyGroup(str[index]);    
+    	System.out.println(result); 
+    	*/
+    	
     	/*
     	String []str = {"aeiou","idea", "day", "abc","a","b"};
     	int index = 5;
@@ -3750,18 +3890,22 @@ public class LeetCodeString
 		
 		 //System.out.println(str.equals(str1));
     }
-    
+
     
     public static void main(String[] args) 
 	{  
 		
-    	String []str = {"aaabbbccdddde","abcd", "pfpfgi"};
+    	String []arr1 = {"abcd",""};
+    	String []arr2 = {"cdba",""};
+    	
     	int index = 0;
-    	String result= majorityFrequencyGroup(str[index]);    
-    	System.out.println(result);    	    	   
+    	boolean result= canBeEqual(arr1[index], arr2[index]);    
+    	System.out.println(result);    
+    	
+    	
+    	
 		
 	}
 
 }
-
 
