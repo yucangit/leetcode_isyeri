@@ -1,6 +1,7 @@
 package pack1;
 import java.util.regex.Pattern;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;;
@@ -2832,7 +2833,11 @@ public class LeetCodeString
         return str;       
     }
         
-    public static boolean isIsomorphic(String s, String t) {
+    public static boolean isIsomorphic(String s, String t) 
+    {
+    	//Durum : Yapiliyor
+    	//Tarih : 23.03.2026
+    	
     	Map<Character,Character> map = new HashMap<>();
         //char[][] map = new char[128][1];
 
@@ -2840,6 +2845,9 @@ public class LeetCodeString
         char [] arr1 = s.toCharArray();
         char [] arr2 = t.toCharArray();
         boolean result= true;
+        
+        //String [] s = {"badc"};
+    	//String [] t = {"baba"};
 
         for(int i=0; i<len; i++)
         {
@@ -3264,9 +3272,14 @@ public class LeetCodeString
     	return result;
     }
 
-    public int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) 
+    public static int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) 
     {        
+    	//Durum : Yapildi.
+    	//Tarih : 23.03.2026 
         
+    	/*
+    	int []months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; 
+    	
         String []arrAli = arriveAlice.split("-");
         String []arrBob = arriveBob.split("-");                       
         int arrDayOfAli = (Integer.parseInt(arrAli[0])-1)*30 + Integer.parseInt(arrAli[1])*30;
@@ -3278,12 +3291,34 @@ public class LeetCodeString
         int leaveDayOfBob = (Integer.parseInt(arrLeaveBob[0])-1)*30 + Integer.parseInt(arrLeaveBob[1])*30;
         
         int days = Math.min(leaveDayOfAli, leaveDayOfBob) - Math.max(arrDayOfAli, arrDayOfBob);
+        */
+    	
+    	
+    	LocalDate dateArrAli   = LocalDate.parse("2018-"+arriveAlice);
+    	LocalDate dateLeaveAli = LocalDate.parse("2018-"+leaveAlice);
+    	LocalDate dateArrBob   = LocalDate.parse("2018-"+arriveBob);
+    	LocalDate dateLeaveBob = LocalDate.parse("2018-"+leaveBob);    	
+    	
+    	LocalDate dateMaxArr, dateMinLeave;
+    	if( dateArrAli.getDayOfYear() > dateArrBob.getDayOfYear() )   dateMaxArr = dateArrAli;
+    	else                                                          dateMaxArr = dateArrBob;
+    	
+    	if( dateLeaveAli.getDayOfYear() < dateLeaveBob.getDayOfYear() )  dateMinLeave = dateLeaveAli;
+    	else                                                             dateMinLeave = dateLeaveBob;    	    	    	    	
+        
+        int days = dateMinLeave.getDayOfYear() - dateMaxArr.getDayOfYear() +1;
+        //System.out.println(days);
         
         return days>0?days:0;
     }
     
     public static void testCases() 
     {    
+    	/*
+    	int result = countDaysTogether("01-20", "04-18", "01-01", "08-30"  );
+    	System.out.println(result);
+    	*/
+    	
     	/*
     	String []str = {"0?:0?","2?:??"};
     	int index = 1;
@@ -3890,20 +3925,25 @@ public class LeetCodeString
 		
 		 //System.out.println(str.equals(str1));
     }
-
-    
+   
     public static void main(String[] args) 
 	{  
 		
     	String []arr1 = {"abcd",""};
     	String []arr2 = {"cdba",""};
     	
+    	//int index = 0;
+    	//boolean result= canBeEqual(arr1[index], arr2[index]);    
+    	//System.out.println(result);    
+    	
+    	String [] s = {"badc"};
+    	String [] t = {"baba"};
     	int index = 0;
-    	boolean result= canBeEqual(arr1[index], arr2[index]);    
-    	System.out.println(result);    
+    	boolean result = isIsomorphic(s[index], t[index]);
+    	System.out.println(result);
     	
     	
-    	
+    
 		
 	}
 
