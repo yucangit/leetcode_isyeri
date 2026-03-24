@@ -3321,8 +3321,48 @@ public class LeetCodeString
     	return result;    	
     }
     
+    public static int numDifferentIntegers(String word) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 24.03.2026
+    	
+    	Set<String> set = new HashSet<>();    	
+    	
+    	String word2 = word.replaceAll("[a-z]", " ");
+    	String []arr = word2.split("\s+");
+    	
+    	
+    	for(String str:arr) 
+    	{
+    		if(str.length()>0) 
+    		{
+    			String str1="";
+    			
+    			if(str.matches("^0+$") ) str1 = "0";
+    			else
+    				str1 = str.replaceAll("^0+([1-9][0-9]*)", "$1");  //remove leading zeros
+    			set.add(str1);
+    		}
+    	}
+    	
+    	System.out.println(set);
+    	
+    	return set.size();
+        
+    }
+    
     public static void testCases() 
     {    
+    	/*
+    	String [] word = {"a123bc34d8ef34","leet1234code234	","a1b01c001", "a444b5","44","167278959591294",
+				  "xtimt5kqkz9osexe56ezwwninlyeeqsq5m99904os3ygs12t31n1et4uwzmt5kvv6teisobuxt10k33v1aaxysg4y8nsivxdp3fo9dr7x58m8uc4ofm41ai77u8cvzr5r3s97f5otns59ubqk57xwl00xsp9w2oodt6yxcbscloyr9c2su8gca1ly6rrjufm25luhxhesxwn7bk1as9na4cbabxk",
+				  "0a0"};
+		int index = 0;
+		int result = numDifferentIntegers(word[index]);
+		System.out.println(result);
+		*/
+
+    	
     	/*
     	String [] word = {"abc","bza","zjpc"};    	
     	int index = 1;
@@ -3964,11 +4004,16 @@ public class LeetCodeString
     	//int []ch ={'a','z'};
     	//System.out.println(ch[1]);
     	
-    	String [] word = {"abc","bza","zjpc"};
-    	
-    	int index = 1;
-    	int result = minTimeToType(word[index]);
+    	String [] word = {"a123bc34d8ef34","leet1234code234	","a1b01c001", "a444b5","44","167278959591294",
+    					  "xtimt5kqkz9osexe56ezwwninlyeeqsq5m99904os3ygs12t31n1et4uwzmt5kvv6teisobuxt10k33v1aaxysg4y8nsivxdp3fo9dr7x58m8uc4ofm41ai77u8cvzr5r3s97f5otns59ubqk57xwl00xsp9w2oodt6yxcbscloyr9c2su8gca1ly6rrjufm25luhxhesxwn7bk1as9na4cbabxk",
+    					  "0a0"};    	    	
+    	int index = 7;
+    	int result = numDifferentIntegers(word[index]);
     	System.out.println(result);
+    	
+    	 
+    	
+    	
     	
     
 		
