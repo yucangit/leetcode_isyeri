@@ -3351,6 +3351,23 @@ public class LeetCodeString
         
     }
     
+    public static String convertToTitle(int columnNumber) 
+    {
+    	int num = columnNumber;
+    	String result ="";
+    	
+    	while(num>26)
+    	{
+    		result  = (char)('A'+num%26-1) + result ;
+    		num/=26;
+    	}
+    	
+    	if(num>0) 
+    		result = (char)('A' + num-1) + result;
+    	
+    	return result;
+    }
+    
     public static void testCases() 
     {    
     	/*
@@ -4004,11 +4021,9 @@ public class LeetCodeString
     	//int []ch ={'a','z'};
     	//System.out.println(ch[1]);
     	
-    	String [] word = {"a123bc34d8ef34","leet1234code234	","a1b01c001", "a444b5","44","167278959591294",
-    					  "xtimt5kqkz9osexe56ezwwninlyeeqsq5m99904os3ygs12t31n1et4uwzmt5kvv6teisobuxt10k33v1aaxysg4y8nsivxdp3fo9dr7x58m8uc4ofm41ai77u8cvzr5r3s97f5otns59ubqk57xwl00xsp9w2oodt6yxcbscloyr9c2su8gca1ly6rrjufm25luhxhesxwn7bk1as9na4cbabxk",
-    					  "0a0"};    	    	
-    	int index = 7;
-    	int result = numDifferentIntegers(word[index]);
+    	int [] number = {1, 28, 701, 1095, 2088295220};    	    	
+    	int index = 2;
+    	String result = convertToTitle(number[index]);
     	System.out.println(result);
     	
     	 
