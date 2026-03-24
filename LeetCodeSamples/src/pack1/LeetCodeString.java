@@ -3275,24 +3275,7 @@ public class LeetCodeString
     public static int countDaysTogether(String arriveAlice, String leaveAlice, String arriveBob, String leaveBob) 
     {        
     	//Durum : Yapildi.
-    	//Tarih : 23.03.2026 
-        
-    	/*
-    	int []months = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}; 
-    	
-        String []arrAli = arriveAlice.split("-");
-        String []arrBob = arriveBob.split("-");                       
-        int arrDayOfAli = (Integer.parseInt(arrAli[0])-1)*30 + Integer.parseInt(arrAli[1])*30;
-        int arrDayOfBob = (Integer.parseInt(arrBob[0])-1)*30 + Integer.parseInt(arrBob[1])*30;        
-        
-        String []arrLeaveAli = leaveAlice.split("-");
-        String []arrLeaveBob = leaveBob.split("-");
-        int leaveDayOfAli = (Integer.parseInt(arrLeaveAli[0])-1)*30 + Integer.parseInt(arrLeaveAli[1])*30;
-        int leaveDayOfBob = (Integer.parseInt(arrLeaveBob[0])-1)*30 + Integer.parseInt(arrLeaveBob[1])*30;
-        
-        int days = Math.min(leaveDayOfAli, leaveDayOfBob) - Math.max(arrDayOfAli, arrDayOfBob);
-        */
-    	
+    	//Tarih : 23.03.2026                 	
     	
     	LocalDate dateArrAli   = LocalDate.parse("2018-"+arriveAlice);
     	LocalDate dateLeaveAli = LocalDate.parse("2018-"+leaveAlice);
@@ -3312,8 +3295,41 @@ public class LeetCodeString
         return days>0?days:0;
     }
     
+    public static int minTimeToType(String word) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 24.03.2026
+    	
+    	char [] arr = ("a"+word).toCharArray();
+    	int size = arr.length;    	
+    	int currIdx = 0;
+    	int nextIdx = 0;
+    	
+    	int result = 0;
+    	
+    	for(int i =0; i<size-1; i++) 
+    	{
+    		currIdx = arr[i]-'a'+1;
+    		nextIdx = arr[i+1]-'a' + 1;
+    		int diff = Math.abs(nextIdx-currIdx);
+    		
+    		int minSteps = Math.min(diff, 26-diff);   
+    		result += 1;  //1 second to type character
+    		result += minSteps;
+    	}
+    	
+    	return result;    	
+    }
+    
     public static void testCases() 
     {    
+    	/*
+    	String [] word = {"abc","bza","zjpc"};    	
+    	int index = 1;
+    	int result = minTimeToType(word[index]);
+    	System.out.println(result);
+    	*/
+    	
     	/*
     	int result = countDaysTogether("01-20", "04-18", "01-01", "08-30"  );
     	System.out.println(result);
@@ -3926,22 +3942,33 @@ public class LeetCodeString
 		 //System.out.println(str.equals(str1));
     }
    
+
     public static void main(String[] args) 
 	{  
 		
-    	String []arr1 = {"abcd",""};
-    	String []arr2 = {"cdba",""};
+    	//String []arr1 = {"abcd",""};
+    	//String []arr2 = {"cdba",""};
     	
     	//int index = 0;
     	//boolean result= canBeEqual(arr1[index], arr2[index]);    
     	//System.out.println(result);    
     	
+    	/*
     	String [] s = {"badc"};
     	String [] t = {"baba"};
     	int index = 0;
     	boolean result = isIsomorphic(s[index], t[index]);
     	System.out.println(result);
+    	*/
     	
+    	//int []ch ={'a','z'};
+    	//System.out.println(ch[1]);
+    	
+    	String [] word = {"abc","bza","zjpc"};
+    	
+    	int index = 1;
+    	int result = minTimeToType(word[index]);
+    	System.out.println(result);
     	
     
 		
