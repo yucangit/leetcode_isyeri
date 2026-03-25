@@ -1477,6 +1477,14 @@ public class LeetCodeStackSamples {
     public void testCases() 
     {
     	/*
+    	String []str = {"abcd","deeedbbcccbdaa","pbbcggttciiippooaais", "b"};
+    	int [] k = {2, 3, 2 ,2 };
+    	int index=3;
+    	String result = removeDuplicates(str[index], k[index]);
+    	System.out.println(result);    	
+    	*/
+    	
+    	/*
     	int [] n = {4, 10 };
     	int index=1;
     	int result = clumsy(n[index]);

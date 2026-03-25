@@ -2840,36 +2840,42 @@ public class LeetCodeString
         
     public static boolean isIsomorphic(String s, String t) 
     {
-    	//Durum : Yapiliyor
+    	//Durum : Yapildi.
     	//Tarih : 23.03.2026
     	
-    	Map<Character,Character> map = new HashMap<>();
-        //char[][] map = new char[128][1];
+    	Map<Character,Character> map1 = new HashMap<>();
+    	Map<Character,Character> map2 = new HashMap<>();        
 
         int len = s.length();
         char [] arr1 = s.toCharArray();
         char [] arr2 = t.toCharArray();
-        boolean result= true;
-        
-        //String [] s = {"badc"};
-    	//String [] t = {"baba"};
+        boolean result= true;        
 
         for(int i=0; i<len; i++)
         {
             char ch1 = arr1[i];
             char ch2 = arr2[i];
 
-            if(!map.containsKey(ch1) && !map.containsKey(ch2)) { 
-                map.put(ch1,ch2);
+            //map1
+            if(!map1.containsKey(ch1) ) { 
+                map1.put(ch1,ch2);
             }
-            else
+            if(map1.containsKey(ch1) && map1.get(ch1)!=ch2) 
             {
-                if( (map.containsKey(ch1) && map.get(ch1)!=ch2 )  || (map.containsKey(ch2) && map.get(ch2)!=ch1 )) 
-                {
-                    result = false;
-                    break;
-                }
+            	result = false;
+            	break;            	
             }
+            
+            //map2
+            if(!map2.containsKey(ch2) ) 
+            { 
+                map2.put(ch2,ch1);
+            }
+            if(map2.containsKey(ch2) && map2.get(ch2)!=ch1) 
+            {
+            	result = false;
+            	break;            	
+            }                       
         }
 
         return result;
@@ -4018,22 +4024,23 @@ public class LeetCodeString
     	//boolean result= canBeEqual(arr1[index], arr2[index]);    
     	//System.out.println(result);    
     	
-    	/*
-    	String [] s = {"badc"};
-    	String [] t = {"baba"};
+    	
+    	String [] s = {"badc","egg", "foo", "pear", "BBBAAABA", "ABC"};
+    	String [] t = {"baba","add", "bar", "tile", "AAABBBBA", "CAC"};
     	int index = 0;
     	boolean result = isIsomorphic(s[index], t[index]);
     	System.out.println(result);
-    	*/
+    	
     	
     	//int []ch ={'a','z'};
     	//System.out.println(ch[1]);
     	
+    	/*
     	int [] number = {1, 28, 701, 1095, 2088295220};    	    	
     	int index = 2;
     	String result = convertToTitle(number[index]);
     	System.out.println(result);
-    	
+    	*/
     	 
     	
     	
