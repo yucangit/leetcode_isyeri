@@ -26,31 +26,37 @@ public class LeetCodeString
 		return result;
 		
 	}
-	 public static long zeroFilledSubarray(int[] nums) 
-	 {
-	        int size = nums.length;
-	        long cnt=0;
-	        long result =0;
+	
+	public static long zeroFilledSubarray(int[] nums) 
+	{
+		//Durum : Yapildi
+		//Tarih : 20.08.2025
+		//Problem: Number of Zero-Filled Subarrays
+		//link : https://leetcode.com/problems/number-of-zero-filled-subarrays/description/
+		
+        int size = nums.length;
+        long cnt=0;
+        long result =0;
 
-	        for( int i=0; i<size; i++)
-	        {
-	            if(nums[i]==0) 
-	                cnt++;
-	            else 
-	            { 
-	                result += cnt*(cnt+1)/2; 
-	                cnt=0;
-	            }
-	        }
+        for( int i=0; i<size; i++)
+        {
+            if(nums[i]==0) 
+                cnt++;
+            else 
+            { 
+                result += cnt*(cnt+1)/2; 
+                cnt=0;
+            }
+        }
 
-	        result += cnt*(cnt+1)/2; 
+        result += cnt*(cnt+1)/2; 
 
-	        return result;
-	        
+        return result;	       
 	}	
 	
-    public static int numJewelsInStones(String jewels, String stones) {
-		Set<Character> set = new HashSet();
+    public static int numJewelsInStones(String jewels, String stones) 
+    {
+		Set<Character> set = new HashSet<>();
 		
 		for(int i=0; i<jewels.length(); i++)
 		    set.add(jewels.charAt(i) );
@@ -62,8 +68,7 @@ public class LeetCodeString
 		    if(set.contains(stones.charAt(i)))  result++;
 		}
 		
-		return result;
-	
+		return result;	
 	}
     
     public static String toBinary(String num) 
@@ -640,7 +645,7 @@ public class LeetCodeString
     	return counter==0;
     }
    
-    static int [] countBits(String s, int startIdx, int endIdx)
+    public static int [] countBits(String s, int startIdx, int endIdx)
     {
         int [] result ={0,0};
         for(int i=startIdx; i<endIdx; i++)
@@ -3353,6 +3358,9 @@ public class LeetCodeString
     
     public static String convertToTitle(int columnNumber) 
     {
+    	//Durum : Yapiliyor 
+    	//Tarih : 25.03.2026
+    	
     	int num = columnNumber;
     	String result ="";
     	

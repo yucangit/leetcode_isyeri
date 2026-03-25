@@ -10,6 +10,7 @@ import java.util.List;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 
@@ -1410,6 +1411,67 @@ public class LeetCodeStackSamples {
     	return result;
     }
         
+    public static String removeDuplicates(String s, int k) 
+    {
+    	/*
+		  Tarih         : 25.03.2026
+		  Durum         : Yapildi.
+		  Problem Adi   : Remove All Adjacent Duplicates in String II
+		  Problem Link  : https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string-ii/?envType=problem-list-v2&envId=stack
+		  Algoritma     :
+		  Diger         :  
+		*/
+    	
+    	// ArrayDeque has better performance than Stack and LinkedList
+    	//Stack<Character> st = new Stack<>();
+    	//Deque<Character> st = new LinkedList<>();    	    	
+    	Deque<Character> st = new ArrayDeque<>();
+    	
+    	StringBuilder sb = null;
+    	boolean deleted  = true;
+    	String newStr = s;    	    	
+    	
+    	while(deleted) 
+    	{     		    		
+    		char []arr = newStr.toCharArray();
+    		int count=0;
+    		deleted = false;    		    		
+    		
+    		for(int i=0; i<arr.length; i++) 
+    		{
+    			if(!st.isEmpty() && arr[i]==st.peekLast()) 
+    			{  
+    				count++;
+	    			if(count==k-1) 
+	    			{ 
+	    				while(count>0) 
+	    				{		    				
+		    				st.pollLast(); 
+		    				count--;
+	    				}
+	    				deleted = true;
+	    			}
+	    			else 
+	    				st.addLast(arr[i]);
+    			}
+    			else {
+    				count=0;
+    				st.addLast(arr[i]);
+    			}
+    		}
+    		    		
+    		sb = new StringBuilder();
+    		
+    		while(!st.isEmpty()) 
+    			sb.insert(0, st.pollLast());
+    		
+    		newStr = sb.toString();
+    	}
+    	    	 
+    	return newStr;
+        
+    }
+    
     
     
     public void testCases() 
@@ -1689,10 +1751,11 @@ public class LeetCodeStackSamples {
     }
     
     public static void main(String[] args) 
-    {     	    
-    	int [] n = {4, 10 };
-    	int index=1;
-    	int result = clumsy(n[index]);
+    {     	  
+    	String []str = {"abcd","deeedbbcccbdaa","pbbcggttciiippooaais", "b"};
+    	int [] k = {2, 3, 2 ,2 };
+    	int index=3;
+    	String result = removeDuplicates(str[index], k[index]);
     	System.out.println(result);    	
 	}
 
