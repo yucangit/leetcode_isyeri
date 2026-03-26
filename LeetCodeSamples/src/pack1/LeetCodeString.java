@@ -4,7 +4,8 @@ import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.AbstractMap.SimpleEntry;;
+import java.util.AbstractMap.SimpleEntry;
+import java.io.FileWriter;
 
 public class LeetCodeString 
 {	
@@ -3382,8 +3383,114 @@ public class LeetCodeString
     	return result;
     }
     
+    public static String mostCommonWord(String paragraph, String[] banned) 
+    {
+    	//Durum : Yapildi
+    	//Tarih : 26.03.2026
+    	String str = paragraph.replaceAll("[!?',;.]", " ").replaceAll("\s+", " ");
+    	String []arr = str.toLowerCase().split(" ");
+    	
+    	Map<String, Integer> freq = new HashMap<>();
+    	Set<String> set = new HashSet<>();
+    	
+    	for(String str1:banned) 
+    	{
+    		set.add(str1);
+    	}    	    	
+    	
+    	for(String s:arr ) 
+    	{
+    		if(set.contains(s)) continue; 
+    		
+    		int count = freq.getOrDefault(s,0);
+    		freq.put(s, count+1);    		
+    	}    	
+    	
+    	int maxFreq = 0;
+    	String result = "";
+    	
+    	for(Map.Entry<String, Integer> e : freq.entrySet()) 
+    	{
+    		int count = e.getValue();
+    		
+    		if(count>maxFreq) 
+    		{ 
+    			 maxFreq = count;
+    			 result = e.getKey();
+    		}
+    	}    	    	
+    	
+    	return result;
+    }
+
+    public static boolean validPalindromeHelper(char [] arr, int left ,int right ) 
+    {    	   
+    	//validPalindrome fonksiyonu için oluþturuldu.
+    	boolean result = true;
+    	
+    	while(left<right) 
+    	{
+    		if(arr[left++]==arr[right--]) 	
+    			continue;
+    		    		    			    		        		
+    		result = false;
+    		break;    		
+    	}
+    	return result;    	    	
+    }
+    
+    public static boolean validPalindrome(String s) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 26.03.2026
+    	int size = s.length();    	
+    	char[] arr = s.toCharArray();
+    	int left = 0, right = size-1;
+    	boolean result = true;
+    	
+    	while(left<right) 
+    	{
+    		if(arr[left]==arr[right]) 	
+    		{    			    		    	
+	    		left++;
+	    		right--;	    	
+    		}
+    		else 
+    		{
+    			 boolean result1 = validPalindromeHelper(arr, left,   right-1);
+    			 boolean result2 = validPalindromeHelper(arr, left+1, right);
+    			 result = result1 || result2;
+    			 break;
+    		}    		
+    	}
+        
+    	return result;
+    }
+    
     public static void testCases() 
-    {    
+    {        	
+    	/*
+    	//long t1 = System.nanoTime();    	
+    	int index = 9;
+    	System.out.println(str[index]);
+    	boolean result = validPalindrome(str[index]);
+    	System.out.println(result);    	
+    	//long t2 = System.nanoTime();    	
+    	//System.out.println(t2-t1);
+    	*/
+    	
+    	
+    	/*
+    	String [] par    = {
+				"Bob hit a ball,the hit BALL flew far after it was hit.",
+				"  I'm     i'''''m !?',;.  ''M  im"
+			   };
+		String [][] banned = {{"hit"},{}};
+		int index = 1;
+		String result = mostCommonWord(par[index], banned[0]);
+		System.out.println(result);
+		*/
+    	
     	/*
     	String [] word = {"a123bc34d8ef34","leet1234code234	","a1b01c001", "a444b5","44","167278959591294",
 				  "xtimt5kqkz9osexe56ezwwninlyeeqsq5m99904os3ygs12t31n1et4uwzmt5kvv6teisobuxt10k33v1aaxysg4y8nsivxdp3fo9dr7x58m8uc4ofm41ai77u8cvzr5r3s97f5otns59ubqk57xwl00xsp9w2oodt6yxcbscloyr9c2su8gca1ly6rrjufm25luhxhesxwn7bk1as9na4cbabxk",
@@ -4018,19 +4125,18 @@ public class LeetCodeString
 	{  
 		
     	//String []arr1 = {"abcd",""};
-    	//String []arr2 = {"cdba",""};
-    	
+    	//String []arr2 = {"cdba",""};    	
     	//int index = 0;
     	//boolean result= canBeEqual(arr1[index], arr2[index]);    
     	//System.out.println(result);    
     	
-    	
+    	/*
     	String [] s = {"badc","egg", "foo", "pear", "BBBAAABA", "ABC"};
     	String [] t = {"baba","add", "bar", "tile", "AAABBBBA", "CAC"};
     	int index = 0;
     	boolean result = isIsomorphic(s[index], t[index]);
     	System.out.println(result);
-    	
+    	*/
     	
     	//int []ch ={'a','z'};
     	//System.out.println(ch[1]);
@@ -4041,11 +4147,27 @@ public class LeetCodeString
     	String result = convertToTitle(number[index]);
     	System.out.println(result);
     	*/
+    	
+    	
+    	
+    	String [] str    = {"aba", "abca","abc", "a", 
+    						"lcupuupucul", "adffdslcupuupuculsdffda", "eeccccbebaeeabebccceea", "ctkktkc",
+    						"aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga",
+    						"pvymbhsuhfmqqcmousdmgfpsfbhioftawrhcehxswhgxajeleauwqpkbhwljxblcziicglcygesiggaskejmglzqkwgxbnfnofhfpvlvkzfiumwbbbpasgpedieuwhxzycbanxongjxkjsfftqpvnvkfsqgalfptlpiomsycilvexfdjkviohkdxjuokivnspqmxyjfpbbzhaxgvnwzpaksyjroaexszijygijtdwsfseioxhcxcbacvhwehbuqhjjqpjcerebwqhtkdzjxjaturqktwnyhjtmweigayeuyxctodehvgxricizdhmaukuvfxtrmytsiafsbnscbxwrbtmowleoriofsgcsyulwpcbpnbgwlchnujifjxlqohjxnhvrxiejobcifasluxrgotvoiddyazycracvalgmdekgeotpiaajfybvriuxsddwiscershygfsxbjdjnugrfzmiyjycvznwsbdksvwwjwzukpqunjlgsopgvmudrkopnrivuwakynkwztfaabogbehcfwsgdzxiewcgxxahlmkczbycfecykjkmojhyszhmkwhihdlwocaqqaanucuuvpqihufrjtfgvkdwjlvkcvwwrwqdbtexkioyzevykovqysmymltjawkbshigjudglboxlmqhpsbohcjvfiwuqoiiligpihgbroruftlonxjfmuxiazowrcphnrfgcoaykkgthfpwpocrmnfjxigzsxeihxfbefmlppgdgoiitanziwvlidsqcumdichwlgjzxpozxslaqkulwrhujmmkwoayttytfostbjalehlwbrhfpygfqfyixpaejtfkbfiggjuxgiitpityggriqjkljmcceeeiqtferokqoeekrfjvihjllcsmviwwoxlnnimsdzihgrgosymoyswxqbdkynvfpteyloxbzdzftyygicjchfsdozoobjyesvgcennjtnjmoyrvrpwimlaqfjjfqalmiwprvryomjntjnnecgvseyjboozodsfhcjcigyytfzdzbxolyetpfvnykdbqxwsyomysogrghizdsminnlxowwivmsclljhivjfrkeeoqkoreftqieeeccmjlkjqirggytiptiigxujggifbkftjeapxiyfqfgypfhrbwlhelajbtsoftyttyaowkmmjuhrwlukqalsxzopxzjglwhcidmucqsdilvwiznatiiogdgpplmfebfxhiexszgixjfnmrcopwpfhtgkkyaocgfrnhpcrwozaixumfjxnoltfurorbghipgiliioquwifvjchobsphqmlxoblgdujgihsbkwajtlmymsyqvokyvezyoikxetbdqwrwwvckvljwdkvgftjrfuhiqpvuucunaaqqacowldhihwkmhzsyhjomkjkycefcybzckmlhaxxgcweixzdgswfchebgobaaftzwknykawuvirnpokrdumvgposgljnuqpkuzwjwwvskdbswnzvcyjyimzfrgunjdjbxsfgyhsrecsiwddsxuirvbyfjaaiptoegkedmglavcarcyzayddiovtogrxulsaficbojeixrvhnxjhoqlxjfijunhclwgbnpbcpwluyscgsfoiroelwomtbrwxbcsnbsfaistymrtxfvukuamhdzicirxgvhedotcxyueyagiewmtjhynwtkqrutajxjzdkthqwberecjpqjjhqubhewhvcabcxchxoiesfswdtjigyjizsxeaorjyskapzwnvgxahzbbpfjyxmqpsnvikoujxdkhoivkjdfxevlicysmoipltpflagqsfkvnvpqtffsjkxjgnoxnabcyzxhwueidepgsapbbbwmuifzkvlvpfhfonfnbxgwkqzlgmjeksaggisegyclgciizclbxjlwhbkpqwuaelejaxghwsxhechrwatfoihbfspfgmdsuomcqqmfhushbmyvps"};
+    	
+    	
+    	//long t1 = System.nanoTime();
+    	
+    	int index = 9;
+    	System.out.println(str[index]);
+    	boolean result = validPalindrome(str[index]);
+    	System.out.println(result);
+    	
+    	//long t2 = System.nanoTime();    	
+    	//System.out.println(t2-t1);
+    	
+    	
     	 
-    	
-    	
-    	
-    
 		
 	}
 
