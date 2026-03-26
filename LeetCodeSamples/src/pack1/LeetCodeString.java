@@ -3501,7 +3501,7 @@ public class LeetCodeString
 
     public static boolean equalFrequency(String word) 
     {
-    	//Durum : Yapiliyor
+    	//Durum : Yapiliyor (edge case'ler düþünülecek)
     	//Tarih : 26.03.2026
     	
     	boolean result = true;
