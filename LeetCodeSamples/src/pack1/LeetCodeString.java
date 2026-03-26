@@ -3467,8 +3467,91 @@ public class LeetCodeString
     	return result;
     }
     
+    public static String licenseKeyFormatting(String s, int k) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 26.03.2026
+    	
+    	String newStr = s.replaceAll("[-_]","");
+    	int size = newStr.length();
+    	int n = size/k;
+    	int m = size%k;
+    	
+    	StringBuilder sb = new StringBuilder();
+    	
+    	for(int i=0; i<m; i++) 
+    	{
+    		sb.append(Character.toUpperCase(newStr.charAt(i)));
+    	}    	    	
+    		    	
+    	for(int i=0; i<n; i++) 
+    	{
+    		sb.append("-");
+    		for(int j=0; j<k; j++) 
+    		{    		
+    			sb.append(Character.toUpperCase(newStr.charAt(m + i*k+j)));
+    		}    	
+    	}    	    	    	
+    	
+    	if(m==0 && n>0) 
+    		sb.deleteCharAt(0);
+    	
+    	return sb.toString();
+    }
+
+    public static boolean equalFrequency(String word) 
+    {
+    	//Durum : Yapiliyor
+    	//Tarih : 26.03.2026
+    	
+    	boolean result = true;
+    	int [] freq = new int[26];
+    	Map<Integer,Integer> map = new HashMap<>();
+    	
+    	for(char ch:word.toCharArray())
+    		freq[ch-'a']++;
+    	
+    	for(int i=0; i<26; i++) 
+    	{
+    		int chCount = freq[i];
+    		if(freq[i]>0) 
+    		{
+    			int count = map.getOrDefault(chCount, 0);
+    			map.put(chCount, count+1);
+    		}
+    	}
+    	
+    	List<Integer> list = map.values().stream().toList();      //listOfDistinctCounts
+    	
+    	if( list.size()==1 && list.get(0)==1  ) 
+    		result =true;
+    	
+    	else if( list.size()==2) 
+    	{    		    		
+    		int count1 = list.get(0);
+    		int count2 = list.get(1);
+    		int minCount = Math.min(count1, count2);
+    		
+    		if(minCount==1)   
+    			result=true;    				
+    	}
+    	else 
+    		result = false;
+    	
+    	return result;
+    }
+    
     public static void testCases() 
-    {        	
+    {     
+    	/*
+    	String [] str = {"5F3Z-2e-9-w","5F3Z-2e-9-w","a","-"};
+    	int [] k = {4,1,1,2};    	    	    	    	
+    	int index = 0;
+    	System.out.println(str[index]);
+    	String result = licenseKeyFormatting(str[index], k[index]);
+    	System.out.println(result);    	    	
+    	*/
+    	
     	/*
     	//long t1 = System.nanoTime();    	
     	int index = 9;
@@ -4150,21 +4233,12 @@ public class LeetCodeString
     	
     	
     	
-    	String [] str    = {"aba", "abca","abc", "a", 
-    						"lcupuupucul", "adffdslcupuupuculsdffda", "eeccccbebaeeabebccceea", "ctkktkc",
-    						"aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga",
-    						"pvymbhsuhfmqqcmousdmgfpsfbhioftawrhcehxswhgxajeleauwqpkbhwljxblcziicglcygesiggaskejmglzqkwgxbnfnofhfpvlvkzfiumwbbbpasgpedieuwhxzycbanxongjxkjsfftqpvnvkfsqgalfptlpiomsycilvexfdjkviohkdxjuokivnspqmxyjfpbbzhaxgvnwzpaksyjroaexszijygijtdwsfseioxhcxcbacvhwehbuqhjjqpjcerebwqhtkdzjxjaturqktwnyhjtmweigayeuyxctodehvgxricizdhmaukuvfxtrmytsiafsbnscbxwrbtmowleoriofsgcsyulwpcbpnbgwlchnujifjxlqohjxnhvrxiejobcifasluxrgotvoiddyazycracvalgmdekgeotpiaajfybvriuxsddwiscershygfsxbjdjnugrfzmiyjycvznwsbdksvwwjwzukpqunjlgsopgvmudrkopnrivuwakynkwztfaabogbehcfwsgdzxiewcgxxahlmkczbycfecykjkmojhyszhmkwhihdlwocaqqaanucuuvpqihufrjtfgvkdwjlvkcvwwrwqdbtexkioyzevykovqysmymltjawkbshigjudglboxlmqhpsbohcjvfiwuqoiiligpihgbroruftlonxjfmuxiazowrcphnrfgcoaykkgthfpwpocrmnfjxigzsxeihxfbefmlppgdgoiitanziwvlidsqcumdichwlgjzxpozxslaqkulwrhujmmkwoayttytfostbjalehlwbrhfpygfqfyixpaejtfkbfiggjuxgiitpityggriqjkljmcceeeiqtferokqoeekrfjvihjllcsmviwwoxlnnimsdzihgrgosymoyswxqbdkynvfpteyloxbzdzftyygicjchfsdozoobjyesvgcennjtnjmoyrvrpwimlaqfjjfqalmiwprvryomjntjnnecgvseyjboozodsfhcjcigyytfzdzbxolyetpfvnykdbqxwsyomysogrghizdsminnlxowwivmsclljhivjfrkeeoqkoreftqieeeccmjlkjqirggytiptiigxujggifbkftjeapxiyfqfgypfhrbwlhelajbtsoftyttyaowkmmjuhrwlukqalsxzopxzjglwhcidmucqsdilvwiznatiiogdgpplmfebfxhiexszgixjfnmrcopwpfhtgkkyaocgfrnhpcrwozaixumfjxnoltfurorbghipgiliioquwifvjchobsphqmlxoblgdujgihsbkwajtlmymsyqvokyvezyoikxetbdqwrwwvckvljwdkvgftjrfuhiqpvuucunaaqqacowldhihwkmhzsyhjomkjkycefcybzckmlhaxxgcweixzdgswfchebgobaaftzwknykawuvirnpokrdumvgposgljnuqpkuzwjwwvskdbswnzvcyjyimzfrgunjdjbxsfgyhsrecsiwddsxuirvbyfjaaiptoegkedmglavcarcyzayddiovtogrxulsaficbojeixrvhnxjhoqlxjfijunhclwgbnpbcpwluyscgsfoiroelwomtbrwxbcsnbsfaistymrtxfvukuamhdzicirxgvhedotcxyueyagiewmtjhynwtkqrutajxjzdkthqwberecjpqjjhqubhewhvcabcxchxoiesfswdtjigyjizsxeaorjyskapzwnvgxahzbbpfjyxmqpsnvikoujxdkhoivkjdfxevlicysmoipltpflagqsfkvnvpqtffsjkxjgnoxnabcyzxhwueidepgsapbbbwmuifzkvlvpfhfonfnbxgwkqzlgmjeksaggisegyclgciizclbxjlwhbkpqwuaelejaxghwsxhechrwatfoihbfspfgmdsuomcqqmfhushbmyvps"};
-    	
-    	
-    	//long t1 = System.nanoTime();
-    	
-    	int index = 9;
-    	System.out.println(str[index]);
-    	boolean result = validPalindrome(str[index]);
-    	System.out.println(result);
-    	
-    	//long t2 = System.nanoTime();    	
-    	//System.out.println(t2-t1);
+    	String [] word = {"abcc","aazz"};
+    		    	    	    	
+    	int index = 1;
+    	System.out.println(word[index]);
+    	boolean result = equalFrequency(word[index]);
+    	System.out.println(result);    	    	    	
     	
     	
     	 
