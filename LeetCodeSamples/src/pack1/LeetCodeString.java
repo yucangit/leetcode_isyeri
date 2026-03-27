@@ -3517,7 +3517,7 @@ public class LeetCodeString
     			                                            ya da frekansý küçük olan karakter sayýsý = 1 olmalý
     			  (aaabbbcccc)      {[a,3], [b,3], [c,4]}         -> olur
     			  (aaabbbccccc)     {[a,3], [b,3], [c,5]}         -> olmaz (2 farklý frekans ancak maxFrekans-minFrekans>1)   			  
-    			  (aaabbbccccdddd)  {[a,3], [b,3], [c,4], [d,4]}  -> olmaz (2 farklý freakanslar, ancak büyük frekansdan 1 tane olmalý)
+    			  (aaabbbccccdddd)  {[a,3], [b,3], [c,4], [d,4]}  -> olmaz (2 farklý frekanslar, ancak büyük frekansdan 1 tane olmalý)
     			  
     			  (abbcc)           {[a,1], [b,2], [c,2]}         -> olur
     			  
@@ -3542,7 +3542,7 @@ public class LeetCodeString
     	    	
     	List<Entry<Integer, Integer>> list = map.entrySet().stream().toList();    
     	
-    	if( list.size()==1 && list.get(0).getValue()==1  )         //Tek bir frekans var. (Tüm karakterler ayný sayýda)
+    	if( list.size()==1  )         //Tek bir frekans var. (Tüm karakterler ayný sayýda)
     		result = true;
     	
     	else if( list.size()==2 )                                  //farklý iki frekans var
@@ -4265,7 +4265,7 @@ public class LeetCodeString
     	*/
     	    	
     	
-    	String [] word = {"abcc","aazz","aaabbbb","aaabbbcccc", "aaabbbccccc","aaabbbccccdddd","abbcc"};
+    	String [] word = {"abcd","abcc","aazz","aaabbbb","aaabbbcccc", "aaabbbccccc","aaabbbccccdddd","abbcc"};
     		    	    	    	
     	int index = 0;
     	System.out.println(word[index]);
