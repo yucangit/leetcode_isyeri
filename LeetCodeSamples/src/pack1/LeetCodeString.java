@@ -3501,40 +3501,73 @@ public class LeetCodeString
 
     public static boolean equalFrequency(String word) 
     {
-    	//Durum : Yapiliyor (edge case'ler düþünülecek)
-    	//Tarih : 26.03.2026
-    	
-    	boolean result = true;
-    	int [] freq = new int[26];
+    	//Durum   : Yapiliyor (edge case'ler düþünülecek)
+    	//Tarih   : 26.03.2026
+    	//Problem : Remove Letter To Equalize Frequency 
+    	//link    : https://leetcode.com/problems/remove-letter-to-equalize-frequency/description/?envType=problem-list-v2&envId=string
+    	/*
+    		Koþullar : 
+    			1- Tüm karakterlerden sadece birer tane bulunacak (freq=1)
+    			   (abc)
+    			   (abcde)
+    			   ...
+    			ya da
+    			
+    			2- Ýki farklý frekans olursa frekans farký=1 ve   frekansý büyük olan karakter sayýsý = 1 olmalý
+    			                                            ya da frekansý küçük olan karakter sayýsý = 1 olmalý
+    			  (aaabbbcccc)      {[a,3], [b,3], [c,4]}         -> olur
+    			  (aaabbbccccc)     {[a,3], [b,3], [c,5]}         -> olmaz (2 farklý frekans ancak maxFrekans-minFrekans>1)   			  
+    			  (aaabbbccccdddd)  {[a,3], [b,3], [c,4], [d,4]}  -> olmaz (2 farklý freakanslar, ancak büyük frekansdan 1 tane olmalý)
+    			  
+    			  (abbcc)           {[a,1], [b,2], [c,2]}         -> olur
+    			  
+    			  (aabbbcccc)       {[a,2], [b,3], [c,4]          -> olmaz (2'den fazla farklý frekans sayýsý)    			    
+    	*/    	    	
     	Map<Integer,Integer> map = new HashMap<>();
+    	int [] freqArr = new int[26];
+    	boolean result = false;
     	
     	for(char ch:word.toCharArray())
-    		freq[ch-'a']++;
+    		freqArr[ch-'a']++;
     	
     	for(int i=0; i<26; i++) 
     	{
-    		int chCount = freq[i];
-    		if(freq[i]>0) 
+    		int freq = freqArr[i];
+    		if(freq>0) 
     		{
-    			int count = map.getOrDefault(chCount, 0);
-    			map.put(chCount, count+1);
+    			int count = map.getOrDefault(freq, 0);
+    			map.put(freq, count+1);
     		}
     	}
+    	    	
+    	List<Entry<Integer, Integer>> list = map.entrySet().stream().toList();    
     	
-    	List<Integer> list = map.values().stream().toList();      //listOfDistinctCounts
+    	if( list.size()==1 && list.get(0).getValue()==1  )         //Tek bir frekans var. (Tüm karakterler ayný sayýda)
+    		result = true;
     	
-    	if( list.size()==1 && list.get(0)==1  ) 
-    		result =true;
-    	
-    	else if( list.size()==2) 
-    	{    		    		
-    		int count1 = list.get(0);
-    		int count2 = list.get(1);
-    		int minCount = Math.min(count1, count2);
+    	else if( list.size()==2 )                                  //farklý iki frekans var
+    	{   
+    		int freq0  = list.get(0).getKey();    		    		
+    		int freq1  = list.get(1).getKey();       		    		    	    		    		
+    		    		
+    		Entry<Integer, Integer> minFreqEntry, maxFreqEntry;
     		
-    		if(minCount==1)   
-    			result=true;    				
-    	}
+    		if(freq0>freq1) 
+    		{
+    			maxFreqEntry = list.get(0);
+    			minFreqEntry = list.get(1);
+    		}
+    		else 
+    		{
+    			maxFreqEntry = list.get(1);
+    			minFreqEntry = list.get(0);
+    		}
+    		
+    		if(Math.abs(freq1-freq0)==1 ) {
+    			if( (minFreqEntry.getValue()==1 && minFreqEntry.getKey()==1) || maxFreqEntry.getValue()==1 )
+    				result=true;    			
+    		}
+    	}                                                    //ikiden fazla frekans var
     	else 
     		result = false;
     	
@@ -4230,18 +4263,15 @@ public class LeetCodeString
     	String result = convertToTitle(number[index]);
     	System.out.println(result);
     	*/
+    	    	
     	
-    	
-    	
-    	String [] word = {"abcc","aazz"};
+    	String [] word = {"abcc","aazz","aaabbbb","aaabbbcccc", "aaabbbccccc","aaabbbccccdddd","abbcc"};
     		    	    	    	
-    	int index = 1;
+    	int index = 0;
     	System.out.println(word[index]);
     	boolean result = equalFrequency(word[index]);
     	System.out.println(result);    	    	    	
-    	
-    	
-    	 
+    	    	    	 
 		
 	}
 
