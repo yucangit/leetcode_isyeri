@@ -3501,7 +3501,7 @@ public class LeetCodeString
 
     public static boolean equalFrequency(String word) 
     {
-    	//Durum   : Yapiliyor (edge case'ler düþünülecek)
+    	//Durum   : Yapildi 
     	//Tarih   : 26.03.2026
     	//Problem : Remove Letter To Equalize Frequency 
     	//link    : https://leetcode.com/problems/remove-letter-to-equalize-frequency/description/?envType=problem-list-v2&envId=string
@@ -3523,7 +3523,7 @@ public class LeetCodeString
     			  
     			  (aabbbcccc)       {[a,2], [b,3], [c,4]          -> olmaz (2'den fazla farklý frekans sayýsý)    			    
     	*/    	    	
-    	Map<Integer,Integer> map = new HashMap<>();
+    	Map<Integer,Integer> map = new HashMap<>();  //(freq, bu frekansta bulunan karakter sayýsý)
     	int [] freqArr = new int[26];
     	boolean result = false;
     	
@@ -3542,10 +3542,12 @@ public class LeetCodeString
     	    	
     	List<Entry<Integer, Integer>> list = map.entrySet().stream().toList();    
     	
-    	if( list.size()==1  )         //Tek bir frekans var. (Tüm karakterler ayný sayýda)
-    		result = true;
-    	
-    	else if( list.size()==2 )                                  //farklý iki frekans var
+    	//Örnekler durumlar{aa, abcd}
+    	if( list.size()==1 ) {
+    		if( list.get(0).getKey()==1 || list.get(0).getValue()==1)         //Tek bir frekans var. (Tüm karakterler ayný sayýda)
+    			result = true;
+    	}
+    	else if( list.size()==2 )                 //farklý iki frekans var
     	{   
     		int freq0  = list.get(0).getKey();    		    		
     		int freq1  = list.get(1).getKey();       		    		    	    		    		
@@ -3562,20 +3564,108 @@ public class LeetCodeString
     			maxFreqEntry = list.get(1);
     			minFreqEntry = list.get(0);
     		}
-    		
-    		if(Math.abs(freq1-freq0)==1 ) {
-    			if( (minFreqEntry.getValue()==1 && minFreqEntry.getKey()==1) || maxFreqEntry.getValue()==1 )
+    		if(minFreqEntry.getKey()==1 && minFreqEntry.getValue()==1) 
+    			result = true;
+    		else if(Math.abs(freq1-freq0)==1 ) 
+    		{
+    			if( (minFreqEntry.getValue()==1 && minFreqEntry.getKey()==1) || maxFreqEntry.getValue()==1 )  //bu kýsým biraz daha düþünülecek.
     				result=true;    			
     		}
-    	}                                                    //ikiden fazla frekans var
-    	else 
+    	}     
+    	else               //ikiden fazla frekans varsa
     		result = false;
     	
     	return result;
     }
+
+    public static String generateTag(String caption) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 30.03.2026
+    	
+    	StringBuilder sb = new StringBuilder();    	    
+    	caption = "#" + caption;
+    	char []arr = caption.toCharArray();
+    	int size = caption.length();    	
+    	
+    	char ch = arr[0];
+    	sb.append(ch);
+    	
+    	for(int i=1, j=1; i<100 && j<size; j++) 
+    	{
+    		ch = Character.toLowerCase(arr[j]);
+    		if( ch>='a' && ch<='z') 
+    		{    			
+    			if( arr[j-1]==' ' ) {
+    				if(sb.toString().length()==1 )    //first word. not convert to upperCase
+    					sb.append(ch);
+    				else
+    					sb.append(Character.toUpperCase(ch));    					
+    			}
+    			else
+    				sb.append(ch);
+    			
+    			i++;
+    		}    		
+    	}    	
+    	
+    	return sb.toString();
+    }
+   
+    public static int countSegments(String s) 
+    {    	
+    	//Durum : Yapildi.
+    	//Tarih : 30.03.2026
+    	
+    	int count = 0;
+    	
+    	s=" "+s;             //extra if ifadesini elimine etmek icin böyle yapildi.
+    	char [] arr = s.toCharArray();
+    	
+    	for(int i=1; i<s.length(); i++) 
+    	{
+    		if(arr[i-1]==' ' && arr[i]!=' ') 
+    			count++;
+    	}
+    	
+    	return count;
+    }
+    
     
     public static void testCases() 
-    {     
+    {    
+    	/*
+    	String [] str = {
+					"Hello, my name is John", "Hello"," a; b", 
+					", , , , a, eaefa"				
+				};    		    	    	    	
+		int index = 3;
+		System.out.println(str[index]);
+		int result = countSegments(str[index]);
+		System.out.println(result);
+		*/
+    	
+    	/*
+    	String [] caption = {
+				"Leetcode daily streak achieved",
+				"can I Go There",
+				"hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+				"Rise over mind grows forest path open brightly future softly high whispers ignites friend surface fast things bright plays music truth bird sun "
+				};    		    	    	    	
+		int index = 2;
+		System.out.println(caption[index]);
+		String result = generateTag(caption[index]);
+		System.out.println(result);  
+		*/
+    	
+    	/*
+    	String [] word = {"aa","abcd","abcc","aaab","aazz","aaabbbb","aaabbbcccc", "aaabbbccccc","aaabbbccccdddd","abbcc"};    	
+    	int index = 9;
+    	System.out.println(word[index]);
+    	boolean result = equalFrequency(word[index]);
+    	System.out.println(result);
+    	*/
+    	
     	/*
     	String [] str = {"5F3Z-2e-9-w","5F3Z-2e-9-w","a","-"};
     	int [] k = {4,1,1,2};    	    	    	    	
@@ -4236,7 +4326,6 @@ public class LeetCodeString
 		 //System.out.println(str.equals(str1));
     }
    
-
     public static void main(String[] args) 
 	{  
 		
@@ -4265,13 +4354,14 @@ public class LeetCodeString
     	*/
     	    	
     	
-    	String [] word = {"abcd","abcc","aazz","aaabbbb","aaabbbcccc", "aaabbbccccc","aaabbbccccdddd","abbcc"};
-    		    	    	    	
-    	int index = 0;
-    	System.out.println(word[index]);
-    	boolean result = equalFrequency(word[index]);
-    	System.out.println(result);    	    	    	
-    	    	    	 
+    	String [] str = {
+    						"Hello, my name is John", "Hello", " a; b",
+    						", , , , a, eaefa"    						
+    					};    		    	    	    	
+    	int index = 3;
+    	System.out.println(str[index]);
+    	int result = countSegments(str[index]);
+    	System.out.println(result);    	    	    	    	    	    	     	    	
 		
 	}
 
