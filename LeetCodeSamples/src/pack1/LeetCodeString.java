@@ -2968,8 +2968,8 @@ public class LeetCodeString
 
     public static String reverseByType(String s) 
     {
-    	//Tarih : 30.03.2026
-    	//Durum : Yapildi.
+    	//Tarih : 31.03.2026
+    	//Durum : Yapildi. (Biraz uzun oldu. Daha kisa olan icin bkn: reverseByType2)
     	
     	class MyCharFunctions
     	{
@@ -3035,7 +3035,7 @@ public class LeetCodeString
     
     public static String reverseByType2(String s) 
     {
-    	//Tarih : 30.03.2026
+    	//Tarih : 31.03.2026
     	//Durum : Yapildi
     	
     	char [] arr = s.toCharArray();
@@ -3670,7 +3670,7 @@ public class LeetCodeString
     	
     	int count = 0;
     	
-    	s=" "+s;             //extra if ifadesini elimine etmek icin böyle yapildi.
+    	s=" "+s;             //extra if ifadesini elimine etmek icin boyle yapildi.
     	char [] arr = s.toCharArray();
     	
     	for(int i=1; i<s.length(); i++) 
@@ -3681,12 +3681,48 @@ public class LeetCodeString
     	
     	return count;
     }
+           
+    public static String reorderSpaces(String text) 
+    {    		    	    	    
+    	//Durum : Yapildi
+    	//Tarih : 31.03.2026
+    	String [] words = text.trim().split("\s+");    	   
+    	
+    	int wCount = words.length;    	
+    	int sCount = text.length() - text.replace(" ", "").length();    	
+    	    	
+    	int sCount2 = (wCount>1)?sCount/(wCount-1):0;
+    	char [] spaArr = new char[sCount2];
+    	Arrays.fill(spaArr, ' ');
+    	String strSpace = new String(spaArr);    	
+    	
+    	StringBuilder sb = new StringBuilder();
+    	for(String word:words) 
+    	{
+    		sb.append(word).append(strSpace);
+    	}
+    	
+    	String newStr = sb.toString().trim();
+    	
+    	for(int i=0; i<sCount - (wCount-1)*sCount2; i++ )
+    		newStr +=" ";
+    	
+    	return newStr;    	
+    }
     
     
     
     
     public static void testCases() 
     {    
+    	/*
+    	String [] text = {"  this   is  a sentence ", " practice   makes   perfect", "word1", "word1   "};    		    	    	    	
+    	int index = 3;
+    	System.out.println(text[index]);
+    	String result = reorderSpaces(text[index]);
+    	System.out.println(result);
+    	*/
+    	
     	/*
     	String [] str = {")ebc#da@f(", ""};    		    	    	    	
     	int index = 0;
@@ -4417,13 +4453,13 @@ public class LeetCodeString
     	*/
     	    	
     	
-    	String [] str = {")ebc#da@f(", ""};    		    	    	    	
-    	int index = 0;
-    	System.out.println(str[index]);
-    	String result = reverseByType2(str[index]);
+    	String [] text = {"  this   is  a sentence ", " practice   makes   perfect", "word1", "word1   "};    		    	    	    	
+    	int index = 3;
+    	System.out.println(text[index]);
+    	String result = reorderSpaces(text[index]);
     	System.out.println(result);
-    	result = reverseByType(str[index]);
-    	System.out.println(result);    	    	  
+    	
+    	    	    	  
 		
 	}
 
