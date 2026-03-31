@@ -2943,7 +2943,7 @@ public class LeetCodeString
     	return sb.toString();
     }
 
-    public String mapWordWeights(String[] words, int[] weights) 
+    public static String mapWordWeights(String[] words, int[] weights) 
     {
     	//Durum : Yapildi.
     	//Tarih : 18.03.2026
@@ -2968,54 +2968,105 @@ public class LeetCodeString
 
     public static String reverseByType(String s) 
     {
-    	//Tarih : 18.03.2026
-    	//Durum : Yapiliyor
+    	//Tarih : 30.03.2026
+    	//Durum : Yapildi.
+    	
+    	class MyCharFunctions
+    	{
+    		static boolean isLetter (char ch) 
+    		{
+    			return 'a'<=ch && ch<='z';
+    		}    		
+    	}
     	
     	char [] arr = s.toCharArray();
     	int size= s.length();
     	int left = 0, right = size-1;    	    	
     	
-    	//swap special characters
-    	while(left<=right) 
-    	{
-    		while( left<size && (arr[left]>'a'  && arr[left]<'z' ) ) left++;
-    		while( right>0   && (arr[right]>'a' && arr[right]<'z' ) ) right--;
-    		
-    		if(left<=right) 
+    	//swap letters    	    	
+    	while(left<right) 
+    	{    		
+    		if( arr[left]>='a'  && arr[left]<='z' ) 
     		{
-    			char temp = arr[left];
-    			arr[left] = arr[right];
-    			arr[right] = temp;
-    			left++;
-    			right--;
+    			if( arr[right]>='a' && arr[right]<='z' ) 
+    			{
+    				//swap
+    				char temp = arr[left]; 
+    				arr[left] = arr[right];
+    				arr[right] = temp;
+    				
+    				left++;
+    				right--;
+    			}
+    			else
+    				right--;
     		}
+    		else 
+    	    	left++;    	    		    		    		    		
     	}
     	
     	left = 0;
-    	right = s.length()-1;
+    	right = size-1;
     	
-    	//swap [a-z] characters
-    	while(left<=right) 
-    	{
-    		while( left<size && !(arr[left]>'a'  && arr[left]<'z' ) ) left++;
-    		while( right>0   && !(arr[right]>'a' && arr[right]<'z' ) ) right--;
-    		
-    		if(left<=right) 
+    	//swap [!@#$%^&*()] characters    	
+    	while(left<right) 
+    	{    		
+    		if( !MyCharFunctions.isLetter(arr[left]) ) 
     		{
-    			char temp = arr[left];
-    			arr[left] = arr[right];
-    			arr[right] = temp;
-    			left++;
-    			right--;
+    			if( !MyCharFunctions.isLetter(arr[right]) ) 
+    			{
+    				//swap
+    				char temp = arr[left]; 
+    				arr[left] = arr[right];
+    				arr[right] = temp;
+    				
+    				left++;
+    				right--;
+    			}
+    			else
+    				right--;
     		}
+    		else 
+    	    	left++;    	    		    		    		    		
     	}
     	
-    	return new String(arr);
+    	return new String(arr);    	
+    }
+    
+    public static String reverseByType2(String s) 
+    {
+    	//Tarih : 30.03.2026
+    	//Durum : Yapildi
     	
+    	char [] arr = s.toCharArray();
+    	int size= s.length();    	    	
+    	
+    	//swap special characters
+    	char [] specialChars = s.replaceAll("[a-z]", "").toCharArray();
+    	int size1 = specialChars.length;
+    	char [] letters = s.replaceAll("[!@#$%^&*()]", "").toCharArray();
+    	int size2 = letters.length;    	
+    	
+    	for(int i=0, j=0, k=0; i<size; i++) 
+    	{
+    		char ch = arr[i];
+    		if('a'<=ch && ch<='z')   
+    		{
+    			arr[i] = letters[size2-1-j];    			
+    			j++;
+    		}
+    		else 
+    		{   //"!@#$%^&*()"
+    			arr[i] = specialChars[size1-1-k];    			
+    			k++;
+    		}
+    	}
+    	    	    	
+    	return new String(arr);    	
     }
     
     /*
-         	//bu problem henüz çözülmedi(27.08.2025)
+     //bu problem henüz çözülmedi(27.08.2025)
     	
     	List < Set<Character> > listOfSet = new ArrayList < Set<Character> > ();            	
     	
@@ -3506,24 +3557,24 @@ public class LeetCodeString
     	//Problem : Remove Letter To Equalize Frequency 
     	//link    : https://leetcode.com/problems/remove-letter-to-equalize-frequency/description/?envType=problem-list-v2&envId=string
     	/*
-    		Koþullar : 
-    			1- Tüm karakterlerden sadece birer tane bulunacak (freq=1)
+    		Kosullar : 
+    			1- Tum karakterlerden sadece birer tane bulunacak (freq=1)
     			   (abc)
     			   (abcde)
     			   ...
     			ya da
     			
-    			2- Ýki farklý frekans olursa frekans farký=1 ve   frekansý büyük olan karakter sayýsý = 1 olmalý
-    			                                            ya da frekansý küçük olan karakter sayýsý = 1 olmalý
+    			2- Ýki farkli frekans olursa frekans farki=1 ve   frekansi büyük olan karakter sayýsý = 1 olmali
+    			                                            ya da frekansi küçük olan karakter sayýsý = 1 olmali
     			  (aaabbbcccc)      {[a,3], [b,3], [c,4]}         -> olur
-    			  (aaabbbccccc)     {[a,3], [b,3], [c,5]}         -> olmaz (2 farklý frekans ancak maxFrekans-minFrekans>1)   			  
-    			  (aaabbbccccdddd)  {[a,3], [b,3], [c,4], [d,4]}  -> olmaz (2 farklý frekanslar, ancak büyük frekansdan 1 tane olmalý)
+    			  (aaabbbccccc)     {[a,3], [b,3], [c,5]}         -> olmaz (2 farkli frekans ancak maxFrekans-minFrekans>1)   			  
+    			  (aaabbbccccdddd)  {[a,3], [b,3], [c,4], [d,4]}  -> olmaz (2 farkli frekanslar, ancak büyük frekansdan 1 tane olmali)
     			  
     			  (abbcc)           {[a,1], [b,2], [c,2]}         -> olur
     			  
-    			  (aabbbcccc)       {[a,2], [b,3], [c,4]          -> olmaz (2'den fazla farklý frekans sayýsý)    			    
+    			  (aabbbcccc)       {[a,2], [b,3], [c,4]          -> olmaz (2'den fazla farklý frekans sayisi)    			    
     	*/    	    	
-    	Map<Integer,Integer> map = new HashMap<>();  //(freq, bu frekansta bulunan karakter sayýsý)
+    	Map<Integer,Integer> map = new HashMap<>();  //(freq, bu frekansta bulunan karakter sayisi)
     	int [] freqArr = new int[26];
     	boolean result = false;
     	
@@ -3542,12 +3593,12 @@ public class LeetCodeString
     	    	
     	List<Entry<Integer, Integer>> list = map.entrySet().stream().toList();    
     	
-    	//Örnekler durumlar{aa, abcd}
+    	//Örnek durumlar{aa, abcd}
     	if( list.size()==1 ) {
-    		if( list.get(0).getKey()==1 || list.get(0).getValue()==1)         //Tek bir frekans var. (Tüm karakterler ayný sayýda)
+    		if( list.get(0).getKey()==1 || list.get(0).getValue()==1)         //Tek bir frekans var. (Tüm karakterler ayni sayida)
     			result = true;
     	}
-    	else if( list.size()==2 )                 //farklý iki frekans var
+    	else if( list.size()==2 )                 //farkli iki frekans var
     	{   
     		int freq0  = list.get(0).getKey();    		    		
     		int freq1  = list.get(1).getKey();       		    		    	    		    		
@@ -3568,7 +3619,7 @@ public class LeetCodeString
     			result = true;
     		else if(Math.abs(freq1-freq0)==1 ) 
     		{
-    			if( (minFreqEntry.getValue()==1 && minFreqEntry.getKey()==1) || maxFreqEntry.getValue()==1 )  //bu kýsým biraz daha düþünülecek.
+    			if( (minFreqEntry.getValue()==1 && minFreqEntry.getKey()==1) || maxFreqEntry.getValue()==1 )  //bu kisim biraz daha dusunulecek.
     				result=true;    			
     		}
     	}     
@@ -3632,8 +3683,20 @@ public class LeetCodeString
     }
     
     
+    
+    
     public static void testCases() 
     {    
+    	/*
+    	String [] str = {")ebc#da@f(", ""};    		    	    	    	
+    	int index = 0;
+    	System.out.println(str[index]);
+    	String result = reverseByType2(str[index]);
+    	System.out.println(result);
+    	result = reverseByType(str[index]);
+    	System.out.println(result);  
+    	*/
+    	
     	/*
     	String [] str = {
 					"Hello, my name is John", "Hello"," a; b", 
@@ -4354,14 +4417,13 @@ public class LeetCodeString
     	*/
     	    	
     	
-    	String [] str = {
-    						"Hello, my name is John", "Hello", " a; b",
-    						", , , , a, eaefa"    						
-    					};    		    	    	    	
-    	int index = 3;
+    	String [] str = {")ebc#da@f(", ""};    		    	    	    	
+    	int index = 0;
     	System.out.println(str[index]);
-    	int result = countSegments(str[index]);
-    	System.out.println(result);    	    	    	    	    	    	     	    	
+    	String result = reverseByType2(str[index]);
+    	System.out.println(result);
+    	result = reverseByType(str[index]);
+    	System.out.println(result);    	    	  
 		
 	}
 
