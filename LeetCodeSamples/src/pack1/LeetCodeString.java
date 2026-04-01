@@ -3710,11 +3710,132 @@ public class LeetCodeString
     	return newStr;    	
     }
     
+    public static int minimumFlips(int n) 
+    {
+    	String binary = Utils.intToBinary(n);
+    	
+    	int left = 0, right  = binary.length()-1;
+    	int count = 0;
+    	char[] arr = binary.toCharArray();
+    	
+    	while(left<right) 
+    	{
+    		if(arr[left]!=arr[right]) count+=2;
+    		left++;
+    		right--;
+    	}
+    	
+    	return count;
+    }
     
+    public static int findTheLongestBalancedSubstring(String s) 
+    {
+    	//Durum : Yapildi.
+    	//Tarih : 01.04.2026
+    	int idx=0, fromIndex=0;
+    	int size = s.length();
+    	int longest=0;
+    	char []arr = s.toCharArray();
+    	
+    	idx = s.indexOf("01",fromIndex);
+    	    	    	
+    	while(idx!=-1) 
+    	{
+    		int left=idx, right=idx+1;
+    		int balSize=0;
+    		while(left>=0 && right<size && arr[left--]=='0' && arr[right++]=='1')
+    			balSize += 2;
+    		
+    		longest = Math.max(longest, balSize);
+    	
+    		System.out.println("idx=" + idx + ",  balSize="+balSize );
+    		
+    		fromIndex = idx+1;
+    		idx = s.indexOf("01",fromIndex);    	
+    	}
+    	
+    	return longest;        
+    }
+
+    public static int findMinimumOperations(String s1, String s2, String s3) 
+    {
+    	//Durum : Yapildi
+    	//Tarih : 01.04.2026
+    	
+    	int size1 = s1.length(), size2=s2.length(), size3 = s3.length();    	
+    	int minSize = Math.min(Math.min(size1, size2), size3);    	    	
+    	int count = size1-minSize + size2-minSize + size3-minSize ; 
+    	
+    	int i=0;
+    	for(; i<minSize; i++) 
+    	{
+    		if(s1.charAt(i)!=s2.charAt(i))  break;
+    		if(s1.charAt(i)!=s3.charAt(i))  break;
+    		if(s2.charAt(i)!=s3.charAt(i))  break;
+    	}
+
+    	count += (minSize-i)*3;
+    	
+    	return (i==0)?-1:count;
+    }
     
+    public static String maximumTime(String time) 
+    {
+    	//{"2?:?0","0?:3?", "1?:22","?1:45","?5:45"};    	
+    	char []arr = time.toCharArray();
+    	
+    	if(arr[0]=='?') 
+    	{
+    		if(arr[1]=='?') 
+    		{ 
+    			arr[0]='2'; 
+    			arr[1]='3'; 
+    		}
+    			
+    		else if(arr[1]-'0'<4)  arr[0]='2'; 
+    		else                   arr[0]='1';
+    	}
+    	if(arr[1]=='?') 
+    	{
+    		if(arr[0]-'0'<2)   arr[1]='9';
+    		else               arr[1]='3';
+    	}
+    		
+    	if(arr[3]=='?')  arr[3]='5';
+    	if(arr[4]=='?')  arr[4]='9';    	    	
+    	    	
+    	return new String(arr);    	
+    }
     
     public static void testCases() 
-    {    
+    { 
+    	
+    	/*
+    	String [] s1 = {"abc", "dac"}; 
+    	String [] s2 = {"abb", "bac"};
+    	String [] s3 = {"ab",  "cac"};    		    	    	    	
+    	int index = 0;    	
+    	int result = findMinimumOperations(s1[index], s2[index], s3[index]);
+    	System.out.println("result : " + result);   
+    	*/
+    	
+    	
+    	/*
+    	String [] str = {"01000111","00111","111","10","010","100000000"};    		    	    	    	
+    	int index = 5;
+    	System.out.println(str[index]);
+    	int result = findTheLongestBalancedSubstring(str[index]);
+    	System.out.println("result : " + result);    
+    	*/
+    	
+    	/*
+    	int [] num = {7,10};    		    	    	    	
+    	int index = 1;
+    	System.out.println(num[index]);
+    	int result = minimumFlips(num[index]);
+    	System.out.println(result);  
+    	*/
+    	
     	/*
     	String [] text = {"  this   is  a sentence ", " practice   makes   perfect", "word1", "word1   "};    		    	    	    	
     	int index = 3;
@@ -4453,13 +4574,10 @@ public class LeetCodeString
     	*/
     	    	
     	
-    	String [] text = {"  this   is  a sentence ", " practice   makes   perfect", "word1", "word1   "};    		    	    	    	
-    	int index = 3;
-    	System.out.println(text[index]);
-    	String result = reorderSpaces(text[index]);
-    	System.out.println(result);
-    	
-    	    	    	  
+    	String [] time = {"2?:?0", "0?:3?", "1?:22", "?1:45", "?5:45", "?4:03", "??:3?", "??:??", "??:?5", "11:11", "1?:??", "0?:?0", "1?:0?", "2?:1?", "?9:5?", "??:?0" };   	    	    	    
+    	int index = 14;    	
+    	String result = maximumTime(time[index]);
+    	System.out.println("Girdi : " + time[index] + "\nCikti : " + result);    	    	    	    	    	    	    	  
 		
 	}
 
