@@ -1473,36 +1473,36 @@ public class LeetCodeStackSamples {
     
     public static int evalRPN(String[] tokens) 
     {
-    	//Durum : burada(Eclipse ile) deneyince calisiyor, ancak leetcode'un sayfasýnda hata olusuyor. 
+    	//Durum : Yapildi.
     	//Tarih : 02.04.2026
-    	Stack<String> st = new Stack<>();    //deque is faster than stack
-    	int num1, num2, result=0;    	
+    	
+    	Deque<String> st = new ArrayDeque<>();    //deque is faster than stack
+    	int num1, num2, result=0;   
+    	String operators="+-*/";
     	
     	for(String token:tokens) 
     	{
-    		if(token=="+" || token=="-" || token=="*" || token=="/") 
+    		if( operators.contains(token) ) 
     		{
-    			num1 = Integer.parseInt(st.pop());
-    			num2 = Integer.parseInt(st.pop()) ;    			
+    			num1 = Integer.parseInt(st.pollLast());
+    			num2 = Integer.parseInt(st.pollLast()) ;    			
     			
-    			if(token=="+") 	result = num1 + num2;
-    			if(token=="-") 	result = num2 - num1;  //reverse order pushed
-    			if(token=="*") 	result = num1 * num2;
-    			if(token=="/") 	result = num2 / num1;   //reverse order pushed
+    			if(token.equals("+")) 	result = num1 + num2;
+    			if(token.equals("-")) 	result = num2 - num1;  //reverse order pushed
+    			if(token.equals("*")) 	result = num1 * num2;
+    			if(token.equals("/")) 	result = num2 / num1;   //reverse order pushed
     			
-    			st.push(result+"");
+    			st.addLast(result+"");
     		}
     		else 
-    			st.push(token);
+    			st.addLast(token);
     	}
     	
-    	result = Integer.parseInt(st.pop());
+    	result = Integer.parseInt(st.pollLast());
     	
     	return result;
     }
-
-
-    
+   
     public static String decodeString(String s) 
     {
 		/*
@@ -1609,6 +1609,13 @@ public class LeetCodeStackSamples {
     
     public void testCases() 
     {
+    	/*
+    	String [][]tokens = {{"2","1","+","3","*"}, {"4","13","5","/","+"}, {"10","6","9","3","+","-11","*","/","*","17","+","5","+"},{"4","-2","/","2","-3","-","-"},{"10","6","9","3","+","-11","/","17","+","5","+"}};    	
+    	int index=0	;
+    	int result = evalRPN(tokens[index]);
+    	System.out.println(result);
+    	*/
+    	
     	/*
     	String []str = {"3[a]2[bc]","3[a2[c]]", "2[abc]3[cd]ef","c3[2[a]1[b]]d","3[z]2[2[y]pq4[2[jk]e1[f]]]ef", "2[3[a2[c]]d]e", "ef3[a2[c]]xy","11[2[a]]","3[a2[s]]","99[99[99[99[99[99[a]]]]]]"};    	
     	int index=8	;
@@ -1899,23 +1906,12 @@ public class LeetCodeStackSamples {
     }
     
     public static void main(String[] args) 
-    {   
-    	/*
-    	String jreVersion = System.getProperty("java.version");
-    	System.out.println("JRE Version: " + jreVersion);
-    	
-    	String [][]tokens = {{"2","1","+","3","*"}, {"4","13","5","/","+"}, {"10","6","9","3","+","-11","*","/","*","17","+","5","+"},{"4","-2","/","2","-3","-","-"},{"10","6","9","3","+","-11","/","17","+","5","+"}};
-    	
+    {       	    	    	
+    	String [][]tokens = {{"2","1","+","3","*"}, {"4","13","5","/","+"}, {"10","6","9","3","+","-11","*","/","*","17","+","5","+"},{"4","-2","/","2","-3","-","-"},{"10","6","9","3","+","-11","/","17","+","5","+"}};    	
     	int index=0	;
     	int result = evalRPN(tokens[index]);
-    	System.out.println(result);
-    	*/    	    	    	
-    	
-    	String []str = {"3[a]2[bc]","3[a2[c]]", "2[abc]3[cd]ef","c3[2[a]1[b]]d","3[z]2[2[y]pq4[2[jk]e1[f]]]ef", "2[3[a2[c]]d]e", "ef3[a2[c]]xy","11[2[a]]","3[a2[s]]","99[99[99[99[99[99[a]]]]]]"};    	
-    	int index=8	;
-    	String result = decodeString(str[index]);
-    	System.out.println(result);
-    	
+    	System.out.println(result);    	    	    	    	
+
 	}
 
 }
