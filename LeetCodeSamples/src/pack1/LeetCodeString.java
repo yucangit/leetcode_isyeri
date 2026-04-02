@@ -3781,7 +3781,9 @@ public class LeetCodeString
     
     public static String maximumTime(String time) 
     {
-    	//{"2?:?0","0?:3?", "1?:22","?1:45","?5:45"};    	
+    	//Durum : Yapildi
+    	//Tarih : 01.04.2026    	    
+    	
     	char []arr = time.toCharArray();
     	
     	if(arr[0]=='?') 
@@ -3809,6 +3811,12 @@ public class LeetCodeString
     
     public static void testCases() 
     { 
+    	/*
+    	String [] time = {"2?:?0", "0?:3?", "1?:22", "?1:45", "?5:45", "?4:03", "??:3?", "??:??", "??:?5", "11:11", "1?:??", "0?:?0", "1?:0?", "2?:1?", "?9:5?", "??:?0" };   	    	    	    
+    	int index = 14;    	
+    	String result = maximumTime(time[index]);
+    	System.out.println("Girdi : " + time[index] + "\nCikti : " + result);  
+    	*/
     	
     	/*
     	String [] s1 = {"abc", "dac"}; 

@@ -1468,14 +1468,154 @@ public class LeetCodeStackSamples {
     		newStr = sb.toString();
     	}
     	    	 
-    	return newStr;
-        
+    	return newStr;        
     }
     
+    public static int evalRPN(String[] tokens) 
+    {
+    	//Durum : burada(Eclipse ile) deneyince calisiyor, ancak leetcode'un sayfasýnda hata olusuyor. 
+    	//Tarih : 02.04.2026
+    	Stack<String> st = new Stack<>();    //deque is faster than stack
+    	int num1, num2, result=0;    	
+    	
+    	for(String token:tokens) 
+    	{
+    		if(token=="+" || token=="-" || token=="*" || token=="/") 
+    		{
+    			num1 = Integer.parseInt(st.pop());
+    			num2 = Integer.parseInt(st.pop()) ;    			
+    			
+    			if(token=="+") 	result = num1 + num2;
+    			if(token=="-") 	result = num2 - num1;  //reverse order pushed
+    			if(token=="*") 	result = num1 * num2;
+    			if(token=="/") 	result = num2 / num1;   //reverse order pushed
+    			
+    			st.push(result+"");
+    		}
+    		else 
+    			st.push(token);
+    	}
+    	
+    	result = Integer.parseInt(st.pop());
+    	
+    	return result;
+    }
+
+
     
+    public static String decodeString(String s) 
+    {
+		/*
+		  Tarih         : 02.04.2026
+		  Durum         : Yapildi.
+		  Problem Adi   : Decode String
+		  Problem Link  : https://leetcode.com/problems/decode-string/description/?envType=problem-list-v2&envId=stack
+		  Algoritma     :
+		  Diger         :
+		*/
+    	
+    	//"3[a]2[bc]", "3[a2[c]]" 
+    	//"aaabcbc",   "accaccacc"    	    
+    	
+    	Stack<Integer> stNum = new Stack<>();
+    	Stack<String> stOther = new Stack<>();
+    	
+    	
+    	char []arr = s.toCharArray();
+    	int size = s.length();
+    	
+    	List<String> list = new ArrayList<>();
+    	
+    	//step1 : tokenization
+    	for(int i=0; i<size; ) 
+    	{
+    		String str="";
+    		String num="";
+    		
+    		char ch = arr[i];
+    		
+    		while( ch>='a' && ch<='z' && i<size) 
+    		{
+    			str = str + ch;
+    			if(++i<size)
+    				ch = arr[i];    			
+    		}
+    		
+    		if(str.length()>0)   
+    			list.add(str);
+    		
+    		while( ch>='0' && ch<='9' && i<size) 
+    		{
+    			num = num + ch;
+    			if(++i<size)
+    				ch = arr[i];
+    		}
+    		
+    		if(num.length()>0)   
+    			list.add(num);
+    		
+    		if( ch=='['  || ch==']')  
+    		{
+    			list.add(ch+"");
+    			i++;
+    		}    		    		    	
+    	}
+    	
+    	//step2 : processing
+    	for(String item:list) 
+    	{
+    		if(item.matches("\\d+")) 
+    		{
+    			int a = Integer.parseInt(item);
+    			stNum.push(a);
+    		}
+    		else if(item.equals("["))
+    		{ 
+    			stOther.push(item);
+    		}
+    		else if(item.equals("]"))
+    		{ 
+    			String str = "";
+    			while(!stOther.peek().equals("[")) 
+    			{    				
+    				str = stOther.pop() + str;
+    			}
+    			//
+    			stOther.pop();   //pops "["
+    			
+    			String kStr="";
+    			int k = stNum.pop();
+    			
+    			for(int i=0; i<k; i++) 
+    			{
+    				kStr+=str;
+    			}    
+    			stOther.push(kStr);
+    		}
+    		else if(item.matches("[a-z]+")) 
+    		{
+    			stOther.push(item);
+    		}
+    	}
+    	
+    	String result="";
+    	while(!stOther.isEmpty()) 
+    	{
+    		result = stOther.pop() + result;
+    	}
+    	
+        return result;
+    }
     
     public void testCases() 
     {
+    	/*
+    	String []str = {"3[a]2[bc]","3[a2[c]]", "2[abc]3[cd]ef","c3[2[a]1[b]]d","3[z]2[2[y]pq4[2[jk]e1[f]]]ef", "2[3[a2[c]]d]e", "ef3[a2[c]]xy","11[2[a]]","3[a2[s]]","99[99[99[99[99[99[a]]]]]]"};    	
+    	int index=8	;
+    	String result = decodeString(str[index]);
+    	System.out.println(result);
+    	*/
+    	
     	/*
     	String []str = {"abcd","deeedbbcccbdaa","pbbcggttciiippooaais", "b"};
     	int [] k = {2, 3, 2 ,2 };
@@ -1759,12 +1899,23 @@ public class LeetCodeStackSamples {
     }
     
     public static void main(String[] args) 
-    {     	  
-    	String []str = {"abcd","deeedbbcccbdaa","pbbcggttciiippooaais", "b"};
-    	int [] k = {2, 3, 2 ,2 };
-    	int index=3;
-    	String result = removeDuplicates(str[index], k[index]);
-    	System.out.println(result);    	
+    {   
+    	/*
+    	String jreVersion = System.getProperty("java.version");
+    	System.out.println("JRE Version: " + jreVersion);
+    	
+    	String [][]tokens = {{"2","1","+","3","*"}, {"4","13","5","/","+"}, {"10","6","9","3","+","-11","*","/","*","17","+","5","+"},{"4","-2","/","2","-3","-","-"},{"10","6","9","3","+","-11","/","17","+","5","+"}};
+    	
+    	int index=0	;
+    	int result = evalRPN(tokens[index]);
+    	System.out.println(result);
+    	*/    	    	    	
+    	
+    	String []str = {"3[a]2[bc]","3[a2[c]]", "2[abc]3[cd]ef","c3[2[a]1[b]]d","3[z]2[2[y]pq4[2[jk]e1[f]]]ef", "2[3[a2[c]]d]e", "ef3[a2[c]]xy","11[2[a]]","3[a2[s]]","99[99[99[99[99[99[a]]]]]]"};    	
+    	int index=8	;
+    	String result = decodeString(str[index]);
+    	System.out.println(result);
+    	
 	}
 
 }
