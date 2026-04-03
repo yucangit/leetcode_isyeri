@@ -1470,9 +1470,18 @@ public class LeetCodeStackSamples {
     	    	 
     	return newStr;        
     }
-    
+          
     public static int evalRPN(String[] tokens) 
     {
+    	/*
+		  Tarih         : 02.04.2026
+		  Durum         : Yapildi. 
+		  Problem Adi   : Evaluate Reverse Polish Notation
+		  Problem Link  : https://leetcode.com/problems/evaluate-reverse-polish-notation/description/?envType=problem-list-v2&envId=stack
+		  Algoritma     :
+		  Diger         :
+		*/
+    	
     	//Durum : Yapildi.
     	//Tarih : 02.04.2026
     	
@@ -1607,8 +1616,61 @@ public class LeetCodeStackSamples {
         return result;
     }
     
+    public static String simplifyPath(String path) 
+    {    	    
+		/*
+		  Tarih         : 03.04.2026
+		  Durum         : Yapildi.
+		  Problem Adi   : Simplify Path
+		  Problem Link  : https://leetcode.com/problems/simplify-path/description/?envType=problem-list-v2&envId=stack
+		  Algoritma     :
+		  Diger         :
+		*/					
+    	
+    	path = path.replaceAll("/+", "/");
+        String [] arr = path.split("/");
+        
+        Deque<String> st = new ArrayDeque<>();
+        
+        for(String str:arr) 
+        {
+        	switch(str) {
+        		case ""    : break;
+        		case "."   : break;
+        		case ".."  : if(st.size()>0)  st.pollLast();    break;
+        		default    : st.addLast(str);  break;
+        	}
+        }
+        
+        String result = "";
+        while(!st.isEmpty()) 
+        {
+        	result = st.pollLast() + "/" + result;
+        }
+        
+        if(result.length()>0) result = result.substring(0, result.length()-1);
+        
+        result = "/" + result;
+        return result;
+    }
+    
+    
     public void testCases() 
     {
+    	/*
+    	String []path = {"/home/","/home//foo/","/home/user/Documents/../Pictures","/../", "/.../a/../b/c/../d/./", "/../../../../../a","/abc/...","/../..ga/b/.f..d/..../e.baaeeh./.a"};    	
+    	int index=7	;
+    	String result = simplifyPath(path[index]);
+    	System.out.println(result);  
+    	*/
+    	
+    	/*
+    	String [][]tokens = {{"2","1","+","3","*"}, {"4","13","5","/","+"}, {"10","6","9","3","+","-11","*","/","*","17","+","5","+"},{"4","-2","/","2","-3","-","-"},{"10","6","9","3","+","-11","/","17","+","5","+"}};    	
+    	int index=0	;
+    	int result = evalRPN(tokens[index]);
+    	System.out.println(result); 
+    	*/
+    	
     	/*
     	String [][]tokens = {{"2","1","+","3","*"}, {"4","13","5","/","+"}, {"10","6","9","3","+","-11","*","/","*","17","+","5","+"},{"4","-2","/","2","-3","-","-"},{"10","6","9","3","+","-11","/","17","+","5","+"}};    	
     	int index=0	;
@@ -1907,9 +1969,9 @@ public class LeetCodeStackSamples {
     
     public static void main(String[] args) 
     {       	    	    	
-    	String [][]tokens = {{"2","1","+","3","*"}, {"4","13","5","/","+"}, {"10","6","9","3","+","-11","*","/","*","17","+","5","+"},{"4","-2","/","2","-3","-","-"},{"10","6","9","3","+","-11","/","17","+","5","+"}};    	
-    	int index=0	;
-    	int result = evalRPN(tokens[index]);
+    	String []path = {"/home/","/home//foo/","/home/user/Documents/../Pictures","/../", "/.../a/../b/c/../d/./", "/../../../../../a","/abc/...","/../..ga/b/.f..d/..../e.baaeeh./.a"};    	
+    	int index=7	;
+    	String result = simplifyPath(path[index]);
     	System.out.println(result);    	    	    	    	
 
 	}
