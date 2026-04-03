@@ -1033,6 +1033,123 @@ public class LeetCodeStackSamples {
         return Integer.parseInt(st.peek());
     }
     
+    public static int calculate2(String s) 
+    {
+    	/*
+		  Tarih         : 03.04.2026
+		  Durum         : Yapiliyor
+		  Problem Adi   : Basic Calculator
+		  Problem Link  : https://leetcode.com/problems/basic-calculator/description/
+		  Algoritma     : 
+		  Diger         : 
+		*/
+		
+    	//s = "(1+(4+5+2)-3)+(6+8)"
+    	//'+' is not used as a unary operation (i.e., "+1" and "+(2 + 3)" is invalid).
+    	//'-' could be used as a unary operation (i.e., "-1" and "-(2 + 3)" is valid).
+    	
+    	int size = s.length();
+    	List<String> list = new ArrayList<>();
+    	
+    	//Step1: tokenization    	
+    	for(int i=0; i<s.length(); ) 
+    	{
+    		char ch = s.charAt(i); 
+    		
+    		if(ch==' ')  
+    			i++;
+    		else if(ch=='(' || ch==')' || ch=='+' || ch=='-')	
+    		{ 
+    			list.add(ch+""); 
+    			i++; 
+    		}
+    		else 
+    		{
+    			String num="";
+    			while( ch>='0' && ch<='9' && i<size ) 
+    			{    				
+    				num = num + ch;
+    				if(++i<size)
+    					ch = s.charAt(i);
+    			}
+    			list.add(num);
+    		}    		
+    	}
+    	
+    	
+    	Deque<String> st = new ArrayDeque<>();
+    	
+    	//s = "(1+(4+5+2)-3)+(6+8)"
+    	//'+' is not used as a unary operation (i.e., "+1" and "+(2 + 3)" is invalid).
+    	//'-' could be used as a unary operation (i.e., "-1" and "-(2 + 3)" is valid).
+    	
+    	for(int i=0; i<list.size(); i++)
+    	{
+    		String token = list.get(i);
+    		
+    		if(token.equals( "+" ) )
+    		{ 
+				if( Utils.isNumber( list.get(i+1)) ) 
+				{ 
+					int num1= Integer.parseInt(st.pollLast());  
+					int num2= Integer.parseInt(list.get(i+1));  
+					st.addLast((num1+num2)+"" );
+					i++;    					
+				}
+				else 
+				{
+					st.addLast(token);
+				}    				
+    		}
+    		else if(token.equals( "-" ) )
+    		{    		
+				if( Utils.isNumber( list.get(i+1)) ) 
+				{ 
+					int num1= Integer.parseInt(st.pollLast());  
+					int num2= Integer.parseInt(list.get(i+1));  
+					st.addLast((num1-num2)+"" );
+					i++;    					
+				}
+				else 
+				{
+					st.addLast(token);
+				}
+    		}
+    		else if(token.equals("(") )
+    		{ 
+    			st.addLast(token);
+    		}    		
+    		else if(token.equals(")")) 
+    		{ 
+				String num = st.pollLast();
+				st.pollLast();               //"(" character
+				st.addLast(num);
+			} 				    			
+    		else 
+    		{
+    			st.addLast(token); 
+    		}    		
+    	} 
+    	
+    	int result = Integer.parseInt(st.pollLast());
+    	String token="";
+    	while(!st.isEmpty()) 
+    	{
+    		token = st.pollLast();
+    		if( token.equals("+") )      
+    			result = result + Integer.parseInt(st.pollLast());    		
+    		else if( token.equals("-") ) 
+    			result = Integer.parseInt(st.pollLast()) - result;
+    		st.addLast(result+"");
+    	}
+    	
+    	
+    	result = (!st.isEmpty())? Integer.parseInt(st.pollLast()):result;
+    	
+    	return result;
+
+    }
+    
     public static List<Integer> preOrderN_Arr(NodeN_Arr root) 
     {        
         Stack<MyNode2> st = new Stack<MyNode2> ();
@@ -1655,6 +1772,7 @@ public class LeetCodeStackSamples {
     }
     
     
+    
     public void testCases() 
     {
     	/*
@@ -1969,9 +2087,9 @@ public class LeetCodeStackSamples {
     
     public static void main(String[] args) 
     {       	    	    	
-    	String []path = {"/home/","/home//foo/","/home/user/Documents/../Pictures","/../", "/.../a/../b/c/../d/./", "/../../../../../a","/abc/...","/../..ga/b/.f..d/..../e.baaeeh./.a"};    	
-    	int index=7	;
-    	String result = simplifyPath(path[index]);
+    	String []path = {"1 + 1"," 2-1 + 2 " , "(1+(4+5+2)-3)+(6+8)"};    	
+    	int index=2	;
+    	int result = calculate2(path[index]);
     	System.out.println(result);    	    	    	    	
 
 	}

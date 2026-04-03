@@ -85,4 +85,9 @@ public class Utils
 		 }
 		 return idx;
 	}
+
+	public static boolean isNumber(String str) 
+	{
+		return str.matches("^\\d+$");
+	}
 }
