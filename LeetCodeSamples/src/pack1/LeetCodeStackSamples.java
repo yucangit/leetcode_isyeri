@@ -1120,10 +1120,19 @@ public class LeetCodeStackSamples {
     			st.addLast(token);
     		}    		
     		else if(token.equals(")")) 
-    		{ 
-				String num = st.pollLast();
-				st.pollLast();               //"(" character
-				st.addLast(num);
+    		{ 								
+				int tempResult=Integer.parseInt(st.pollLast());
+				
+				while(!token.equals("("))                             //burada sonsuz dongu olusuyor.
+		    	{
+		    		token = st.pollLast();
+		    		if( token.equals("+") )      
+		    			tempResult = tempResult + Integer.parseInt(st.pollLast());    		
+		    		else if( token.equals("-") ) 
+		    			tempResult = Integer.parseInt(st.pollLast()) - tempResult;
+		    		st.addLast(tempResult+"");
+		    	}
+				
 			} 				    			
     		else 
     		{
