@@ -1873,6 +1873,34 @@ public class LeetCodeStackSamples {
 		return null;
     }
     
+    public static int minLengthAfterRemovals(String s) {
+		/*
+		  Tarih         : 01.06.2026
+		  Durum         : Cozuldu.
+		  Problem Adi   : Minimum String Length After Balanced Removals
+		  Problem Link  : https://leetcode.com/problems/minimum-string-length-after-balanced-removals/?envType=problem-list-v2&envId=stack
+		  Algoritma     :
+		  Diger         :
+		*/
+    	
+    	Deque<Character> st = new ArrayDeque<>();    //deque is faster than stack 
+    	boolean isRemoved = true;
+    	String newStr = s; 
+    	int size = s.length();
+    		
+		st.addLast(newStr.charAt(0));
+		
+		for(int i=1; i<size; i++) 
+		{
+			char ch = newStr.charAt(i);
+			if(!st.isEmpty() && st.peekLast()!=ch)  st.pollLast();
+			else  st.addLast(ch);
+		}    	
+    	
+		return st.size();    			
+	}
+    
+    
     public void testCases() 
     {
     	/*
@@ -2186,7 +2214,8 @@ public class LeetCodeStackSamples {
     }
     
     public static void main(String[] args) 
-    {       	    	    	
+    {   
+    	/*
     	String []path = {"1 + 1"," 2-1 + 2 " , "(1+(4+5+2)-3)+(6+8)", "-(-2 + 3)", "-2+1", "- (3 + (4 + 5))", "-( 1-( -2))", 
     					" 2+0 - ((12)) ", 
     					"-(1)", "-(((-(1 - 2) - 3 ) + 6) - 7 + 8)",    //-5 
@@ -2196,7 +2225,14 @@ public class LeetCodeStackSamples {
     	
     	int index=10;
     	int result = calculate2(path[index]);
-    	System.out.println(path[index] + " : " +  result);    	    	    	    	
+    	System.out.println(path[index] + " : " +  result);    	    
+    	*/
+    	
+    	String []str = {"aabbab","aaaa","aaabb"};     //Sonuclar: {2,3,23,-1,-12,-3 } 	
+
+		int index=2;
+		int result = minLengthAfterRemovals(str[index]);
+		System.out.println(result);   
 
 	}
 
