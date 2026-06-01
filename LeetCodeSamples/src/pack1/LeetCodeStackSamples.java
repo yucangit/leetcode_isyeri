@@ -1883,17 +1883,15 @@ public class LeetCodeStackSamples {
 		  Diger         :
 		*/
     	
-    	Deque<Character> st = new ArrayDeque<>();    //deque is faster than stack 
-    	boolean isRemoved = true;
-    	String newStr = s; 
+    	Deque<Character> st = new ArrayDeque<>();    //deque is faster than stack     	    	
     	int size = s.length();
     		
-		st.addLast(newStr.charAt(0));
+		st.addLast(s.charAt(0));
 		
 		for(int i=1; i<size; i++) 
 		{
-			char ch = newStr.charAt(i);
-			if(!st.isEmpty() && st.peekLast()!=ch)  st.pollLast();
+			char ch = s.charAt(i);
+			if(!st.isEmpty() && st.peekLast()!=ch)   st.pollLast();
 			else  st.addLast(ch);
 		}    	
     	
