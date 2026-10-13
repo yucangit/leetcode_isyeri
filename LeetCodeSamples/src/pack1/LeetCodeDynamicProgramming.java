@@ -76,14 +76,73 @@ public class LeetCodeDynamicProgramming {
         return result;
     }
 
-	public static void main(String[] args) {
+	public static int climbStairs(int n)          // n-> cikilacak basamak numarasý 
+	{
+		/*
+		  Tarih         : 13.10.2026
+		  Durum         : 
+		  Problem Adi   : 70. Climbing Stairs
+		  Problem Link  : https://leetcode.com/problems/climbing-stairs/description/?envType=study-plan-v2&envId=dynamic-programming
+		  Algoritma     :
+		  Diger         : You are climbing a staircase. It takes n steps to reach the top.
+						  Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+		*/
 		
+		int [] dp = new int [100];
+		
+		dp[0] = 0;       //0.basamak için adim atmaya gerek yok.   //tekrar düþünülecek
+		dp[1] = 1;       //1.basamaga 1 adim ile doðrudan çýkýlýr
+		dp[2] = 2;       //2.basamaga 1+1 adim ya da doðrudan 2 adim ile cikilir
+		
+		for(int i=3; i<=n; i++) 
+		{
+			dp[i] = dp[i-1] + dp[i-2];
+		}
+		
+		return dp[n];	
+	}
+	
+	public static int minCost(int n) 
+	{
+		/*
+		  Tarih         : 13.10.2026
+		  Durum         : 
+		  Problem Adi   : 3857. Minimum Cost to Split into Ones
+		  Problem Link  : https://leetcode.com/problems/minimum-cost-to-split-into-ones/?envType=problem-list-v2&envId=dynamic-programming
+		  Algoritma     :
+		  Diger         : 1 <= n <= 500
+		*/
+		
+		int []dp = new int[500];
+		
+		dp[0]=0;
+		dp[1]=0;
+		dp[2]=1;
+		
+		int temp = 0;
+				
+		for(int i=n; i>2; i--) 
+		{
+			dp[i] = (i-1)*1 + dp[i-1];
+		}
+		
+		return temp;						
+	}
+	
+	public static void testCases() 
+	{
 		generate(5);
-		
 		
 		List<Integer> result = new LinkedList<>();
 		result.add(1);
 		result.clear();
+	}
+	
+	public static void main(String[] args) 
+	{
+			
+		int sonuc = climbStairs(4);
+		System.out.println(sonuc);
 
 	}
 
