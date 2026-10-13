@@ -113,7 +113,7 @@ public class LeetCodeDynamicProgramming {
 		  Diger         : 1 <= n <= 500
 		*/
 		
-		int []dp = new int[500];
+		int []dp = new int[501];
 		
 		dp[0]=0;
 		dp[1]=0;
@@ -121,16 +121,20 @@ public class LeetCodeDynamicProgramming {
 		
 		int temp = 0;
 				
-		for(int i=n; i>2; i--) 
+		for(int i=3; i<=n; i++) 
 		{
 			dp[i] = (i-1)*1 + dp[i-1];
 		}
 		
-		return temp;						
+		return dp[n];						
 	}
 	
 	public static void testCases() 
 	{
+		
+		int sonuc = climbStairs(4);
+		System.out.println(sonuc);
+		
 		generate(5);
 		
 		List<Integer> result = new LinkedList<>();
@@ -141,7 +145,7 @@ public class LeetCodeDynamicProgramming {
 	public static void main(String[] args) 
 	{
 			
-		int sonuc = climbStairs(4);
+		int sonuc = minCost(0);
 		System.out.println(sonuc);
 
 	}
