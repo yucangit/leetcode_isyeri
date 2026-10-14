@@ -39,7 +39,8 @@ public class LeetCodeDynamicProgramming {
         return result;
     }
 
-	public List<Integer> getRow(int rowIndex) {
+	public List<Integer> getRow(int rowIndex) 
+	{
 		//Pascal's Triangle II
 		//https://leetcode.com/problems/pascals-triangle-ii/description/?envType=problem-list-v2&envId=dynamic-programming
         
@@ -131,10 +132,17 @@ public class LeetCodeDynamicProgramming {
 	
 	public static void testCases() 
 	{
+		int sonucInt=0;
 		
-		int sonuc = climbStairs(4);
-		System.out.println(sonuc);
+		//-------------------------------------------------------------------------------
+		sonucInt = minCost(500);
+		System.out.println(sonucInt);
 		
+		//-------------------------------------------------------------------------------
+		sonucInt = climbStairs(4);
+		System.out.println(sonucInt);
+		
+		//-------------------------------------------------------------------------------
 		generate(5);
 		
 		List<Integer> result = new LinkedList<>();
@@ -145,8 +153,8 @@ public class LeetCodeDynamicProgramming {
 	public static void main(String[] args) 
 	{
 			
-		int sonuc = minCost(0);
-		System.out.println(sonuc);
+		int sonucInt = minCost(500);
+		System.out.println(sonucInt);
 
 	}
 
