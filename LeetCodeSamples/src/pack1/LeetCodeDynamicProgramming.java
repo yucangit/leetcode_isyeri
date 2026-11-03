@@ -130,6 +130,56 @@ public class LeetCodeDynamicProgramming {
 		return dp[n];						
 	}
 	
+	public static int numTeams(int[] rating) 
+	{
+		/*
+		  Tarih         : 15.10.2026
+		  Durum         : 
+		  Problem Adi   : Count Number of Teams
+		  Problem Link  : https://leetcode.com/problems/count-number-of-teams/?envType=problem-list-v2&envId=dynamic-programming
+		  Algoritma     :
+		  Diger         :
+		*/
+		
+		int teams = 0;
+		int size = rating.length;
+		
+		int leftSmaller=0, rightBigger = 0, leftBigger, rightSmaller;
+		
+		for(int i=1; i<size-1; i++) 
+		{
+			leftSmaller = 0; 
+			rightBigger = 0;
+			leftBigger = 0;
+			rightSmaller = 0;
+			
+			for(int j=0; j<i; j++) 
+			{
+				if(rating[j]<rating[i]) 
+					leftSmaller++;				
+			}
+			
+			for(int j=i+1; j<size; j++) 
+			{
+				if(rating[j]>rating[i]) 
+					rightBigger++;				
+			}
+			
+			teams += leftSmaller*rightBigger;
+			
+			//----------------------------------------------------
+			leftBigger = i - leftSmaller ;
+			rightSmaller = size-i-1 - rightBigger ;
+			
+			teams += leftBigger*rightSmaller;						
+		}
+		
+		System.out.println("olusturulabilecek takim sayisi : " + teams);
+		
+		return teams;
+		
+	}
+	
 	public static void testCases() 
 	{
 		int sonucInt=0;
@@ -153,7 +203,8 @@ public class LeetCodeDynamicProgramming {
 	public static void main(String[] args) 
 	{
 			
-		int sonucInt = minCost(500);
+		int [] rating = {2,5,3,4,1};
+		int sonucInt = numTeams(rating);
 		System.out.println(sonucInt);
 
 	}
