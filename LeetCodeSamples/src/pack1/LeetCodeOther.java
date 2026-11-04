@@ -4,6 +4,10 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.LinkedHashMap;
+
 
 public class LeetCodeOther {
 
@@ -223,6 +227,70 @@ public class LeetCodeOther {
 		return list;    	
     }
     
+    public static int[] smallerNumbersThanCurrent(int[] nums) 
+    {
+    	
+    	/*
+		  Tarih         : 04.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 1365. How Many Numbers Are Smaller Than the Current Number
+		  Problem Link  : https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/description/
+		  Algoritma     : 
+		  Diger         : 
+		*/		    	     	    	
+    	
+    	int [] freq = new int[101];
+    	
+    	int size = nums.length;
+    	
+    	for(int i=0; i<size; i++)
+    		freq[nums[i]]++;
+    	    
+    	
+    	int [] cumFreq = new int[101];    	    	
+    	cumFreq[0] = 0;                         //0'dan küçük rakam yok
+    	
+    	for(int i=1; i<101; i++)
+    		cumFreq[i] = cumFreq[i-1] + freq[i-1];        //kendinden küçük rakamlarýn sayýsý
+    	
+    	int []result = new int[size];
+    	
+    	for(int i=0; i<size; i++) 
+    	{
+    		int num = nums[i];
+    		result[i] = cumFreq[num];// - freq[num];
+    	}    	    	        	
+    	
+		return result;       
+    }
+    
+    public int minimumSum(int num) 
+    {
+    	/*
+		  Tarih         : 04.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 2160. Minimum Sum of Four Digit Number After Splitting Digits
+		  Problem Link  : https://leetcode.com/problems/minimum-sum-of-four-digit-number-after-splitting-digits/description/ 
+		  Algoritma     : 
+		  Diger         : 
+		*/
+		
+
+    	
+        int []digits = new int[4];
+
+        for(int i=0; i<4; i++) 
+        {   
+            digits[i] = num%10;
+            num/=10;
+        }
+
+        Arrays.sort(digits);
+        
+		return (digits[0]*10+ digits[2]) + (digits[1]*10+ digits[3]);
+        
+    }
+    
     public static void testCases() 
     {
     	/*
@@ -238,16 +306,22 @@ public class LeetCodeOther {
 		int result = reverse(arr[index]);
 		System.out.println("Girdi :   " + arr[index] + "\nCikti :  " + result );
     	*/
-    }
-    
-	public static void main(String[] args) 
-	{
-								
-		
-		int [] arr = { 122, 101 } ;
+    	
+    	/*
+    	int [] arr = { 122, 101 } ;
 		int index =0; 
 		int result = digitFrequencyScore(arr[index]);
 		System.out.println("Girdi :   " + arr[index] + "\nCikti :  " + result );
+		*/
+    }
+    
+	public static void main(String[] args) 
+	{								
+		
+		int [][] arr = {{8,1,2,2,3}, {6,5,4,8}};
+		int index =0; 
+		int []result = smallerNumbersThanCurrent(arr[index]);
+		System.out.println("Girdi :  " + Arrays.toString(arr[index]) + "\nCikti :  " + Arrays.toString(result) );			
 
 	}
 
