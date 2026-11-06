@@ -133,11 +133,7 @@ public class LeetCodeOther {
     	return Math.abs(revInt-n);
         
     }
-    
-    
-    
-   
-    
+       
     public int[] minOperations(String boxes) 
     {    
 		/*
@@ -169,10 +165,6 @@ public class LeetCodeOther {
     	
 		return result;        
     }
-    
-    
-    
-    
     
     public int minimumSum(int num) 
     {
@@ -213,14 +205,6 @@ public class LeetCodeOther {
         }
         return sum;
     }
-    
-    
-    
-    
-    
-   
-    
-   
     
     public static void testCases() 
     {
@@ -265,7 +249,6 @@ public class LeetCodeOther {
 		//int result = peakValleyDifference(arr[0]);
 		//System.out.println("Girdi :   " + Arrays.toString(arr[0]) + "\nCikti :  " + result );
 		
-
 	}
 
 }
