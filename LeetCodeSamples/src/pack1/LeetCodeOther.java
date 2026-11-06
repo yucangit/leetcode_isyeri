@@ -134,39 +134,9 @@ public class LeetCodeOther {
         
     }
     
-    public int[] recoverOrder(int[] order, int[] friends) 
-    {
-    	Set<Integer> set = new HashSet<Integer>();
-    	
-    	int[] result = new int[friends.length];
-    	
-    	for(int i=0; i<friends.length; i++) 
-    	{
-    		set.add(friends[i]);
-    	}
-    	
-    	for(int i=0, j=0; i<order.length; i++) 
-    	{
-    		if(set.contains(order[i])) 
-    			result[j++] = order[i];
-    	}
-    	
-    	return result;
-    }
     
-    public int[] concatWithReverse(int[] nums) 
-    {
-    	int size = nums.length;
-    	int  [] resultArr = new int[2*size];
-    	
-    	for(int i=0; i<size; i++) 
-    	{
-    		resultArr[i] = nums[i];
-    		resultArr[size+i] = nums[size-1-i];
-    	}
-    	
-    	return resultArr;
-    }
+    
+   
     
     public int[] minOperations(String boxes) 
     {    
@@ -200,69 +170,9 @@ public class LeetCodeOther {
 		return result;        
     }
     
-    public List<Integer> findMissingElements(int[] nums) 
-    {
-    	List<Integer> list = new ArrayList<Integer>();
-    	
-    	int size = nums.length;
-    	int min = Integer.MAX_VALUE;
-    	int max = Integer.MIN_VALUE;
-    	
-    	Set<Integer> set = new HashSet<Integer>();
-    	
-    	for(int i=0; i<size; i++) 
-    	{
-    		int num = nums[i];
-    		if(num<min) min = num;
-    		if(num>max) max = num;
-    		
-    		set.add(num);
-    	}
-        
-    	for(int i = min+1; i<max; i++) 
-    	{
-    		if(!set.contains(i))  list.add(i);
-    	}
-    	
-		return list;    	
-    }
     
-    public static int[] smallerNumbersThanCurrent(int[] nums) 
-    {
-    	
-    	/*
-		  Tarih         : 04.11.2026
-		  Durum         : Çözüldü.
-		  Problem Adi   : 1365. How Many Numbers Are Smaller Than the Current Number
-		  Problem Link  : https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/description/
-		  Algoritma     : 
-		  Diger         : 
-		*/		    	     	    	
-    	
-    	int [] freq = new int[101];
-    	
-    	int size = nums.length;
-    	
-    	for(int i=0; i<size; i++)
-    		freq[nums[i]]++;
-    	    
-    	
-    	int [] cumFreq = new int[101];    	    	
-    	cumFreq[0] = 0;                         //0'dan küçük rakam yok
-    	
-    	for(int i=1; i<101; i++)
-    		cumFreq[i] = cumFreq[i-1] + freq[i-1];        //kendinden küçük rakamlarýn sayýsý
-    	
-    	int []result = new int[size];
-    	
-    	for(int i=0; i<size; i++) 
-    	{
-    		int num = nums[i];
-    		result[i] = cumFreq[num];// - freq[num];
-    	}    	    	        	
-    	
-		return result;       
-    }
+    
+    
     
     public int minimumSum(int num) 
     {
@@ -274,9 +184,7 @@ public class LeetCodeOther {
 		  Algoritma     : 
 		  Diger         : 
 		*/
-		
-
-    	
+	    	
         int []digits = new int[4];
 
         for(int i=0; i<4; i++) 
@@ -287,9 +195,32 @@ public class LeetCodeOther {
 
         Arrays.sort(digits);
         
-		return (digits[0]*10+ digits[2]) + (digits[1]*10+ digits[3]);
-        
+		return (digits[0]*10+ digits[2]) + (digits[1]*10+ digits[3]);       
     }
+    
+    public static int sumOfMultiples(int n) 
+    {
+        int sum = 0;
+        
+        for (int i = 1; i <= n; i++) 
+        {
+            if (i % 3 == 0 || i % 5 == 0 || i % 7 == 0) 
+            {
+                sum += i;
+                
+                System.out.print(i + ",");
+            }
+        }
+        return sum;
+    }
+    
+    
+    
+    
+    
+   
+    
+   
     
     public static void testCases() 
     {
@@ -313,15 +244,27 @@ public class LeetCodeOther {
 		int result = digitFrequencyScore(arr[index]);
 		System.out.println("Girdi :   " + arr[index] + "\nCikti :  " + result );
 		*/
+    	
+    	/*
+    	int [][] arr = {{8,1,2,2,3}, {6,5,4,8}};
+		int index =0; 
+		int []result = smallerNumbersThanCurrent(arr[index]);
+		System.out.println("Girdi :  " + Arrays.toString(arr[index]) + "\nCikti :  " + Arrays.toString(result) );
+		*/
+    	
+    	//System.out.println(sumOfMultiples(15) );    	    	
+    	
+    	
     }
     
 	public static void main(String[] args) 
 	{								
+							
+		int [][] arr = { { 1,5,2,4,1,3,0} } ;
+		//int index =0; 
+		//int result = peakValleyDifference(arr[0]);
+		//System.out.println("Girdi :   " + Arrays.toString(arr[0]) + "\nCikti :  " + result );
 		
-		int [][] arr = {{8,1,2,2,3}, {6,5,4,8}};
-		int index =0; 
-		int []result = smallerNumbersThanCurrent(arr[index]);
-		System.out.println("Girdi :  " + Arrays.toString(arr[index]) + "\nCikti :  " + Arrays.toString(result) );			
 
 	}
 

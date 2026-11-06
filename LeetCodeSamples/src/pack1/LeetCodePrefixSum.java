@@ -130,78 +130,7 @@ public class LeetCodePrefixSum {
         return result;
     }
     
-    public static void test() 
-    {
-    	/*    	
-    	//nums = [[3,6],[1,5],[4,7]]
-		List<Integer> range1 = new LinkedList<Integer>();
-		List<Integer> range2 = new LinkedList<Integer>();
-		List<Integer> range3 = new LinkedList<Integer>();
-		range1.add(3);  range1.add(6);
-		range2.add(1);  range2.add(5);
-		range3.add(4);  range3.add(7);
-		
-		List<List<Integer>> nums = new LinkedList<List<Integer>>(); 
-		
-		nums.add(range1);
-		nums.add(range2);
-		nums.add(range3);						
-		
-		//int [][]nums = {{3,6}, {1,5},{4,7}};
-		System.out.println(numberOfPoints(nums));		
-		
-		Set<Integer> s  = new HashSet<Integer>();
-		s.add(null);
-        */
-    	
-    	
-    	/*
-		//int [][]ranges = {{1,2},{3,4},{5,6}};
-		//int left = 2, right = 5;
-		
-		//int [][]ranges = {{1,10},{10,20}};
-		//int left = 21, right = 21;
-		
-		
-		//int [][]ranges = {{37,49},{5,17},{8,32}};
-		//int left = 29, right = 49;
-		
-		int [][]ranges = {{1,50}};
-		int left = 1, right = 50;
-						
-		boolean result = isCovered(ranges, left, right);
-		System.out.println(result);
-		*/
-    	
-    	/*
-		//int [] arr = {-1,-1,-1,-1,0,1};    //1
-		//int [] arr = {5};    //
-		//int [] arr = {3,2};    //-1
-		//int [] arr = {-1,-1,0,1,1,0};    //5
-		int [] arr = {-1,-1,0,0,-1,-1};    //5
-		
-		
-		int result = pivotIndex(arr);
-		System.out.println(result);
-		*/
-    	
-    	/*
-		int [] arr = {10,4,8,3};		
-		
-		int[] result = leftRightDifference(arr);
-		//System.out.println("1");
-		
-		System.out.print("\nSum diffs   : ");
-		printArrContent(result, true);
-	    */
-		
-		/*
-		int [] arr = {3,1,5};
-		int result = subarraySum(arr);
-		System.out.println(result);
-		*/
-    	
-    }
+    
          
     public static int numberOfPoints(List<List<Integer>> nums) 
     {
@@ -290,6 +219,116 @@ public class LeetCodePrefixSum {
         
         return result;
 
+    }
+    
+    public static int[] smallerNumbersThanCurrent(int[] nums) 
+    {
+    	
+    	/*
+		  Tarih         : 04.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 1365. How Many Numbers Are Smaller Than the Current Number
+		  Problem Link  : https://leetcode.com/problems/how-many-numbers-are-smaller-than-the-current-number/description/
+		  Algoritma     : 
+		  Diger         : 
+		*/		    	     	    	
+    	
+    	int [] freq = new int[101];
+    	
+    	int size = nums.length;
+    	
+    	for(int i=0; i<size; i++)
+    		freq[nums[i]]++;
+    	    
+    	
+    	int [] cumFreq = new int[101];    	    	
+    	cumFreq[0] = 0;                         //0'dan küçük rakam yok
+    	
+    	for(int i=1; i<101; i++)
+    		cumFreq[i] = cumFreq[i-1] + freq[i-1];        //kendinden küçük rakamların sayısı
+    	
+    	int []result = new int[size];
+    	
+    	for(int i=0; i<size; i++) 
+    	{
+    		int num = nums[i];
+    		result[i] = cumFreq[num];// - freq[num];
+    	}    	    	        	
+    	
+		return result;       
+    }
+    
+    public static void test() 
+    {
+    	/*    	
+    	//nums = [[3,6],[1,5],[4,7]]
+		List<Integer> range1 = new LinkedList<Integer>();
+		List<Integer> range2 = new LinkedList<Integer>();
+		List<Integer> range3 = new LinkedList<Integer>();
+		range1.add(3);  range1.add(6);
+		range2.add(1);  range2.add(5);
+		range3.add(4);  range3.add(7);
+		
+		List<List<Integer>> nums = new LinkedList<List<Integer>>(); 
+		
+		nums.add(range1);
+		nums.add(range2);
+		nums.add(range3);						
+		
+		//int [][]nums = {{3,6}, {1,5},{4,7}};
+		System.out.println(numberOfPoints(nums));		
+		
+		Set<Integer> s  = new HashSet<Integer>();
+		s.add(null);
+        */
+    	
+    	
+    	/*
+		//int [][]ranges = {{1,2},{3,4},{5,6}};
+		//int left = 2, right = 5;
+		
+		//int [][]ranges = {{1,10},{10,20}};
+		//int left = 21, right = 21;
+		
+		
+		//int [][]ranges = {{37,49},{5,17},{8,32}};
+		//int left = 29, right = 49;
+		
+		int [][]ranges = {{1,50}};
+		int left = 1, right = 50;
+						
+		boolean result = isCovered(ranges, left, right);
+		System.out.println(result);
+		*/
+    	
+    	/*
+		//int [] arr = {-1,-1,-1,-1,0,1};    //1
+		//int [] arr = {5};    //
+		//int [] arr = {3,2};    //-1
+		//int [] arr = {-1,-1,0,1,1,0};    //5
+		int [] arr = {-1,-1,0,0,-1,-1};    //5
+		
+		
+		int result = pivotIndex(arr);
+		System.out.println(result);
+		*/
+    	
+    	/*
+		int [] arr = {10,4,8,3};		
+		
+		int[] result = leftRightDifference(arr);
+		//System.out.println("1");
+		
+		System.out.print("\nSum diffs   : ");
+		printArrContent(result, true);
+	    */
+		
+		/*
+		int [] arr = {3,1,5};
+		int result = subarraySum(arr);
+		System.out.println(result);
+		*/
+    	
     }
     
 	public static void main(String[] args) {								

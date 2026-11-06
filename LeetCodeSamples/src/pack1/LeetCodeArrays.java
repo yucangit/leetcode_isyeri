@@ -1,6 +1,7 @@
 package pack1;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.HashSet;
 import java.util.List;
@@ -569,8 +570,176 @@ public class LeetCodeArrays {
 		int result = countConsistentStrings("cad", new String []{"cc","acd","b","ba","bac","bad","ac","d"});
 		System.out.println(result);
 		*/
+	
+    	/*
+    	int [][] arr = { { 1,5,2,4,1,3,0} } ;
+		//int index =0; 
+		int result = peakValleyDifference(arr[0]);
+		System.out.println("Girdi :   " + Arrays.toString(arr[0]) + "\nCikti :  " + result );
+		*/
+	
+	
+    	/*
+    	int [] arr = { 122, 101 } ;
+		//int index =0; 
+		int []result = separateDigits(arr);
+		System.out.println("Girdi :   " + Arrays.toString(arr) + "\nCikti :  " + Arrays.toString(result) );
+		*/
 	}
-	    
+	
+    public static int peakValleyDifference(int[] nums) 
+    {
+        int sumPeaks = 0;    
+        int sumValleys = 0;
+
+        for(int i=1; i<nums.length-1; i++)
+        {
+            int num = nums[i];
+            
+            if(num<nums[i-1] && num<nums[i+1])      
+            	sumValleys += num;
+            else if(num>nums[i-1] && num>nums[i+1]) 
+            	sumPeaks   += num;
+        }
+
+        return sumPeaks - sumValleys;
+    }
+    
+    public static int diagonalSum(int[][] mat) 
+    {
+        int sum =0;
+        
+        int rowCount = mat[0].length;
+        
+        for(int i=0; i<rowCount; i++) 
+        {
+        	sum += mat[i][i] + mat[i][rowCount-1-i];
+        }
+        
+        if(rowCount%2==1)
+        	sum -= mat[rowCount/2][rowCount/2];
+        
+        return sum;
+    }
+    
+    public static double minimumAverage(int[] nums) 
+    {
+    	Arrays.sort(nums);
+    	int size = nums.length;
+    	
+    	double minAvg = 100;
+    	
+    	for(int i=0; i<size/2; i++) 
+    	{
+    		double avg = (nums[i] + nums[size-1-i])/2.0;
+    		minAvg = Math.min(minAvg, avg);
+    	}
+    	
+    	return minAvg;
+    }
+
+    
+    public static int[] separateDigits(int[] nums) 
+    {
+    	List<Character> list = new ArrayList<>();
+    	
+    	for(int num : nums) 
+    	{
+    		for(char ch:(num+"").toCharArray()) 
+    		{
+    			list.add(ch);    			
+    		}
+    	}
+    	
+    	int [] result = new int[list.size()];
+    	
+    	for(int i=0; i<list.size(); i++) 
+    	{
+    		result[i] = list.get(i)-'0';
+    	}
+    	
+    	return result;
+    }
+    
+    public static int differenceOfSum(int[] nums) 
+    {
+        int sumNums = 0, sumDigits = 0;
+        
+        for(int num:nums) 
+        {
+        	sumNums+=num;
+        	
+        	while(num>0) 
+        	{
+        		sumDigits+= num%10;
+        		num/=10;
+        	}
+        }
+        
+        return Math.abs(sumDigits - sumNums);
+    }
+    
+    public List<Integer> findMissingElements(int[] nums) 
+    {
+    	List<Integer> list = new ArrayList<Integer>();
+    	
+    	int size = nums.length;
+    	int min = Integer.MAX_VALUE;
+    	int max = Integer.MIN_VALUE;
+    	
+    	Set<Integer> set = new HashSet<Integer>();
+    	
+    	for(int i=0; i<size; i++) 
+    	{
+    		int num = nums[i];
+    		if(num<min) min = num;
+    		if(num>max) max = num;
+    		
+    		set.add(num);
+    	}
+        
+    	for(int i = min+1; i<max; i++) 
+    	{
+    		if(!set.contains(i))  list.add(i);
+    	}
+    	
+		return list;    	
+    }
+
+    public int[] concatWithReverse(int[] nums) 
+    {
+    	int size = nums.length;
+    	int  [] resultArr = new int[2*size];
+    	
+    	for(int i=0; i<size; i++) 
+    	{
+    		resultArr[i] = nums[i];
+    		resultArr[size+i] = nums[size-1-i];
+    	}
+    	
+    	return resultArr;
+    }
+    
+    public int[] recoverOrder(int[] order, int[] friends) 
+    {
+    	Set<Integer> set = new HashSet<Integer>();
+    	
+    	int[] result = new int[friends.length];
+    	
+    	for(int i=0; i<friends.length; i++) 
+    	{
+    		set.add(friends[i]);
+    	}
+    	
+    	for(int i=0, j=0; i<order.length; i++) 
+    	{
+    		if(set.contains(order[i])) 
+    			result[j++] = order[i];
+    	}
+    	
+    	return result;
+    }
+    
 	public static void main(String[] args) {
 		
 		/*
