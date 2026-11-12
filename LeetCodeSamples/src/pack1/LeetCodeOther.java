@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
@@ -248,6 +249,24 @@ public class LeetCodeOther {
 		//int index =0; 
 		//int result = peakValleyDifference(arr[0]);
 		//System.out.println("Girdi :   " + Arrays.toString(arr[0]) + "\nCikti :  " + result );
+		
+		System.out.println(5^6);
+		System.out.println(10 & 12);
+		
+		List<Integer> nums = new ArrayList<>();
+		nums.add(5);
+		nums.add(1);
+		nums.add(6);
+		nums.add(2);
+		
+		Collections.sort(nums);
+		int size = nums.size();
+		
+		System.out.println(nums);
+		
+		List<Integer> list = new ArrayList<>();
+		
+		
 		
 	}
 

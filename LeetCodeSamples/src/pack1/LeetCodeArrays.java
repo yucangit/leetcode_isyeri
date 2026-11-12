@@ -740,6 +740,42 @@ public class LeetCodeArrays {
     	return result;
     }
     
+    public int deleteGreatestValue(int[][] grid) 
+    {
+		/*
+		  Tarih         : 12.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 2500. Delete Greatest Value in Each Row
+		  Problem Link  : https://leetcode.com/problems/delete-greatest-value-in-each-row/description/?envType=problem-list-v2&envId=heap-priority-queue
+		  Algoritma     : 
+		  Diger         : Problem topics kýsmýnda "Heap (Priority Queue)" de var. Ancak heap kullanýlarak çözülmedi.
+		*/		
+		
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        for(int i=0; i<rows; i++)
+        {
+            Arrays.sort(grid[i]);
+        }    
+
+        int sum = 0;
+        //PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> b-a);    //artan sirada
+
+        for(int i=cols-1; i>=0; i--)
+        {
+        	int max = grid[0][i];
+        	
+	        for(int j=0; j<cols; j++)
+	        {
+	            max = Math.max(max, grid[j][i]);
+	        }
+	        sum+=max;
+        }
+        
+		return sum;
+    }
+    
 	public static void main(String[] args) {
 		
 		/*
