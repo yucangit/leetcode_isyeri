@@ -117,18 +117,195 @@ public class LeetCodeHeapSamples
 			sum += heap.poll();
 		}
 		
-		return sum;		
+		return sum;						
+    }
+	
+	
+	public static int[] kWeakestRows(int[][] mat, int k) 
+	{
+		/*
+		  Tarih         : 12.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 1337. The K Weakest Rows in a Matrix
+		  Problem Link  : https://leetcode.com/problems/the-k-weakest-rows-in-a-matrix/?envType=problem-list-v2&envId=heap-priority-queue
+		  Algoritma     : 
+		  Diger         : heap'in compare kýsmý daha farklý bir þekilde de yapilabilir.
+		*/
+		
+		PriorityQueue<int[]> heap = new PriorityQueue<> (  ( a, b) ->                           //value, index
+			{
+				int valComparison = Integer.compare(a[0],b[0]);
+				
+				if(valComparison==0)                                 //deðerler ayný ise indexler karþýlaþtýrýlýr.
+					return Integer.compare(a[1], b[1]); 
+				
+				return valComparison;
+			}
+		);
+		
+		int rows = mat.length;
+		int cols = mat[0].length;
+		
+		for(int i=0; i<rows; i++)    //rows 
+		{
+			int numOfSoldiers = 0;
+			
+			for(int j=0; j<cols; j++)    //rows
+				numOfSoldiers += mat[i][j];
+			
+			heap.offer(new int[] {numOfSoldiers, i} );
+		}
+		
+		int [] result = new int[k];
+		
+		for(int i=0; i<k; i++)
+			result[k] = heap.poll()[0];
+		
+		return result;
+
+	}
+	
+    public static int lastStoneWeight(int[] stones) 
+    {
+    	
+    	/*
+		  Tarih         : 13.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 1046. Last Stone Weight 
+		  Problem Link  : https://leetcode.com/problems/last-stone-weight/description/?envType=problem-list-v2&envId=heap-priority-queue
+		  Algoritma     : 
+		  Diger         : 
+		*/
+		    	
+    	int size = stones.length;    	
+    	
+    	PriorityQueue<Integer> maxHeap = new PriorityQueue<>( (a,b) -> b-a );     //default min is head    	    
+    	
+    	for(int i=size-1; i>=0; i--)
+    		maxHeap.offer(stones[i]);
+    	
+    	while( maxHeap.size()>1 ) 
+    	{
+    		int val1 = maxHeap.poll();
+    		int val2 = maxHeap.poll();
+    		
+    		if(val2<val1)  
+    			maxHeap.add(val1-val2);
+    	}
+    	
+    	return maxHeap.size()>0 ? maxHeap.peek() : 0;    	    	
+    }
+	
+    public static int minimumOperations(int[] nums) 
+    {
+    	/*
+		  Tarih         : 13.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 2357. Make Array Zero by Subtracting Equal Amounts
+		  Problem Link  : https://leetcode.com/problems/make-array-zero-by-subtracting-equal-amounts/description/?envType=problem-list-v2&envId=heap-priority-queue
+		  Algoritma     : 
+		  Diger         : 
+		*/		
+    	
+    	PriorityQueue<Integer> minHeap = new PriorityQueue<>( );        //default minHeap
+    	PriorityQueue<Integer> minHeapTemp = new PriorityQueue<>( );    //default minHeap
+    	
+    	int size = nums.length;
+    	
+    	for(int i=0; i<size; i++) 
+    	{
+    		if(nums[i]>0) 
+    			minHeap.add(nums[i]);
+    	}
+    	
+    	int count = 0;    	    	
+    	
+    	while(minHeap.size()>0) 
+    	{
+    		int val1 = minHeap.poll();
+    		    		
+    		while(minHeap.size()>0) 
+    		{
+	    		int val2 = minHeap.poll();
+	    		int diff = val2-val1;
+	    		
+	    		if( diff>0 ) 
+	    			minHeapTemp.add(diff);
+    		}
+    		
+    		minHeap.addAll(minHeapTemp);
+    		minHeapTemp.clear();
+    		
+    		count++;
+    	}    	    	
+    	
+    	return count;    	
+    }
+    
+    
+    public int largestInteger(int num) 
+    {
+    	/*
+		  Tarih         : 13.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 2231. Largest Number After Digit Swaps by Parity
+		  Problem Link  : https://leetcode.com/problems/largest-number-after-digit-swaps-by-parity/description/?envType=problem-list-v2&envId=heap-priority-queue
+		  Algoritma     : 
+		  Diger         : 
+		*/	
+    	
+    	PriorityQueue<Integer> oddNumHeap = new PriorityQueue<>( (a,b) -> b-a );        //default minHeap
+    	PriorityQueue<Integer> evenNumHeap = new PriorityQueue<>( (a,b) -> b-a );       //default minHeap
+    	    	
+    	char []arr = (num+"").toCharArray();
+    	
+    	for(int i=0; i<arr.length; i++)
+    	{    		
+    		int digit = arr[i]-'0';
+    		
+    		if(digit%2==0)  evenNumHeap.add(digit);
+    		else            oddNumHeap.add(digit);    		
+    	} 
+    	
+    	String maxNumStr = "";
+    	
+    	for(int i=0; i<arr.length; i++) 
+    	{    		
+    		int digit = arr[i]-'0';    		
+    		
+    		if(digit%2==0)  maxNumStr += evenNumHeap.poll();
+    		else            maxNumStr += oddNumHeap.poll();    		    		
+    	}
+    	
+    	return Integer.parseInt(maxNumStr);
+    }
+    
+    public void testCases() 
+    {
+		/*
+		int []gifts = {25,64,9,4,100};
+		int k = 4;		
+		pickGifts(gifts, k);
+		*/
+		
+		/*
+		int [][] mat = {{1,1,0,0,0},{1,1,1,1,0},{1,0,0,0,0},{1,1,0,0,0},{1,1,1,1,1}};
+		int k = 3;		
+		kWeakestRows(mat, k);
+		*/
+    	
+    	/*
+    	int []stones = new int[]{2,7,4,1,8,1};
+		lastStoneWeight(stones);
+    	*/
     }
 	
 	public static void main(String []args) 
 	{
 		System.out.println("");
 		
-		
-		int []gifts = {25,64,9,4,100};
-		int k = 4;
-		
-		pickGifts(gifts, k);
+		int []nums = new int[]{1,5,0,3,5};
+		minimumOperations(nums);
 		
 	}
 }
