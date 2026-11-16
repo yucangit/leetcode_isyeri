@@ -1,6 +1,18 @@
 package pack1;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+import java.util.Map;
+import java.util.HashMap;
+
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.HashSet;
+
 import java.util.PriorityQueue;
 
 public class LeetCodeHeapSamples 
@@ -40,8 +52,10 @@ public class LeetCodeHeapSamples
         
     }
 	
+	
 	public int[] getFinalState(int[] nums, int k, int multiplier) 
-    {		
+    {	
+		
 		/*
 		  Tarih         : 10.11.2026
 		  Durum         : Çözüldü.(Editörün çözümüne bakýldý.)
@@ -280,6 +294,239 @@ public class LeetCodeHeapSamples
     	return Integer.parseInt(maxNumStr);
     }
     
+    class KthLargest 
+    {
+    	/*
+		  Tarih         : 16.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 703. Kth Largest Element in a Stream
+		  Problem Link  : https://leetcode.com/problems/kth-largest-element-in-a-stream/description/?envType=problem-list-v2&envId=heap-priority-queue
+		  Algoritma     : MinHeap
+		  Diger         : 
+		*/
+		
+
+    	
+    	PriorityQueue<Integer> minHeap;
+    	int k;    	
+    	
+        public KthLargest(int k, int[] nums) 
+        {
+        	this.k = k;        	
+        	minHeap = new PriorityQueue<>();    //default minHeap oluþturulur.
+        	
+        	for(int num:nums)
+        		minHeap.add(num);        	        	
+        	
+        	while(minHeap.size()>k) 
+        	{
+        		minHeap.poll();
+        	}
+        	
+        }
+        
+        public int add(int val) 
+        {        	        	
+        	int heapSize = minHeap.size();
+        	
+        	if(heapSize<k)  minHeap.add(val);
+        	else if(heapSize>=k) 
+        	{
+        		int minVal = minHeap.peek();
+        		
+        		if( minVal<val ) 
+        		{
+        			minHeap.poll();
+        			minHeap.add(val);
+        		}
+        	}
+        		
+        	return minHeap.peek();
+        }
+    }
+    
+    public static int[] findXSum(int[] nums, int k, int x) 
+    {
+    	/*
+		  Tarih         : 16.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 3318. Find X-Sum of All K-Long Subarrays I
+		  Problem Link  : https://leetcode.com/problems/find-x-sum-of-all-k-long-subarrays-i/?envType=problem-list-v2&envId=heap-priority-queue 
+		  Algoritma     : 
+		  Diger         : Heap oluþturma kýsmýnda açýklama durumuna getirilen yöntemin neden çalýþmadýðý belirlenemedi.
+		*/		
+    	
+        int n = nums.length;
+        int [] result = new int[n-k+1];
+
+        for(int i=0; i<n-k+1; i++)
+        {
+            PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a,b) ->   //freq, deger
+                {
+                    //if(b[0]-a[0]>0) return b[0]-a[0];  
+                    //else            return b[1]-a[1];
+                	
+                	int valComparison = Integer.compare(b[0],a[0]);          //frekanslar karsilatirilirç
+    				
+    				if(valComparison==0)                                 
+    					return Integer.compare(b[1], a[1]);                 //frekanslar ayný ise deðerler karþýlaþtýrýlýr.
+    				return valComparison;
+                }
+            );    
+
+            int []freq = new int[51];
+            
+            for(int j=i; j<i+k; j++)
+                freq[nums[j]]++;
+            
+            for(int num=0; num<51; num++)         //heap doldurulur
+                if(freq[num]>0)
+                    maxHeap.add(new int[]{freq[num],num});
+
+            for(int j=0; j<x && maxHeap.size()>0; j++)
+            {
+                int []arr = maxHeap.poll();
+                result[i] += arr[0]*arr[1];
+            }
+        }
+
+        return result;
+    }
+
+    public String[] findRelativeRanks(int[] score) 
+    {
+    	/*
+		  Tarih         : 16.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 506. Relative Ranks
+		  Problem Link  : https://leetcode.com/problems/relative-ranks/description/?envType=problem-list-v2&envId=heap-priority-queue
+		  Algoritma     : 
+		  Diger         : 
+		*/	
+    	
+    	int size = score.length;
+    	
+    	String []result = new String[size];
+    	
+    	Map<Integer, Integer> mapValIndex = new HashMap<>();
+    	PriorityQueue<Integer> maxHeap = new PriorityQueue<>( (a,b) -> b-a);    //default is minHeap, convert it to maxHeap
+    	
+    	for(int i=0; i<size; i++) 
+    	{
+    		int val = score[i];
+    		maxHeap.add(val);
+    		mapValIndex.put(val,  i);
+    	}
+    	
+    	for(int i=0; i<size; i++) 
+    	{
+    		int val = maxHeap.poll();
+    		int orgIndex = mapValIndex.get(val);
+    		
+    		if(i==0)       result[orgIndex] ="Gold Medal";
+    		else if(i==1)  result[orgIndex] ="Silver Medal";
+    		else if(i==2)  result[orgIndex] ="Bronze Medal";
+    		else 
+    		{
+    			result[orgIndex] = (i + 1) + ""; 
+    		}
+    	}
+    	
+		return result;
+    	    	
+    }
+
+    public int[] rearrangeArray(int[] nums) 
+    {
+    	/*
+		  Tarih         : 16.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 4065. Rearrange Array by Removing Distinct Values
+		  Problem Link  : https://leetcode.com/problems/rearrange-array-by-removing-distinct-values/description/?envType=problem-list-v2&envId=heap-priority-queue
+		  Algoritma     : Min heap
+		  Diger         : 
+		*/
+		
+
+    	
+        int size = nums.length;
+        int []result = new int[size];
+        int counter=0;
+
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();   //deafult is minHeap
+        //TreeSet<Integer> set;
+        
+        LinkedList<Integer> list = new LinkedList<>();
+        
+        for(int i=0; i<size; i++)
+            list.add(nums[i]);
+
+        while( list.size()>0 ) 
+        {
+        	//set = new TreeSet<>();
+        	minHeap = new PriorityQueue<>();
+        	
+        	for(int i=0; i<list.size();i++) 
+        	{
+        		int num = list.get(i);
+        		if(!minHeap.contains(num)) 
+        		{
+        			//set.add(num);
+        			minHeap.add(num);
+        		}        		
+        	}
+        	
+        	while(minHeap.size()>0) 
+        	{
+        		int num = minHeap.poll();
+        		list.removeFirstOccurrence(num);
+        		result[counter++] = num;
+        	}
+        }
+        
+        return result;
+        
+    }
+    
+    public int[] maxSubsequence(int[] nums, int k) 
+    {
+    	/*
+		  Tarih         : 16.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 2099. Find Subsequence of Length K With the Largest Sum
+		  Problem Link  : https://leetcode.com/problems/find-subsequence-of-length-k-with-the-largest-sum/description/
+		  Algoritma     : 
+		  Diger         : 
+		*/
+		
+
+    	
+    	PriorityQueue<int[]> maxHeapVal = new PriorityQueue<>( (a,b) -> b[1]-a[1]);     //default min heap, We convert it to max heap.    int[2] : index, value   	    	    	
+    	
+    	for(int i=0; i<nums.length; i++) 
+    	{
+    		int []arr = new int[] {i, nums[i]};  
+    		maxHeapVal.add(arr);
+    	}    	    	
+    	
+    	PriorityQueue<int[]> minHeapIndex = new PriorityQueue<>( (a,b) -> a[0]-b[0]);     //default min heap, We convert it to max heap.    int[2] : index, value
+    	for(int i=0; i<k; i++) 
+    	{
+    		int [] arr = maxHeapVal.poll();
+    		minHeapIndex.add(arr);
+    	}
+    	
+    	int []result = new int[k];
+    	for(int i=0; i<k; i++) 
+    	{
+    		int [] arr = minHeapIndex.poll();
+    		result[i] = arr[1];
+    	}
+    	
+    	return result;
+    }
+    
+    
     public void testCases() 
     {
 		/*
@@ -298,14 +545,24 @@ public class LeetCodeHeapSamples
     	int []stones = new int[]{2,7,4,1,8,1};
 		lastStoneWeight(stones);
     	*/
+    	
+    	/*
+    	int []nums = new int[]{1,5,0,3,5};
+		minimumOperations(nums);
+		*/
     }
+        
 	
 	public static void main(String []args) 
 	{
 		System.out.println("");
 		
-		int []nums = new int[]{1,5,0,3,5};
-		minimumOperations(nums);
+		
+		int [][]nums = new int[][]{{1,1,2,2,3,4,2,3},{3,8,7,8,7,5}, {9,2,2}};
+		int [] k = {6,2,3}, x = {2,2,3};
+		int index = 2;
+		int []result = findXSum(nums[index], k[index], x[index]);
+		System.out.println(Arrays.toString(result));
 		
 	}
 }
