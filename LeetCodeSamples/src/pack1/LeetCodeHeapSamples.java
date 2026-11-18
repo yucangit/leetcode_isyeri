@@ -4,10 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
-
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.HashMap;
-
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -497,9 +496,7 @@ public class LeetCodeHeapSamples
 		  Problem Link  : https://leetcode.com/problems/find-subsequence-of-length-k-with-the-largest-sum/description/
 		  Algoritma     : 
 		  Diger         : 
-		*/
-		
-
+		*/		
     	
     	PriorityQueue<int[]> maxHeapVal = new PriorityQueue<>( (a,b) -> b[1]-a[1]);     //default min heap, We convert it to max heap.    int[2] : index, value   	    	    	
     	
@@ -526,6 +523,400 @@ public class LeetCodeHeapSamples
     	return result;
     }
     
+    public static String frequencySort(String s) 
+    {
+    	/*
+		  Tarih         : 17.11.2026
+		  Durum         : Çözüldü.  
+		  Problem Adi   : 451. Sort Characters By Frequency
+		  Problem Link  : https://leetcode.com/problems/sort-characters-by-frequency/description/
+		  Algoritma     : 
+		  Diger         : 
+		*/
+    	
+    	char []arr = s.toCharArray();
+    	int []freq = new int[123];   //freq[0] -> 'A', freq[1]->'B'...freq[25]->'Z'    'z':122
+    	//System.out.println("A:" + (int)'A' + "       " + "z:" + (int)'z' + "--------------" + "0:" + (int)'0' + (char)121);
+    	
+    	class Pair
+    	{
+    		char ch;
+    		int freq;
+    		public Pair(char ch, int freq) 
+    		{
+    			this.ch = ch;
+    			this.freq = freq;
+    		}
+    	}
+    	
+    	PriorityQueue<Pair> maxHeap = new PriorityQueue<>( (a,b) -> 
+	    	{
+	    		int comp = Integer.compare(b.freq, a.freq);
+	    		if(comp==0)    return a.ch - b.ch;        //frekanslar ayný ise karaktere göre sýrala. Problemde belirtilmemiþ ama çýktýda ayný karakterlerin yan yana olmasý isteniyor.
+	    		return comp;
+	    	}
+    	);      //default minHeap. We convert it to maxHeap. 
+    	
+    	for(char ch:arr) 
+    	{
+    		int asciKod = (int)ch;
+    		freq[asciKod]++;    		
+    	}
+    	
+    	for(int i=0; i<freq.length; i++) 
+    	{    		
+    		//Pair p1 = new Pair((char)('a'+i), freq1[i]);
+    		
+    		//if(freq1[i]>0)  { for(int j=0; j<freq1[i]; j++)    maxHeap.add(new Pair((char)('a'+i), freq1[i])); }
+    		//if(freq2[i]>0)  { for(int j=0; j<freq2[i]; j++)    maxHeap.add(new Pair((char)('A'+i), freq2[i]));   }
+    		if(freq[i]>0)  { for(int j=0; j<freq[i]; j++)    maxHeap.add(new Pair((char)i, freq[i])); }
+    	}
+    	
+    	StringBuilder sb = new StringBuilder();
+    	
+    	while(maxHeap.size()>0) 
+    	{
+    		char ch = maxHeap.poll().ch;
+    		sb.append(ch);
+    	}
+    	
+    	return sb.toString();
+    	    			
+    }
+    
+    public int minSetSize(int[] arr) 
+    {
+    	/*
+		  Tarih         : 17.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 1338. Reduce Array Size to The Half
+		  Problem Link  : https://leetcode.com/problems/reduce-array-size-to-the-half/description/
+		  Algoritma     : MaxHeap
+		  Diger         : 
+		*/
+		
+
+    	
+        PriorityQueue<int[] > maxHeap = new PriorityQueue<>( (a,b) -> b[1]-a[1]);   //default minHeap. We must convert to maxHeap.   index0 -> val, index1->Freq        
+                
+        Map<Integer,Integer> mapFreq = new HashMap<>();
+        
+        for(int num:arr) 
+        {
+        	mapFreq.put(num, mapFreq.getOrDefault(num, 0) +1);
+        }
+        
+        for(Entry<Integer, Integer> e : mapFreq.entrySet()) 
+        {
+        	maxHeap.add(new int[] {e.getKey(), e.getValue()});
+        }
+        
+        int arrSize = arr.length;
+        int elmFreqCount = 0;
+        int elmCount=0;
+        
+        while(elmFreqCount<arrSize/2) 
+        {
+        	elmFreqCount += maxHeap.poll()[1];
+        	elmCount++;
+        }
+        
+        return elmCount;
+    }
+    
+    public int findKthLargest(int[] nums, int k) 
+    {
+    	/*
+		  Tarih         : 17.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 215. Kth Largest Element in an Array
+		  Problem Link  : https://leetcode.com/problems/kth-largest-element-in-an-array/description/ 
+		  Algoritma     : MaxHeap
+		  Diger         : 
+		*/		
+    	
+    	PriorityQueue<Integer> maxHeap = new PriorityQueue<>( (a,b) -> b-a );   //converted to maxHeap   
+    	
+    	for(int num : nums)
+    		maxHeap.add(num);
+    	
+    	int kthLargestNum=-1;
+    	
+    	for(int i=0; i<k;i++) 
+    		kthLargestNum = maxHeap.poll();
+    	
+    	return kthLargestNum;
+    }
+    
+    public static int[] kthSmallestPrimeFraction(int[] arr, int k) 
+    {
+    	
+    	/*
+		  Tarih         : 17.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 786. K-th Smallest Prime Fraction
+		  Problem Link  : https://leetcode.com/problems/k-th-smallest-prime-fraction/description/
+		  Algoritma     : MinHeap
+		  Diger         : 
+		*/
+		
+
+    	
+    	//a[0] ->pay, a[1] payda    	        	
+    	PriorityQueue<int[]> minHeap = new PriorityQueue<>( (a,b) -> 
+    		{
+    			int comp = Double.compare(a[0]*1.0/a[1], b[0]*1.0/b[1]); 
+    			return comp;    				    				
+    		}
+    	);
+    	
+    	int size = arr.length;
+    	
+    	for(int i=0; i<size; i++) 
+    	{
+    		for(int j=i+1; j<size; j++) 
+    		{
+    			minHeap.add(new int[] {arr[i], arr[j]});
+    		}
+    	}
+    	
+    	//int []result = new int[2];
+    	
+    	for(int i=0; i<k-1; i++) 
+    	{
+    		System.out.println(Arrays.toString(minHeap.poll()));
+    	}
+    	
+    	return minHeap.peek();
+    }
+
+    public static int[][] kClosest(int[][] points, int k) 
+    {
+    	/*
+		  Tarih         : 17.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 973. K Closest Points to Origin
+		  Problem Link  : https://leetcode.com/problems/k-closest-points-to-origin/description/
+		  Algoritma     : MinHeap
+		  Diger         : 
+		*/		
+
+    	//PriorityQueue<int[]>pq=new PriorityQueue<>((a,b)->(a[0]*a[0]+a[1]*a[1])-(b[0]*b[0]+b[1]*b[1]));
+    	PriorityQueue<double[]> minHeap = new PriorityQueue<>( (a,b) -> Double.compare( a[2], b[2]) );   //Min Heap. double[] -> (x,y, distance).  Orjine olan uzaklýða göre heap oluþturulsun. Min uzaklýk head olur.
+    	
+    	for(int []point : points) 
+    	{
+    		double distance = Math.sqrt( Math.pow(point[0],2) + Math.pow(point[1],2));
+    		minHeap.add( new double[] { point[0], point[1], distance} );
+    	}
+    	
+    	int[][] result = new int[k][2];
+    	
+    	for(int i=0; i<k; i++) 
+    	{
+    		double [] pointAndDistance = minHeap.poll();
+    		result[i][0] = (int) pointAndDistance[0];
+    		result[i][1] = (int) pointAndDistance[1];
+    	}
+    	
+    	return result;
+    	
+    }
+    
+    public static String repeatLimitedString(String s, int repeatLimit) 
+    {
+    	/*
+		  Tarih         : 18.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 2182. Construct String With Repeat Limit 
+		  Problem Link  : https://leetcode.com/problems/construct-string-with-repeat-limit/description/ 
+		  Algoritma     : maxHeap
+		  Diger         : 
+		*/	
+    	
+    	PriorityQueue<Object[]> maxHeap = new PriorityQueue<>( (a,b) -> (char)b[0]-(char)a[0]);         //Convert to MaxHeap.  Array is (character, frekans)
+    	
+    	int chCount = 'z'-'a'+1;
+    	int [] freq = new int[chCount];   //=26
+    	
+    	for(char ch:s.toCharArray())
+    		freq[ch-'a']++;
+    	
+    	for(int i=0; i<chCount; i++) 
+    	{
+    		if(freq[i]>0) 
+    			maxHeap.add(new Object[] {(char)('a'+i), freq[i]});
+    	}
+    	
+    	StringBuilder sb = new StringBuilder();
+    	
+    	while(maxHeap.size()>0) 
+    	{
+    		Object []chData1 = maxHeap.poll();
+    		char ch1 = (char) chData1[0];
+    		int count1 = (int) chData1[1];
+    		
+    		int tempCount1 = count1;
+    		
+    		for(int i=0; i<repeatLimit && i<tempCount1; i++) 
+    		{
+    			sb.append(ch1);
+    			count1--;
+    		}
+    		
+    		if(count1>0 && maxHeap.size()>0) 
+    		{
+    			Object []chData2 = maxHeap.poll();
+        		char ch2 = (char) chData2[0];
+        		int count2 = (int) chData2[1];        		
+        		sb.append(ch2);
+        		count2--;
+        		if(count2>0)
+        			maxHeap.add(new Object[] {ch2, count2});
+        		
+        		maxHeap.add(new Object[] {ch1, count1});
+    		}    		
+    			
+    	}
+    	
+    	return sb.toString();
+    }
+    
+    
+    public static double maxAverageRatioCalcGain(int pass, int total)
+    {
+    	return (pass+1.0)/(total+1) - pass*1.0/total;    
+    }
+    
+    public static double maxAverageRatio(int[][] classes, int extraStudents) 
+    {
+    	/*
+		  Tarih         : 18.11.2026
+		  Durum         : Çözüldü. (Editör'ün çözümünden yardým alýndý.) 
+		  Problem Adi   : 1792. Maximum Average Pass Ratio
+		  Problem Link  : https://leetcode.com/problems/maximum-average-pass-ratio/description 
+		  Algoritma     : maxHeap
+		  Diger         : 
+		*/		
+    	
+    	PriorityQueue<Object[]> maxHeap = new PriorityQueue<>((a,b) -> Double.compare((double)b[2], (double)a[2]) );    //arr[3] ->{pass, total, ratioDiff}    
+                       
+        for(int[] c : classes )
+        {
+        	int pass = c[0];
+        	int total = c[1];        
+        	double ratioDiff = maxAverageRatioCalcGain(pass, total);
+        	maxHeap.add(new Object[] { pass, total, ratioDiff });        	
+        }                
+        
+        for(int i=0; i<extraStudents; i++) 
+        {        
+        	Object [] c = maxHeap.poll();	        
+        	int pass = (int) c[0] + 1;
+        	int total = (int) c[1] + 1;
+        	double ratioDiff = maxAverageRatioCalcGain(pass, total);
+        	maxHeap.add(new Object[] {pass, total, ratioDiff});	        	       
+        }        
+        
+        double sumOfRatios = 0;
+        int classCount = classes.length;
+        
+        for(int i=0; i<classCount; i++) 
+        {
+        	Object [] c = maxHeap.poll();
+        	int pass = (int) c[0] ;
+        	int total = (int) c[1];       
+        	sumOfRatios += pass*1.0/total;
+        }                
+                
+        return sumOfRatios/classCount;                
+    }
+    
+    public static long maximumImportance(int n, int[][] roads) 
+    {
+    	/*
+		  Tarih         : 18.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 2285. Maximum Total Importance of Roads
+		  Problem Link  : https://leetcode.com/problems/maximum-total-importance-of-roads/description
+		  Algoritma     : MinHeap.
+		  Diger         : 
+		*/
+		
+    	PriorityQueue<int[]> minHeap = new PriorityQueue<>( (a,b) -> a[1]-b[1]);     //int[2] -> cityId, CityDegree
+    	
+    	int []cityDegrees = new int[n];
+    	
+    	for(int []road:roads) 
+    	{
+    		cityDegrees[road[0]]++;
+    		cityDegrees[road[1]]++;
+    	}
+    	
+    	for(int i=0; i<n; i++) 
+    	{
+    		minHeap.add(new int[] {i, cityDegrees[i]});
+    	}    	    	
+    	
+    	int [] cityImportance = new int[n];
+    	
+    	for(int i=0; i<n; i++) 
+    	{
+    		int cityId = minHeap.poll()[0];
+    		cityImportance[cityId] = i+1; 
+    	}
+    	
+    	long sum = 0;
+    	for(int []road:roads) 
+    	{
+    		sum += cityImportance[road[0]] + cityImportance[road[1]];  
+    	}
+    	
+    	return sum;
+    }
+    
+    class SmallestInfiniteSet 
+    {
+    	Set<Integer> removedNumsSet;
+    	int smallestNum;
+
+        public SmallestInfiniteSet() 
+        {
+        	removedNumsSet = new HashSet<>();
+        	smallestNum = 1;
+        }
+        
+        public int popSmallest() 
+        {        
+        	int nextSmallestNum = smallestNum + 1;
+        	
+        	boolean isFound = false;
+        	
+        	while(!isFound) 
+        	{
+        		if(removedNumsSet.contains(nextSmallestNum)) 
+        			nextSmallestNum++;
+        		else 
+        			break;
+        	}
+        	
+        	
+        	removedNumsSet.add(smallestNum);
+        	
+			return smallestNum-1;            
+        }
+        
+        public void addBack(int num) 
+        {
+        	if(!removedNumsSet.contains(num)) {}
+        	else
+        	{
+        		removedNumsSet.remove(num);
+        		if(num<smallestNum)   smallestNum = num;
+        		
+        	}
+        }
+    }
     
     public void testCases() 
     {
@@ -550,19 +941,67 @@ public class LeetCodeHeapSamples
     	int []nums = new int[]{1,5,0,3,5};
 		minimumOperations(nums);
 		*/
-    }
-        
-	
-	public static void main(String []args) 
-	{
-		System.out.println("");
-		
-		
-		int [][]nums = new int[][]{{1,1,2,2,3,4,2,3},{3,8,7,8,7,5}, {9,2,2}};
+    
+    	/*
+    	int [][]nums = new int[][]{{1,1,2,2,3,4,2,3},{3,8,7,8,7,5}, {9,2,2}};
 		int [] k = {6,2,3}, x = {2,2,3};
 		int index = 2;
 		int []result = findXSum(nums[index], k[index], x[index]);
 		System.out.println(Arrays.toString(result));
+		*/
+    
+    	/*
+    	String []arr = {"cccaaa", "loveleetcode", "2a554442f544asfasssffffasss"};
+		String result = frequencySort(arr[2]);
+		System.out.println(result);
+		*/
+    	
+    	/*
+    	int [][]arr = {{1,2,3,5}};
+		int []k = {3};
+		int index = 0;
+		int [] result = kthSmallestPrimeFraction(arr[index], k[index]);
+		System.out.println(Arrays.toString(result));
+		*/
+    	
+    	/*
+    	int [][] points = {{1,3},{-2,2}};
+		int []k = {1};
+		int index = 0;
+		int[][] result = kClosest(points, k[index]);
+		System.out.println(Arrays.toString(result));
+		*/
+
+    	/*
+		String [] str = {"cczazcc","aaaaaab"};
+		int []repeatLimit = {3,2};
+		int index = 1;
+		String result = repeatLimitedString(str[index],repeatLimit[index]);
+		System.out.println(result);
+		*/    	
+    	
+    	/*
+    	int [][][]classes = {{{1,2},{3,5},{2,2}},{{2,4},{3,9},{4,5},{2,10}}};
+		int []extraStudents = {2,4};
+		int index = 1;
+		double result = maxAverageRatio(classes[index], extraStudents[index]);
+		System.out.println(result);
+		*/
+    	
+    }
+        
+	
+	public static void main(String []args) 
+	{					
+		
+		int[][] roads = {{0,1},{1,2},{2,3},{0,2},{1,3},{2,4}};
+		int n = 5;
+		int index = 0;
+		double result = maximumImportance(n, roads);
+		System.out.println(result);
+		
+		  
+		
 		
 	}
 }
