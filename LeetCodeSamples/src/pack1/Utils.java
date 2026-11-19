@@ -85,6 +85,19 @@ public class Utils
 		 }
 		 return idx;
 	}
+	
+	public static int findDigitSum(int num) 
+    {
+    	int digitSum = 0;
+    	
+    	while(num>0) 
+    	{
+    		digitSum += num%10;
+    		num /= 10;
+    	}
+    	
+    	return digitSum;
+    }
 
 	public static boolean isNumber(String str) 
 	{

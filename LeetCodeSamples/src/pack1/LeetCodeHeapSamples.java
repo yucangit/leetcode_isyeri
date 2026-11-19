@@ -781,8 +781,7 @@ public class LeetCodeHeapSamples
     	
     	return sb.toString();
     }
-    
-    
+        
     public static double maxAverageRatioCalcGain(int pass, int total)
     {
     	return (pass+1.0)/(total+1) - pass*1.0/total;    
@@ -874,6 +873,212 @@ public class LeetCodeHeapSamples
     	
     	return sum;
     }
+    
+    public int maximumScore(int a, int b, int c) 
+    {
+    	/*
+		  Tarih         : 19.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 1753. Maximum Score From Removing Stones
+		  Problem Link  : https://leetcode.com/problems/maximum-score-from-removing-stones/description
+		  Algoritma     : MaxHeap.
+		  Diger         : 
+		*/		
+    	
+    	PriorityQueue<Integer> maxHeap = new PriorityQueue<>( (d,e) -> e-d );
+    	
+    	maxHeap.add(a);
+    	maxHeap.add(b);
+    	maxHeap.add(c);    	
+    	
+    	int score=0;
+    	
+    	while(maxHeap.size()>1) 
+    	{
+    		int elm1 = maxHeap.poll();
+    		int elm2 = maxHeap.poll();
+    		
+    		elm1--;
+    		elm2--;
+    		
+    		if(elm1>0) 
+    			maxHeap.add(elm1);
+    		if(elm2>0) 
+    			maxHeap.add(elm2);
+    		
+    		score++;
+    	}
+    	
+    	return score; 
+    }
+    
+    public int[] topKFrequent(int[] nums, int k) 
+    {
+    	/*
+		  Tarih         : 19.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 347. Top K Frequent Elements
+		  Problem Link  : https://leetcode.com/problems/top-k-frequent-elements/description/
+		  Algoritma     : maxHeap
+		  Diger         : 
+		*/
+		    	
+    	//create and fill freq map
+    	HashMap<Integer, Integer> mapFreq = new HashMap<>();
+    	
+    	for(int num:nums) 
+    	{
+    		mapFreq.put(num, mapFreq.getOrDefault(num, 0)+1);
+    	}
+    	
+    	//create and fill heap
+    	PriorityQueue<int[]>  maxFreqHeap = new PriorityQueue<>((a,b) -> b[1]-a[1]);     //convert to maxHeap. int[] -> index0:num, index1=freq 
+    	        	
+    	for(Entry<Integer, Integer> ent : mapFreq.entrySet())
+    		maxFreqHeap.add(new int[] {ent.getKey(), ent.getValue()});
+    	
+    	//create result array
+    	int [] mostFreqNums = new int[k];
+    	
+    	for(int i=0; i<k; i++)
+    		mostFreqNums[i] = maxFreqHeap.poll()[0];   //index0 is number 
+    		
+		return mostFreqNums;    	
+    }
+    
+    class SeatManager 
+    {
+    	/*
+		  Tarih         : 19.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 1845. Seat Reservation Manager
+		  Problem Link  : https://leetcode.com/problems/seat-reservation-manager/description 
+		  Algoritma     : MinHeap
+		  Diger         : 
+		*/
+    
+    	PriorityQueue<Integer> minHeap;
+    	
+        public SeatManager(int n) 
+        {
+        	minHeap = new PriorityQueue<>();   //default is minHeap
+        	
+        	for(int i=1; i<=n; i++)
+        		minHeap.add(i);
+        }
+        
+        public int reserve() 
+        {
+            return minHeap.poll();
+        }
+        
+        public void unreserve(int seatNumber) 
+        {
+        	minHeap.add(seatNumber);
+        }
+    }
+    
+    public static int minStoneSum(int[] piles, int k) 
+    {
+    	/*
+		  Tarih         : 19.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 1962. Remove Stones to Minimize the Total
+		  Problem Link  : https://leetcode.com/problems/remove-stones-to-minimize-the-total/description/
+		  Algoritma     : 
+		  Diger         : 
+		*/
+    	
+    	PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a,b) -> b-a);
+    	int remaining = 0;
+    	
+    	for(int stoneCount: piles) 
+    	{
+    		maxHeap.add(stoneCount);
+    		remaining += stoneCount;
+    	}
+    	
+    	for(int i=0; i<k && maxHeap.size()>0; i++) 
+    	{
+    		int stoneCount = maxHeap.poll();
+    		int halfOfStoneCount = (int) Math.ceil(stoneCount/2d);    		
+    		remaining += -1*stoneCount + halfOfStoneCount;
+    		maxHeap.add(halfOfStoneCount);
+    	}
+    	
+    	return remaining;
+    }
+           
+    public static int maximumSum(int[] nums) 
+    {    
+    	/*
+		  Tarih         : 19.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 2342. Max Sum of a Pair With Equal Sum of Digits
+		  Problem Link  : https://leetcode.com/problems/max-sum-of-a-pair-with-equal-sum-of-digits 
+		  Algoritma     : MaxHeap, minHeap
+		  Diger         : 
+		*/
+    	
+    	class DigitSum
+    	{
+    		int digitSum;
+    		int freq;
+    		PriorityQueue<Integer> numListHeap;
+    		
+    		public DigitSum(int digitSum) 
+    		{
+    			this.digitSum = digitSum;
+    			freq = 1;
+    			numListHeap = new PriorityQueue<>();     //for space optimization we only keep max two numbers
+    		}
+    		public void addNum(int num) 
+    		{ 
+    			numListHeap.add(num);
+    			if(numListHeap.size()>2) 
+                    numListHeap.poll(); 
+    		}
+    		public void incrementFreq() { freq++; }
+    	}
+    	
+    	HashMap<Integer, DigitSum> mapFreq = new HashMap<>();   //digitSum, Frequency    	    	    	
+    	
+    	for(int num : nums) 
+    	{
+    		int digitSum = Utils.findDigitSum(num);
+    		
+    		DigitSum obj = mapFreq.get(digitSum);
+    				
+    		if(obj==null ) 
+    		{
+    			obj = new DigitSum(digitSum);	
+    			mapFreq.put(digitSum, obj);
+    		} 
+    		else 
+    		{    			
+    			obj.incrementFreq();
+    		}
+    		obj.addNum(num);    	
+    	}
+    	
+    	PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a,b)->b-a);    //convert to maxHeap
+    	
+    	for(Entry<Integer, DigitSum> ent : mapFreq.entrySet()) 
+    	{    		
+    		DigitSum obj = ent.getValue();
+    		int freq = obj.freq;
+    		
+    		if(freq<2) continue;
+    		
+    		int maxTwoNumSum = obj.numListHeap.poll() + obj.numListHeap.poll();    
+    		
+    		maxHeap.add(maxTwoNumSum);
+    	}
+    	
+    	return (maxHeap.size()>0) ? maxHeap.peek() : -1;
+    	
+    }
+    
     
     class SmallestInfiniteSet 
     {
@@ -988,19 +1193,32 @@ public class LeetCodeHeapSamples
 		System.out.println(result);
 		*/
     	
+    	/*
+    	int[][] roads = {{0,1},{1,2},{2,3},{0,2},{1,3},{2,4}};
+		int n = 5;
+		int index = 0;
+		double result = maximumImportance(n, roads);
+		System.out.println(result);
+    	*/
+    	
+    	/*
+    	int[][] piles = {{5,4,9}};
+		int k = 2;		
+		int index = 0;
+		double result = minStoneSum(piles[index], k);
+		System.out.println(result);
+		*/
     }
         
 	
 	public static void main(String []args) 
 	{					
 		
-		int[][] roads = {{0,1},{1,2},{2,3},{0,2},{1,3},{2,4}};
-		int n = 5;
-		int index = 0;
-		double result = maximumImportance(n, roads);
+		int[][] nums = {{18,43,36,13,7}, {10,12,19,14} };		
+		int index = 1;
+		double result = maximumSum(nums[index]);
 		System.out.println(result);
-		
-		  
+				
 		
 		
 	}
