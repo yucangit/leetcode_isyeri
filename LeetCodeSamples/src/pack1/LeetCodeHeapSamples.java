@@ -1079,6 +1079,221 @@ public class LeetCodeHeapSamples
     	
     }
     
+    public int kthSmallest(int[][] matrix, int k) 
+    {    	
+    	int rowCount = matrix.length;
+    	int columnCount = matrix[0].length;
+    
+    	PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+    	
+    	for(int i=0; i<rowCount; i++) 
+    	{
+    		for(int j=0; j<columnCount; j++) 
+    		{
+    			minHeap.add(matrix[i][j]);
+    		}
+    	}
+    	
+    	for(int i=0; i<k-1; i++) 
+    	{
+    		minHeap.poll();
+    	}
+    	    	
+    	return minHeap.peek();    
+    }
+    
+    public long maxKelements(int[] nums, int k) 
+    {
+    	/*
+		  Tarih         : 20.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 2530. Maximal Score After Applying K Operations
+		  Problem Link  : https://leetcode.com/problems/maximal-score-after-applying-k-operations/description
+		  Algoritma     : maxHeap
+		  Diger         : 
+		*/
+		
+
+    	
+    	PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a,b)->b-a);   //convert to maxHeap
+    	long score = 0;
+    	
+    	for(int i=0; i<nums.length;i++) 
+    	{
+    		maxHeap.add(nums[i]);    		
+    	}
+    	
+    	for(int i=0; i<k; i++) 
+    	{
+    		int num = maxHeap.poll();
+    		score+=num;
+    		maxHeap.add((int) Math.ceil(num/3.0));
+    	}
+    	
+    	return score;
+    }
+
+    public long findScore(int[] nums) 
+    {
+    	/*
+		  Tarih         : 20.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 2593. Find Score of an Array After Marking All Elements
+		  Problem Link  : https://leetcode.com/problems/find-score-of-an-array-after-marking-all-elements/description 
+		  Algoritma     : 
+		  Diger         : 
+		*/
+
+    	PriorityQueue<int[]> minHeap = new PriorityQueue<>( (a,b) ->                  //int[] ->{index, value}                    
+    		{ 
+    			int comp = Integer.compare(a[1],b[1]);
+    			
+    			if(comp==0)  return a[0]-b[0]; 
+    			return comp;  
+    		}
+    	);    
+    	
+    	int numSize = nums.length;
+    	
+    	for(int i=0; i<numSize; i++) 
+    	{
+    		minHeap.add(new int[] {i, nums[i]});
+    	}
+    	
+    	boolean []flagArr = new boolean[numSize];
+    	long score = 0;
+    	
+    	while(minHeap.size()>0) 
+    	{    		    		
+    		int []idxAndNum = minHeap.poll();
+    		int idx = idxAndNum[0];
+    		int num = idxAndNum[1];
+    	
+    		if(flagArr[idx]==true) continue;
+    		
+    		score+=num;
+    		
+    		flagArr[idx] = true;
+    		if(idx>0)  flagArr[idx-1] = true;
+    		if(idx<numSize-1)  flagArr[idx+1] = true;
+    	}
+    	
+    	return score;
+    }
+
+    public static int maxSumDistinctTriplet(int[] x, int[] y) 
+    {
+    	/*
+		  Tarih         : 20.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 3572. Maximize Y-Sum by Picking a Triplet of Distinct X-Values
+		  Problem Link  : https://leetcode.com/problems/maximize-ysum-by-picking-a-triplet-of-distinct-xvalues
+		  Algoritma     : 
+		  Diger         : 
+		*/	
+    	
+    	// (x,y) pairs at same index 
+        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((arr1, arr2) -> arr2[1] - arr1[1]);  //convert to maxHeap. Compare y values
+    	
+    	for(int i=0; i<x.length; i++) 
+    	{
+    		maxHeap.add(new int[] {x[i], y[i]});
+    	}
+    	
+    	int count =0 ;
+    	int sum  = 0;
+    	Set <Integer> xValuesSet = new HashSet<>();
+    	
+    	while(count<3 && maxHeap.size()>0) 
+    	{
+    		int []xy = maxHeap.poll();
+    		
+    		if(xValuesSet.contains(xy[0])) continue;
+    		
+    		xValuesSet.add(xy[0]);
+    		sum += xy[1];
+    		count++;    		
+    	}
+    	
+    	return (count<3) ? -1 : sum;    	
+    }
+
+    public int matrixSum(int[][] nums) 
+    {
+    	/*
+		  Tarih         : 20.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 2679. Sum in a Matrix
+		  Problem Link  : https://leetcode.com/problems/sum-in-a-matrix/description/
+		  Algoritma     : maxHeap
+		  Diger         : 
+		*/
+    	
+    	int rowCount = nums.length;
+    	int colCount = nums[0].length;
+    	
+    	PriorityQueue<Integer> [] maxHeapList = new PriorityQueue[rowCount];
+    	
+    	for(int i=0; i<rowCount; i++) 
+    	{
+    		maxHeapList[i] = new PriorityQueue<>((a,b) -> b-a);
+    		
+    		for(int j=0; j<colCount; j++) 
+    		{
+    			maxHeapList[i].add(nums[i][j]);
+    		}
+    	}
+    	
+    	int score  = 0;    	
+    	
+    	for(int i=0; i<colCount; i++) 
+    	{
+    		int max =0;    //max of column
+	    	for(int j=0; j<rowCount; j++) 
+	    	{
+	    		int val = maxHeapList[j].poll();
+	    		if(val>max) max = val;
+	    	}
+	    	score += max;
+	    	
+    	}
+    	
+    	return score;
+    	
+    }
+    
+    public List<String> topKFrequent(String[] words, int k) 
+    {
+    	Map<String, Integer> mapFreq = new HashMap<>();
+    	
+    	for(String word:words) 
+    	{
+    		mapFreq.put(word, mapFreq.getOrDefault(word, 0)+1);
+    	}
+    	
+    	PriorityQueue<Object[]> maxHeap = new PriorityQueue<>((arr1,arr2) -> 
+    		{
+    			int comp = Integer.compare((int)arr1[1], (int)arr2[1]);
+    			if(comp==0)
+    				return ((String)arr1[0]).compareTo( (String)arr2[0]); 
+    			return comp;
+    		}
+    	);
+    	
+    	for(Entry<String, Integer> ent : mapFreq.entrySet()) 
+    	{
+    		maxHeap.add(new Object[] {ent.getKey(), ent.getValue()});
+    	}
+    	
+    	List<String> result = new ArrayList<>();
+    	
+    	for(int i=0; i<k; i++) 
+    	{
+    		result.add((String)maxHeap.poll()[0]);
+    	}
+    	
+    	return result;
+    }
     
     class SmallestInfiniteSet 
     {
@@ -1208,18 +1423,24 @@ public class LeetCodeHeapSamples
 		double result = minStoneSum(piles[index], k);
 		System.out.println(result);
 		*/
+    
+    	/*
+    	int[][] nums = {{18,43,36,13,7}, {10,12,19,14} };		
+		int index = 1;
+		double result = maximumSum(nums[index]);
+		System.out.println(result);
+		*/
     }
         
 	
 	public static void main(String []args) 
 	{					
-		
-		int[][] nums = {{18,43,36,13,7}, {10,12,19,14} };		
-		int index = 1;
-		double result = maximumSum(nums[index]);
-		System.out.println(result);
 				
-		
+		int [] x = {19,15,7,13 };
+		int [] y = {13,11,13,11};
+		int index = 1;		
+		int result = maxSumDistinctTriplet(x,y);
+		System.out.println(result);
 		
 	}
 }
