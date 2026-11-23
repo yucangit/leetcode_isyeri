@@ -1398,7 +1398,64 @@ public class LeetCodeHeapSamples
     	
     }
     
-    
+    public static String reorganizeString(String s) 
+    {
+    	/*
+		  Tarih         : 23.11.2026
+		  Durum         : Çözüldü. (Bir çözümden yardým alýndý.)
+		  Problem Adi   : 767. Reorganize String
+		  Problem Link  : https://leetcode.com/problems/reorganize-string/description/ 
+		  Algoritma     : 
+		  Diger         : 
+		*/		
+    	
+        PriorityQueue<Object[]> maxHeapFreq = new PriorityQueue<>( (arr1, arr2) ->
+    		{
+    			int comp = Integer.compare((int)arr2[1], (int)arr1[1]);
+    			if(comp==0)
+    				return (char)arr1[0]-(char)arr2[0];
+    			return comp;
+    		}
+        );          
+        
+        int []freqCh = new int['z'-'a'+1];
+        
+        for(char ch:s.toCharArray())
+        	freqCh[ch-'a']++;
+        
+        for(int i=0; i<freqCh.length; i++) 
+        {
+        	if(freqCh[i]==0) 
+        		continue;
+        	maxHeapFreq.add(new Object[] { (char)('a' + i), freqCh[i]} );
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        Object [] prev = new Object[] {'.', 0};
+        Object [] curr = null;
+                       
+        while( !maxHeapFreq.isEmpty() ) 
+        {        	        	        
+        	curr = maxHeapFreq.poll();        	
+        	
+        	char ch = (char)curr[0];        	
+        	
+        	sb.append(ch);        	        	
+        	
+        	if((int)prev[1]>0) 
+        	{  
+    			maxHeapFreq.add(prev);
+        	}
+        	
+        	curr[1] = (int)curr[1] - 1;        	//frekans bir azaltýlýr.
+        	        		
+        	prev = curr;        	        	        	
+        }        
+        
+        String resultStr = sb.toString();
+        
+        return resultStr.length()==s.length() ? resultStr  : "";        
+    }
     
     class SmallestInfiniteSet 
     {
@@ -1535,17 +1592,26 @@ public class LeetCodeHeapSamples
 		double result = maximumSum(nums[index]);
 		System.out.println(result);
 		*/
+    
+    	/*
+    	int [] x = {19,15,7,13 };
+		int [] y = {13,11,13,11};
+		int index = 1;		
+		int result = maxSumDistinctTriplet(x,y);
+		System.out.println(result);
+		*/
     }
         
 	
 	public static void main(String []args) 
 	{					
 				
-		int [] x = {19,15,7,13 };
-		int [] y = {13,11,13,11};
+		String []str = {"aaaaabbc","tndsewnllhrtwsvxenkscbivijfqnysamckzoyfnapuotmdexzkkrpmppttficzerdndssuveompqkemtbwbodrhwsfpbmkafpwyedpcowruntvymxtyyejqtajkcjakghtdwmuygecjncxzcxezgecrxonnszmqmecgvqqkdagvaaucewelchsmebikscciegzoiamovdojrmmwgbxeygibxxltemfgpogjkhobmhwquizuwvhfaiavsxhiknysdghcawcrphaykyashchyomklvghkyabxatmrkmrfsppfhgrwywtlxebgzmevefcqquvhvgounldxkdzndwybxhtycmlybhaaqvodntsvfhwcuhvuccwcsxelafyzushjhfyklvghpfvknprfouevsxmcuhiiiewcluehpmzrjzffnrptwbuhnyahrbzqvirvmffbxvrmynfcnupnukayjghpusewdwrbkhvjnveuiionefmnfxao"};
 		int index = 1;		
-		int result = maxSumDistinctTriplet(x,y);
+		String result = reorganizeString(str[index]);
 		System.out.println(result);
+		
+		
 		
 	}
 }
