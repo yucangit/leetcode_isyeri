@@ -1264,6 +1264,15 @@ public class LeetCodeHeapSamples
     
     public List<String> topKFrequent(String[] words, int k) 
     {
+    	/*
+		  Tarih         : 21.11.2026
+		  Durum         : Çözüldü.
+		  Problem Adi   : 692. Top K Frequent Words
+		  Problem Link  : https://leetcode.com/problems/top-k-frequent-words/description/
+		  Algoritma     : MaxHeap.
+		  Diger         : 
+		*/
+    	
     	Map<String, Integer> mapFreq = new HashMap<>();
     	
     	for(String word:words) 
@@ -1271,9 +1280,9 @@ public class LeetCodeHeapSamples
     		mapFreq.put(word, mapFreq.getOrDefault(word, 0)+1);
     	}
     	
-    	PriorityQueue<Object[]> maxHeap = new PriorityQueue<>((arr1,arr2) -> 
+    	PriorityQueue<Object[]> maxHeap = new PriorityQueue<>((arr1,arr2) ->     //arr[0] -> Word, arr[1]->frequency
     		{
-    			int comp = Integer.compare((int)arr1[1], (int)arr2[1]);
+    			int comp = Integer.compare((int)arr2[1], (int)arr1[1]);
     			if(comp==0)
     				return ((String)arr1[0]).compareTo( (String)arr2[0]); 
     			return comp;
@@ -1294,6 +1303,102 @@ public class LeetCodeHeapSamples
     	
     	return result;
     }
+    
+    public long maxSum(int[][] grid, int[] limits, int k) 
+    {
+    	/*
+		  Tarih         : 23.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 3462. Maximum Sum With at Most K Elements
+		  Problem Link  : https://leetcode.com/problems/maximum-sum-with-at-most-k-elements/description
+		  Algoritma     : MaxHeap
+		  Diger         : 
+		*/
+		    	
+    	int rowCount = grid.length;
+    	int colCount = grid[0].length;
+    	
+    	PriorityQueue<Integer> []maxHeadArr = new PriorityQueue[rowCount];
+    	
+    	for(int i=0; i<rowCount; i++) 
+    	{
+    		maxHeadArr[i] = new PriorityQueue<>((a,b) -> b-a);          //converted to max array
+    		
+    		for(int j=0; j<colCount; j++) 
+    		{
+    			maxHeadArr[i].add(grid[i][j]);
+    		}    		
+    	}
+    	    	
+    	
+    	PriorityQueue<Integer> maxHeap2 = new PriorityQueue<>((a,b)->b-a);      //converted to max array
+    	
+    	for(int i=0; i<rowCount; i++) 
+    	{
+    		for(int j=0; j<colCount && j<limits[i]; j++) 
+    		{
+    			maxHeap2.add(maxHeadArr[i].poll());
+    		}
+    	}
+    	
+    	long sum =0;
+    	for(int i=0; i<k && !maxHeap2.isEmpty(); i++)
+    		sum += maxHeap2.poll();
+    	
+    	return sum;
+    	
+    }
+    
+    public int smallestChair(int[][] times, int targetFriend) 
+    {
+    	int minSeatPointer = 0;
+    	PriorityQueue<Integer> minSeatHeap = new PriorityQueue<>();    //minHeap
+		
+    	return minSeatPointer;    	    	
+    }
+    
+    public int[] findDiagonalOrder(List<List<Integer>> nums) 
+    {
+    	/*
+		  Tarih         : 23.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 1424. Diagonal Traverse II
+		  Problem Link  : https://leetcode.com/problems/diagonal-traverse-ii/description/ 
+		  Algoritma     : minHeap
+		  Diger         : Önce satir ve sütun indexlerinin toplamý min olan önceliklendirilir, eðer aynýlarsa satir indexi büyük olan önceliklendirilir.
+		*/		
+    	
+    	PriorityQueue<int[]> minHeap = new PriorityQueue<>((arr1, arr2)->      //i,j, num
+	    	{
+	    		int comp =  Integer.compare(arr1[0]+arr1[1], arr2[0]+arr2[1] );       //satir ve sütun indexlerinin toplamý küçük olan öncelikli olsun
+	    		if(comp==0) return arr2[0] - arr1[0];                                 //toplamlar eþitse satir indexi daha büyük olan öncelikli olsun
+	    		return comp;
+	    	}
+    	);
+    	
+    	int elmCount =0;
+    	
+    	for(int i=0; i<nums.size(); i++) 
+    	{
+    		for(int j=0; j<nums.get(i).size(); j++) 
+    		{
+    			minHeap.add(new int[] {i, j, nums.get(i).get(j)});
+    			elmCount++;
+    		}
+    	}
+    	
+    	int [] result = new int[elmCount];
+    	
+    	for(int i=0; i<elmCount; i++) 
+    	{
+    		result[i] = minHeap.poll()[2];
+    	}
+    		 
+    	return result;
+    	
+    }
+    
+    
     
     class SmallestInfiniteSet 
     {
