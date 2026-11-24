@@ -1,11 +1,16 @@
 package pack1;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.security.auth.PrivateCredentialPermission;
+
 import java.util.HashMap;
 import java.util.Set;
 import java.util.SortedSet;
@@ -13,6 +18,7 @@ import java.util.TreeSet;
 import java.util.HashSet;
 
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class LeetCodeHeapSamples 
 {
@@ -1349,14 +1355,7 @@ public class LeetCodeHeapSamples
     	
     }
     
-    public int smallestChair(int[][] times, int targetFriend) 
-    {
-    	int minSeatPointer = 0;
-    	PriorityQueue<Integer> minSeatHeap = new PriorityQueue<>();    //minHeap
-		
-    	return minSeatPointer;    	    	
-    }
-    
+   
     public int[] findDiagonalOrder(List<List<Integer>> nums) 
     {
     	/*
@@ -1457,6 +1456,162 @@ public class LeetCodeHeapSamples
         return resultStr.length()==s.length() ? resultStr  : "";        
     }
     
+    class EventManager 
+    {
+    	/*
+    	  Tarih         : 24.11.2026
+    	  Durum         : Çözüldü.
+    	  Problem Adi   : 3885. Design Event Manager
+    	  Problem Link  : https://leetcode.com/problems/design-event-manager/description/ 
+    	  Algoritma     : MaxHeap (lazy)
+    	  Diger         : 
+    	*/	
+    	
+    	PriorityQueue<int[]> maxEventHeap;               //eventId, priority
+    	Map<Integer, Integer> mapEvent;                  //eventId, priority
+    	
+        public EventManager(int[][] events) 
+        {
+        	maxEventHeap = new PriorityQueue<>( (e1, e2) -> 
+            	{
+            		int comp = Integer.compare(e2[1], e1[1]);
+            		if(comp==0)
+            			return Integer.compare(e1[0], e2[0]);
+            		return comp;
+            	}
+        	);
+        	
+        	mapEvent = new HashMap<>();    
+        	
+        	for(int []event : events) 
+        	{    		
+        		mapEvent.put(event[0], event[1]);
+        		maxEventHeap.add(event);
+        	}            
+        }
+        
+        public void updatePriority(int eventId, int newPriority) 
+        {    
+        	mapEvent.put(eventId, newPriority);
+        	maxEventHeap.add(new int[] {eventId, newPriority} );
+        }
+        
+        public int pollHighest() 
+        {
+        	int idxOfHighestEvent = -1;
+        	
+        	while(!maxEventHeap.isEmpty()) 
+        	{
+        		int [] e1 = maxEventHeap.poll();
+        		
+        		if(!mapEvent.containsKey(e1[0])) 
+        			continue;
+        		
+        		int validPriority = mapEvent.get(e1[0]);
+        		
+        		if(e1[1] == validPriority) 
+        		{
+        			idxOfHighestEvent = e1[0];
+        			mapEvent.remove(e1[0]);
+        			break;
+        		}
+        	}
+        	
+        	return idxOfHighestEvent;
+        }
+    }
+
+    public static List<Integer> findClosestElements(int[] arr, int k, int x) 
+    {
+    	/*
+		  Tarih         : 24.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 658. Find K Closest Elements
+		  Problem Link  : https://leetcode.com/problems/find-k-closest-elements/description
+		  Algoritma     : 
+		  Diger         : 
+		*/		
+
+    	PriorityQueue<Integer> minHeap = new PriorityQueue<>((a,b)-> 
+	    	{
+	    		
+	    		int comp = Integer.compare( Math.abs(x-a), Math.abs(x-b) );
+	    		if(comp==0)
+	    			return Integer.compare(a, b);
+	    		
+	    		return comp;
+    		}
+    	);
+    	
+    	for(int num : arr)
+    		minHeap.add(num);
+    	
+    	List<Integer> ans = new ArrayList<>();
+    	for(int i=0; i<k;i++)
+    		ans.add(minHeap.poll());
+    	
+    	Collections.sort(ans);
+    	
+		return ans;        
+    }
+
+    public int[] rearrangeBarcodes(int[] barcodes) 
+    {
+    	PriorityQueue<int[]> maxFreqHeap = new PriorityQueue<>((arr1,arr2)->      //arr[] = {val, freq}
+	    	{
+	    		int comp = Integer.compare(arr2[1],arr1[1]);        //once frekanslar karsilastirilir
+	    		if(comp==0)
+	    			return Integer.compare(arr1[0],arr2[0]);              //frekanslar  ayný ise sayýlarýn kendisi karsilastirilir. Bu ikinci kisim olmasa da olurdu.
+	    		return comp;
+	    	}
+    	);
+    	
+    	int [] freqCh = new int[10000+1];
+    	
+    	for(int num:barcodes)
+    		freqCh[num]++;
+    	
+    	for(int i=0; i<10000; i++) 
+    	{
+    		int freq = freqCh[i];
+    		
+    		if(freq==0) continue;
+    		
+    		maxFreqHeap.add(new int[] {i, freqCh[i]});    		
+    	}
+    	
+    	StringBuilder sb = new StringBuilder();
+    	
+    	
+    	
+    	return barcodes;
+        
+    }
+    
+    class NumberContainers 
+    {
+    	
+    	HashMap<Integer, Integer> mapIdxNumber;    //index, number
+    	HashMap<Integer,PriorityQueue<Integer>> mapNumberIdxHeap;
+
+        public NumberContainers() 
+        {
+        	mapIdxNumber = new HashMap<>();     //index, number
+        	mapNumberIdxHeap = new HashMap<>();
+        }
+        
+        public void change(int index, int number) 
+        {        	
+        	mapIdxNumber.put(index, number);           //yoksa ekler, varsa replace yapar.
+        }
+        
+        public int find(int number) 
+        {
+			return number;
+            
+        }
+    }
+    
     class SmallestInfiniteSet 
     {
     	Set<Integer> removedNumsSet;
@@ -1500,6 +1655,14 @@ public class LeetCodeHeapSamples
         }
     }
     
+    public int smallestChair(int[][] times, int targetFriend) 
+    {
+    	int minSeatPointer = 0;
+    	PriorityQueue<Integer> minSeatHeap = new PriorityQueue<>();    //minHeap
+		
+    	return minSeatPointer;    	    	
+    }
+        
     public void testCases() 
     {
 		/*
@@ -1600,18 +1763,45 @@ public class LeetCodeHeapSamples
 		int result = maxSumDistinctTriplet(x,y);
 		System.out.println(result);
 		*/
+    
+    	/*
+    	String []str = {"aaaaabbc","tndsewnllhrtwsvxenkscbivijfqnysamckzoyfnapuotmdexzkkrpmppttficzerdndssuveompqkemtbwbodrhwsfpbmkafpwyedpcowruntvymxtyyejqtajkcjakghtdwmuygecjncxzcxezgecrxonnszmqmecgvqqkdagvaaucewelchsmebikscciegzoiamovdojrmmwgbxeygibxxltemfgpogjkhobmhwquizuwvhfaiavsxhiknysdghcawcrphaykyashchyomklvghkyabxatmrkmrfsppfhgrwywtlxebgzmevefcqquvhvgounldxkdzndwybxhtycmlybhaaqvodntsvfhwcuhvuccwcsxelafyzushjhfyklvghpfvknprfouevsxmcuhiiiewcluehpmzrjzffnrptwbuhnyahrbzqvirvmffbxvrmynfcnupnukayjghpusewdwrbkhvjnveuiionefmnfxao"};
+		int index = 1;		
+		String result = reorganizeString(str[index]);
+		System.out.println(result);
+		*/
+    
+    	/*
+    	int [][][] events = new int[][][]{ { {9,4}, {13,8}, {11,6} } , {{20,6},{13,2},{14,7},{17,2}} };
+		EventManager eventManager = new  EventManager(events[1]);   // Initializes the manager with two events
+		//eventManager.updatePriority(13,5); // return 7
+		//int a = eventManager.pollHighest(); // return 4
+		
+		//[13,8],[13,1],[13,8],[],[],[20,5]
+		eventManager.updatePriority(13,8);
+		eventManager.updatePriority(13,1);
+		eventManager.updatePriority(13,8);
+		int a = eventManager.pollHighest();
+		System.out.println(a);
+		a = eventManager.pollHighest();
+		System.out.println(a);
+		eventManager.updatePriority(20,5);
+		*/
     }
         
 	
 	public static void main(String []args) 
 	{					
+		 int  [] arr = {2,4};
+		 int k=1;
+		 int x = 3;
 				
-		String []str = {"aaaaabbc","tndsewnllhrtwsvxenkscbivijfqnysamckzoyfnapuotmdexzkkrpmppttficzerdndssuveompqkemtbwbodrhwsfpbmkafpwyedpcowruntvymxtyyejqtajkcjakghtdwmuygecjncxzcxezgecrxonnszmqmecgvqqkdagvaaucewelchsmebikscciegzoiamovdojrmmwgbxeygibxxltemfgpogjkhobmhwquizuwvhfaiavsxhiknysdghcawcrphaykyashchyomklvghkyabxatmrkmrfsppfhgrwywtlxebgzmevefcqquvhvgounldxkdzndwybxhtycmlybhaaqvodntsvfhwcuhvuccwcsxelafyzushjhfyklvghpfvknprfouevsxmcuhiiiewcluehpmzrjzffnrptwbuhnyahrbzqvirvmffbxvrmynfcnupnukayjghpusewdwrbkhvjnveuiionefmnfxao"};
-		int index = 1;		
-		String result = reorganizeString(str[index]);
-		System.out.println(result);
 		
+		int index = 1;		
+		List<Integer> result = findClosestElements(arr, k, x);
+		System.out.println(result);
 		
 		
 	}
 }
+
