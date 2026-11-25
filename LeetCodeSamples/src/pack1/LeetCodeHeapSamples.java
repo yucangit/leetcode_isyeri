@@ -1554,9 +1554,54 @@ public class LeetCodeHeapSamples
     	
 		return ans;        
     }
-
-    public int[] rearrangeBarcodes(int[] barcodes) 
+        
+    class SmallestInfiniteSet 
     {
+    	/*
+		  Tarih         : 25.11.2026
+		  Durum         : Çözüldü. 
+		  Problem Adi   : 2336. Smallest Number in Infinite Set
+		  Problem Link  : https://leetcode.com/problems/smallest-number-in-infinite-set/description
+		  Algoritma     : MinHeap
+		  Diger         : 
+		*/		
+
+    	PriorityQueue<Integer> minHeapRemovedAndAddedLater;
+    	int smallestNum;
+
+        public SmallestInfiniteSet() 
+        {
+        	minHeapRemovedAndAddedLater = new PriorityQueue<>();
+        	smallestNum = 1;
+        }
+        
+        public int popSmallest() 
+        {        
+        	int smallestNum2 = smallestNum;
+        	        	        	
+        	if(!minHeapRemovedAndAddedLater.isEmpty()) 
+        		smallestNum2 = minHeapRemovedAndAddedLater.poll();        	
+        	else        	
+        		this.smallestNum++;
+        	
+    		return smallestNum2;            
+        }
+        
+        public void addBack(int num) 
+        {
+        	if(!minHeapRemovedAndAddedLater.contains(num)  && smallestNum>num) 
+        	{
+        		minHeapRemovedAndAddedLater.add(num);   
+        	}        	
+        }
+    }
+    
+
+    
+    public static int[] rearrangeBarcodes(int[] barcodes) 
+    {
+    	
+    	//henüz çözülmedi(25.11.2026)
     	PriorityQueue<int[]> maxFreqHeap = new PriorityQueue<>((arr1,arr2)->      //arr[] = {val, freq}
 	    	{
 	    		int comp = Integer.compare(arr2[1],arr1[1]);        //once frekanslar karsilastirilir
@@ -1571,6 +1616,8 @@ public class LeetCodeHeapSamples
     	for(int num:barcodes)
     		freqCh[num]++;
     	
+    	int barCount=0;
+    	
     	for(int i=0; i<10000; i++) 
     	{
     		int freq = freqCh[i];
@@ -1578,13 +1625,28 @@ public class LeetCodeHeapSamples
     		if(freq==0) continue;
     		
     		maxFreqHeap.add(new int[] {i, freqCh[i]});    		
+    		barCount += freqCh[i];
     	}
     	
-    	StringBuilder sb = new StringBuilder();
+    	int [] newBarcode = new int[barCount];
+    		
+    	int [] prev = maxFreqHeap.poll();
+    	newBarcode[0] = prev[0];
+    	prev[1]--;
     	
+    	for(int i=1; i<barCount; i++) 
+    	{    		    	
+    		int []curr = maxFreqHeap.poll();
+    		
+    		newBarcode[i] = curr[0];
+    		
+    		if(prev[1]>0)
+    			maxFreqHeap.add(prev);
+    		
+    		prev=curr;
+    	}    	
     	
-    	
-    	return barcodes;
+    	return newBarcode;
         
     }
     
@@ -1612,48 +1674,7 @@ public class LeetCodeHeapSamples
         }
     }
     
-    class SmallestInfiniteSet 
-    {
-    	Set<Integer> removedNumsSet;
-    	int smallestNum;
-
-        public SmallestInfiniteSet() 
-        {
-        	removedNumsSet = new HashSet<>();
-        	smallestNum = 1;
-        }
-        
-        public int popSmallest() 
-        {        
-        	int nextSmallestNum = smallestNum + 1;
-        	
-        	boolean isFound = false;
-        	
-        	while(!isFound) 
-        	{
-        		if(removedNumsSet.contains(nextSmallestNum)) 
-        			nextSmallestNum++;
-        		else 
-        			break;
-        	}
-        	
-        	
-        	removedNumsSet.add(smallestNum);
-        	
-			return smallestNum-1;            
-        }
-        
-        public void addBack(int num) 
-        {
-        	if(!removedNumsSet.contains(num)) {}
-        	else
-        	{
-        		removedNumsSet.remove(num);
-        		if(num<smallestNum)   smallestNum = num;
-        		
-        	}
-        }
-    }
+    
     
     public int smallestChair(int[][] times, int targetFriend) 
     {
@@ -1787,21 +1808,44 @@ public class LeetCodeHeapSamples
 		System.out.println(a);
 		eventManager.updatePriority(20,5);
 		*/
+    
+    	/*
+		int  [] arr = {2,4};
+		int k=1;
+		int x = 3;						
+		int index = 1;		
+		List<Integer> result = findClosestElements(arr, k, x);
+		System.out.println(result);
+		*/
+    
+    	/*
+    	SmallestInfiniteSet smallestInfiniteSet = new SmallestInfiniteSet();
+		smallestInfiniteSet.addBack(2);    // 2 is already in the set, so no change is made.
+		smallestInfiniteSet.popSmallest(); // return 1, since 1 is the smallest number, and remove it from the set.
+		smallestInfiniteSet.popSmallest(); // return 2, and remove it from the set.
+		smallestInfiniteSet.popSmallest(); // return 3, and remove it from the set.
+		smallestInfiniteSet.addBack(1);    // 1 is added back to the set.		
+		smallestInfiniteSet.popSmallest(); // return 1, since 1 was added back to the set and
+		                                   // is the smallest number, and remove it from the set.
+		smallestInfiniteSet.popSmallest(); // return 4, and remove it from the set.
+		smallestInfiniteSet.popSmallest(); // return 5, and remove it from the set.
+		*/
     }
         
 	
 	public static void main(String []args) 
-	{					
-		 int  [] arr = {2,4};
-		 int k=1;
-		 int x = 3;
-				
+	{		
 		
+		/*
+		int  [][] barcodes = {{1,1,1,2,2,2}, {1,1,2}};					
 		int index = 1;		
-		List<Integer> result = findClosestElements(arr, k, x);
-		System.out.println(result);
+		int[] result = rearrangeBarcodes(barcodes[index]);
+		System.out.println(Arrays.toString(result));
+		*/
 		
 		
 	}
 }
+
+
 
